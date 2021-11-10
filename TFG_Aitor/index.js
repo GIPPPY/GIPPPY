@@ -21,14 +21,15 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 
 var nivel_actual = 1;
 const num_niveles = 12;
-// REVISAR ERRORES -> A VECES NO SE MUESTRA EL ERROR QUE TOCA.  -> VER QUE PASA CON LOS ERRORES EN LOS REPITE(X) Y SI(COND)
-// NIVEL 2 -> COLISIÓN CON OBSTÁCULO DEL MEDIO, Y PROBLEMAS CON EL GIRO DESPUÉS... también pasa en lvl 3 y pasará en todos...
+// REVISAR ERRORES -> A VECES NO SE MUESTRA EL ERROR QUE TOCA.  -> EN CASO DE FALTAR :, NO MUESTRA EL ERROR QUE TOCA.
 var array_obstaculos = new Array;
 var array_instrucciones = new Array;
 var array_traducido = new Array;
 var array_bucle = new Array;
 var array_condicional = new Array;
+var actual_output_value = "";
 var array_idioma = new Array;
+var array_tcases = new Array;
 var error_inst = false;
 
 var array_esp = ["Juego sencillo para introducir a la programación en Python",
@@ -65,10 +66,11 @@ var array_esp = ["Juego sencillo para introducir a la programación en Python",
 "''' NIVEL 11" + '\n' + 'En este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa ' +
 'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado.' + '\n' +  
 'Luego hay que introducir una serie de instrucciones que van a modificar el estado del programa. Por último, escribir el oráculo, que es el estado que queremos comprobar tras la ejecución de las instrucciones.' + '\n' +
-'ORÁCULO: La instrucción afirma(estado) es la que fija el oráculo. Los estados posibles son no_avanza (verificar que el robot no ha colisionado con un obstáculo liso), no_pincha (verificar que el robot no ha colisionado con un obstáculo de pinchos), ' +
-'choca(verificar que el robot no ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío)' + '\n' + "'''" + '\n' + '\n' + 'testcase1:  #Esto es el identificador' + '\n' + '  avanza(4)  #Esta es la secuencia de instrucciones'
+'ORÁCULO: La instrucción afirma(estado) es la que fija el oráculo. Los estados posibles son no_avanza (verificar que el robot ha colisionado con un obstáculo liso), no_pincha (verificar que el robot no ha colisionado con un obstáculo de pinchos), ' +
+'choca(verificar que el robot ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío)' + '\n' + "'''" + '\n' + '\n' + 'testcase1:  #Esto es el identificador' + '\n' + '  avanza(4)  #Esta es la secuencia de instrucciones'
 + '\n' + '  afirma(no_pincha)  #Esto es el Oráculo',
-"''' NIVEL 12" + '\n' + "'''",
+"''' NIVEL 12" + '\n' + 'Con este nivel se termina el juego. Es el nivel más difícil de solucionar, por lo que superar este nivel es pasarse el juego.' + '\n' + 'Prueba a hacer algunos casos de prueba antes de solucionar el nivel!' + '\n' + "'''"
++ '\n' + '\n' + 'testcase1:' + '\n' + '  gira(-1)' + '\n' + '  avanza(3)' + '\n' + '  afirma(no_pincha)',
 " ** Programa traducido correctamente **",
 "Error, falta ''' para cerrar el comentario!!",
 "CUIDADO!! El robot se ha chocado con los pinchos...",
@@ -95,7 +97,9 @@ var array_esp = ["Juego sencillo para introducir a la programación en Python",
 /avanza\d+\)/g, /avanza\(\d+/g, /gira\d+\)/g, /gira\(d+/g, /gira-\d+\)/g, /gira\(-\d+/g, /avanza\(\)/, /gira\(\)/, /repite\(\):/, /si\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
 /repite\(\d+\)/, /si\(\w+\)/, /si\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
 //POSICIÓN 71
-"Condición NO existente..." + '\n' + "Condiciones: robot_norte, robot_sur, robot_este, robot_oeste", "ERROR. Estructura errónea."
+"Condición NO existente..." + '\n' + "Condiciones: robot_norte, robot_sur, robot_este, robot_oeste", "ERROR. Estructura errónea.",
+//POSICIÓN 73
+/testcase\d+\:/, /  afirma\(no_avanza\)/, /  afirma\(no_pincha\)/, /  afirma\(choca\)/, /  afirma\(no_cae\)/
 ];
 
 var array_eng = ["Easy game to introduce programming in Python",
@@ -128,14 +132,20 @@ var array_eng = ["Easy game to introduce programming in Python",
 'if(west_robot):' + '\n' + '  turn(1)' + '\n' + '  forward(2)' + '\n' + '  turn(-1)',
 "''' LEVEL 10" + '\n' + 'We are almost on the end of the game. As you will see, level 11 and 12 are designed to show the last programming concept.' + '\n' + 'Level 10 has nothing new, but facing this level will be really difficult!!' 
 + '\n' + 'This level is full random excepting the last obstacles row, that cant be random because it might create an impossible level.' + '\n' + "'''" + '\n' + '\n' + 'forward(9)',
-"''' LEVEL 11" + '\n' + "'''",
-"''' LEVEL 12" + '\n' + "'''",
+"''' LEVEL 11" + '\n' + 'In this level 11, almost ending the game, code testing is introduced. Testing is a very useful way to validate code by creating test cases ' +
+', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can check later the result.' + '\n' +  
+'Then we must write the instructions that will modify the program state. Last, we need the oracle, that is the state that we want to check after executing those instructions.' + '\n' +
+'ORACLE: Oracle is defined by instruction assure(state). The possible states are not_forwards (robot collided with a normal obstacle), not_pricks (robot collided with a spiked obstacle), ' +
+'collides(robot has reached the outside limits from scenario) and not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
++ '\n' + '  assert(not_pricks)  #This is the Oracle',
+"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this game literally means completing the game.' + '\n' + 'Try to make some testcases before finding the solution!' + '\n' + "'''"
++ '\n' + '\n' + 'testcase1:' + '\n' + '  turn(-1)' + '\n' + '  forward(3)' + '\n' + '  assert(not_pricks)',
 " ** Program correctly translated **",
 "ERROR, missing ''' to close comment!!",
 "CARE!! Robot collided with spiked obstacle...",
 "Robot fall to the emptiness :( , try again!!!",
 "Congratulations, you have completed the level!!",
-"ERROR. You can't use instruction repite() inside another repite()",
+"ERROR. You can't use instruction repeat() inside another repeat()",
 "ERROR. Instruction ",
 " not found...",
 "ERROR in parenthesis, the correct way is: instruction(parameter)." + "\n"
@@ -156,9 +166,9 @@ var array_eng = ["Easy game to introduce programming in Python",
 /forward\d+\)/g, /forward\(\d+/g, /turn\d+\)/g, /turn\(d+/g, /turn-\d+\)/g, /turn\(-\d+/g, /forward\(\)/, /turn\(\)/, /repeat\(\):/, /if\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
 /repeat\(\d+\)/, /if\(\w+\)/, /if\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
 //POSICIÓN 71
-"Condition NOT found..." + '\n' + "Available conditions: north_robot, south_robot, east_robot, west_robot", "ERROR. Wrong structure."
+"Condition NOT found..." + '\n' + "Available conditions: north_robot, south_robot, east_robot, west_robot", "ERROR. Wrong structure.",
+/testcase\d+\:/, /  assert\(not_forwards\)/, /  assert\(not_pricks\)/, /  assert\(collides\)/, /  assert\(not_falls\)/
 ];
-
 
 
 
@@ -984,6 +994,130 @@ function cargar_nivel(nivel, prim_ejecucion) {
             }
 
             texto_py.value = array_idioma[16];
+            var i = 0;
+            var j = 0;
+            // w -> primera fila
+            var w = Math.floor((Math.random() * 5) + 1);
+            // x -> segunda fila
+            var x = Math.floor((Math.random() * 5) + 1);
+            // y -> tercera fila
+            var y = Math.floor((Math.random() * 5) + 1);
+            // z -> cuarta fila
+            var z = Math.floor((Math.random() * 5) + 1);
+
+            for(var b=0; b<9; b++) {
+                var img = new Image();
+                img.src = "pinchos.gif";
+                img.style.height = '50px';
+                img.style.width = '50px';
+                img.style.position = 'absolute';
+                img.style.top = '5px';
+                img.style.zIndex = 6;
+                img.style.left = 10 + 60*b + 'px';
+                array_obstaculos.push(img);
+                escenario.appendChild(img);
+            }
+
+            for(var b=0; b<9; b++) {
+                var img = new Image();
+                img.src = "pinchos.gif";
+                img.style.height = '50px';
+                img.style.width = '50px';
+                img.style.position = 'absolute';
+                img.style.top = '365px';
+                img.style.zIndex = 6;
+                img.style.left = 10 + 60*b + 'px';
+                array_obstaculos.push(img);
+                escenario.appendChild(img);
+            }
+
+            while (i<5) {
+                // el valor de u decide aleatoriamente donde habrá un hueco
+                if (w == j) {
+                    j++;
+                } else {
+                    var img = new Image();
+                    img.src = "pinchos.gif";
+                    img.style.height = '50px';
+                    img.style.width = '50px';
+                    img.style.position = 'absolute';
+                    img.style.top = 5 + 60*j + 'px';
+                    img.style.zIndex = 6;
+                    img.style.left = '70px';
+                    array_obstaculos.push(img);
+                    escenario.appendChild(img);
+                    i++;
+                    j++;
+                }
+            }
+
+            i = 0;
+            j = 0;
+            while (i<5) {
+                // el valor de x decide aleatoriamente donde habrá un hueco
+                if (x == j) {
+                    j++;
+                } else {
+                    var img = new Image();
+                    img.src = "pinchos.gif";
+                    img.style.height = '50px';
+                    img.style.width = '50px';
+                    img.style.position = 'absolute';
+                    img.style.top = 5 + 60*j + 'px';
+                    img.style.zIndex = 6;
+                    img.style.left = '190px';
+                    array_obstaculos.push(img);
+                    escenario.appendChild(img);
+                    i++;
+                    j++;
+                }
+            }
+
+            i = 0;
+            j = 0;
+            while (i<5) {
+                // el valor de y decide aleatoriamente donde habrá un hueco
+                if (y == j) {
+                    j++;
+                } else {
+                    var img = new Image();
+                    img.src = "pinchos.gif";
+                    img.style.height = '50px';
+                    img.style.width = '50px';
+                    img.style.position = 'absolute';
+                    img.style.top = 5 + 60*j + 'px';
+                    img.style.zIndex = 6;
+                    img.style.left = '310px';
+                    array_obstaculos.push(img);
+                    escenario.appendChild(img);
+                    i++;
+                    j++;
+                }
+            }
+
+            i = 0;
+            j = 0;
+            while (i<6) {
+                // el valor de z decide aleatoriamente donde habrá un hueco
+                if (z == j) {
+                    j++;
+                } else {
+                    var img = new Image();
+                    img.src = "pinchos.gif";
+                    img.style.height = '50px';
+                    img.style.width = '50px';
+                    img.style.position = 'absolute';
+                    img.style.top = 5 + 60*j + 'px';
+                    img.style.zIndex = 6;
+                    img.style.left = '430px';
+                    array_obstaculos.push(img);
+                    escenario.appendChild(img);
+                    i++;
+                    j++;
+                }
+            }
+
+
             break;
     }
 }
@@ -1034,6 +1168,7 @@ function traducirCodigo() {
 
     // Resetear el valor de la consola.
     texto_salida.value = "";
+    actual_output_value = "";
 
     // Resetear errores
     error_inst = false;
@@ -1049,13 +1184,14 @@ function traducirCodigo() {
     img_player.src = "robot_lateral.gif";
 
     parsearCodigo(texto).then(array => {
-        console.log(array);
         if (array == null) {
             /* do nothing */
         } else {
             comprobarArray(array).then(correcto => {
                 if (correcto) {
                     texto_salida.value = array_idioma[17];
+                    actual_output_value = array_idioma[17];
+                    console.log(actual_output_value);
                     btn.disabled = false;
                 } else {
                     btn.disabled = true;
@@ -1090,7 +1226,6 @@ function parsearCodigo(codigo) {
                             instruccion = "  " + inst_temp;
                         } else {   // Eliminar espacios sin importar la identación de Python.
                             instruccion = instruccion.trim();
-                            console.log(instruccion);
                         }
                         var añadir = array_instrucciones.push(instruccion);
                         instruccion = "";
@@ -1169,17 +1304,15 @@ function parsearCodigo(codigo) {
 async function crearSecuencia(instrucciones) {
         var img_player = document.getElementById('robot');
         var img_src = img_player.getAttribute("src");
-        var es_condicional = false;
         if (instrucciones.length == 0) {
             return true;
         }
 
         var inst = instrucciones.pop();
 
-        if (inst.charAt(0) == 'r') {  // viene un condicional, hay que tratarlo de manera especial -> FORMATO: "condición, instruccion1, instruccion2, ..."
+        if (inst.charAt(0) == 'r') {  // viene un condicional, hay que tratarlo de manera especial -> FORMATO: "condición (siempre empieza por R), instruccion1, instruccion2, ..."
             var array_temporal = inst.split(',');
             var orientacion_robot = array_temporal[0];
-            console.log(orientacion_robot);
             if (img_src == orientacion_robot) {
                 for (var i = 1; i < array_temporal.length; i++) {
                     await eval(array_temporal[i]).then(continuar => {
@@ -1268,6 +1401,7 @@ function avanza(npasos) {
                             break;
                         case 2:
                             texto_salida.value = array_idioma[19];
+                            actual_output_value = array_idioma[19];
                             resolve(false);
                             clearInterval(id); 
                             break;
@@ -1282,10 +1416,12 @@ function avanza(npasos) {
             if (x == maxPos_left) {
                 if (img_player.offsetTop != 180) {
                     texto_salida.value = array_idioma[20];
+                    actual_output_value = array_idioma[20];
                     img_player.src = "suelo_negro.png";
                     resolve(false);
                 } else {
                     texto_salida.value = array_idioma[21];
+                    actual_output_value = array_idioma[21];
                     resolve(2);
                 }
             }
@@ -1310,7 +1446,8 @@ function avanza(npasos) {
                             clearInterval(id);
                             break;
                         case 2:
-                            texto_salida.innerHTML = array_idioma[19];
+                            texto_salida.value = array_idioma[19];
+                            actual_output_value = array_idioma[19];
                             resolve(false);
                             clearInterval(id);
                             break;
@@ -1523,13 +1660,17 @@ function crearArrayCondicional(array, condicion) {
     })
 }
 
-function nuevaCondicion(instruccion) {
+function crearTestCase(array, oraculo) {
     return new Promise(function(resolve,reject) {
+        var texto_salida = document.getElementById('output');
+        console.log(array);
+        console.log(oraculo);
+        console.log(actual_output_value);
         resolve();
     })
 }
 
-function comprobarArray(array) {
+async function comprobarArray(array) {
     return new Promise(function(resolve,reject) {
         var texto_salida = document.getElementById('output');
         var terminado = false;
@@ -1538,6 +1679,179 @@ function comprobarArray(array) {
         var repeticiones = 0;
         var otro_condicional = false;
         var condicion = "";
+        var es_tc = false;
+
+        const start = async () => {
+            await asyncForEach(array, async (instruccion) => {
+                await new function() {
+                    // si la instruccion no hace Match con ninguna de estas expresiones, ERROR DE COMPILACIÓN.
+                    var concuerda_avanza = matchExact(array_idioma[33], instruccion);
+                    var concuerda_gira1 = matchExact(array_idioma[34], instruccion);
+                    var concuerda_gira2 = matchExact(array_idioma[35], instruccion);
+                    var concuerda_repite = matchExact(array_idioma[36], instruccion);
+                    var concuerda_si_sur = matchExact(array_idioma[37], instruccion);
+                    var concuerda_si_norte = matchExact(array_idioma[38], instruccion);
+                    var concuerda_si_este = matchExact(array_idioma[39], instruccion);
+                    var concuerda_si_oeste = matchExact(array_idioma[40], instruccion);
+                    var concuerda_repite_ident = matchExact(array_idioma[41], instruccion);
+                    var concuerda_avanza_ident = matchExact(array_idioma[42], instruccion);
+                    var concuerda_gira1_ident = matchExact(array_idioma[43], instruccion);
+                    var concuerda_gira2_ident = matchExact(array_idioma[44], instruccion);
+                    var concuerda_si_sur_ident = matchExact(array_idioma[45], instruccion);
+                    var concuerda_si_norte_ident = matchExact(array_idioma[46], instruccion);
+                    var concuerda_si_este_ident = matchExact(array_idioma[47], instruccion);
+                    var concuerda_si_oeste_ident = matchExact(array_idioma[48], instruccion);
+                    var concuerda_testcase = matchExact(array_idioma[73], instruccion);
+                    var concuerda_assert_noav = matchExact(array_idioma[74], instruccion);
+                    var concuerda_assert_nopi = matchExact(array_idioma[75], instruccion);
+                    var concuerda_assert_choca = matchExact(array_idioma[76], instruccion);
+                    var concuerda_assert_nocae = matchExact(array_idioma[77], instruccion);
+
+                    if (es_bucle) {
+                        // instrucciones dentro de la estructura iterativa repite():
+                        if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
+                        instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
+                        array_bucle.push(instruccion);
+                        } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
+                            texto_salida.value = array_idioma[22];
+                            resolve(false);
+                        } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
+                            texto_salida.value = array_idioma[30];
+                            resolve(false);
+                        } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del bucle
+                            es_bucle = false;
+                            crearArrayBucle(array_bucle, repeticiones).then(() => {
+                                array_bucle = [];
+                                array_traducido.push(instruccion);
+                            })
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // fin de bucle, inicio de condicional
+                            es_bucle = false;
+                            crearArrayBucle(array_bucle, repeticiones).then(() => {
+                                array_bucle = [];
+                                es_condicional = true;
+                                condicion = instruccion.substring(3);
+                            })
+                        } else if (concuerda_repite) {  // inicio de otro bucle
+                            crearArrayBucle(array_bucle, repeticiones).then(() => {
+                                array_bucle = [];
+                                repeticiones = instruccion.match(/\d+/);
+                            })
+                        } else if (concuerda_testcase) {         // inicio de un caso de prueba
+                            crearArrayBucle(array_bucle, repeticiones).then(() => {
+                                array_bucle = [];
+                                es_tc = true;
+                                array_tcases.push(instruccion);
+                            })
+                        } else {  // ERROR
+                            terminado = depurarError(instruccion);
+                            while (!terminado) {
+                                terminado = depurarError(instruccion);
+                            }
+                            resolve(false);
+                        }
+                    } else if (es_condicional) {
+                        // instrucciones dentro de estructura condicional si():    
+                        if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
+                            instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
+                            array_condicional.push(instruccion);
+                        } else if (concuerda_repite_ident) {  // no soporta combinación de estructuras
+                            texto_salida.value = array_idioma[28];
+                        } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, no dependen del condicional
+                            es_condicional = false;
+                            crearArrayCondicional(array_condicional, condicion).then(() => {
+                                array_condicional = [];
+                                array_traducido.push(instruccion);
+                            })
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {
+                            console.log(instruccion);  // inicio de otro condicional 
+                            crearArrayCondicional(array_condicional, condicion).then(() => {
+                                condicion = instruccion.substring(3);
+                                array_condicional = [];
+                                otro_condicional = true;
+                            })
+                        } else if (concuerda_repite) {  // fin de condicional, inicio de bucle
+                            es_condicional = false;
+                            crearArrayCondicional(array_condicional, condicion).then(() => {
+                                array_condicional = [];
+                                es_bucle = true;
+                                repeticiones = instruccion.match(/\d+/);
+                            })
+                        } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) { // no puede haber más condiciones dentro de una condición
+                            texto_salida.value = array_idioma[29];
+                            resolve(false);
+        
+                        } else {  // ERROR
+                            terminado = depurarError(instruccion);
+                            while (!terminado) {
+                                terminado = depurarError(instruccion);
+                            }
+                            resolve(false);
+                        }
+                    } else if (es_tc) {
+                        // instrucciones dentro de un testcase
+                        if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones no identadas. ERROR
+                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE, LAS INSTRUCCIONES DEBEN IR IDENTADAS."
+                        } else if (concuerda_repite || concuerda_repite_ident) {  // bucles no soportados en testcases. ERROR
+                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER BUCLES";
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste || concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // condicionales no soportados
+                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER CONDICIONALES.";
+                        } else if (concuerda_testcase) {  // testcase sin cerrar el actual. ERROR.
+                            texto_salida.value = "CREAR ERROR: NO SE PUEDEN COMBINAR TESTCASES. ACABA ESTE Y LUEGO INICIAS OTRO.";
+                        } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
+                            array_tcases.push(instruccion);
+                        } else if (concuerda_assert_choca || concuerda_assert_noav || concuerda_assert_nocae || concuerda_assert_nopi) { // afirma final. OK.
+                            crearTestCase(array_tcases, instruccion).then(() => {
+                                es_tc = false;
+                                array_tcases = [];
+                            })
+                        } else {  // ERROR
+                            terminado = depurarError(instruccion);
+                            while (!terminado) {
+                                terminado = depurarError(instruccion);
+                            }
+                            resolve(false);
+                        }
+                    } else {
+                        // si la instrucción no está dentro de bucle ni condicional ni de un caso de prueba
+                        if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucción para pushear directamente al array
+                            array_traducido.push(instruccion);
+                        } else if (concuerda_repite) {  // es un bucle
+                            es_bucle = true;
+                            repeticiones = instruccion.match(/\d+/);
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // es un condicional
+                            es_condicional = true;
+                            condicion = instruccion.substring(3);
+                        } else if (concuerda_testcase) {  // inicio de un testcase
+                            es_tc = true;
+                            array_tcases.push(instruccion);
+                        } else {  // ERROR
+                            terminado = depurarError(instruccion);
+                            while (!terminado) {
+                                terminado = depurarError(instruccion);
+                            }
+                            resolve(false);
+                        }
+                    }
+                }
+            });
+
+            if (es_bucle) {
+                crearArrayBucle(array_bucle, repeticiones).then(() => {
+                    resolve(true);
+                })
+            } else if (es_condicional) {
+                crearArrayCondicional(array_condicional, condicion).then(() => {
+                    resolve(true);
+                })
+            } else {
+                resolve(true);
+            }
+        }
+
+        start();
+    });
+}
+        /*}
 
         array.forEach(instruccion => {
             // si la instruccion no hace Match con ninguna de estas expresiones, ERROR DE COMPILACIÓN.
@@ -1557,6 +1871,12 @@ function comprobarArray(array) {
             var concuerda_si_norte_ident = matchExact(array_idioma[46], instruccion);
             var concuerda_si_este_ident = matchExact(array_idioma[47], instruccion);
             var concuerda_si_oeste_ident = matchExact(array_idioma[48], instruccion);
+            var concuerda_testcase = matchExact(array_idioma[73], instruccion);
+            var concuerda_assert_noav = matchExact(array_idioma[74], instruccion);
+            var concuerda_assert_nopi = matchExact(array_idioma[75], instruccion);
+            var concuerda_assert_choca = matchExact(array_idioma[76], instruccion);
+            var concuerda_assert_nocae = matchExact(array_idioma[77], instruccion);
+
 
             if (es_bucle) {
                 // instrucciones dentro de la estructura iterativa repite():
@@ -1587,6 +1907,12 @@ function comprobarArray(array) {
                         array_bucle = [];
                         repeticiones = instruccion.match(/\d+/);
                     })
+                } else if (concuerda_testcase) {         // inicio de un caso de prueba
+                    crearArrayBucle(array_bucle, repeticiones).then(() => {
+                        array_bucle = [];
+                        es_tc = true;
+                        array_tcases.push(instruccion);
+                    })
                 } else {  // ERROR
                     terminado = depurarError(instruccion);
                     while (!terminado) {
@@ -1607,10 +1933,10 @@ function comprobarArray(array) {
                         array_condicional = [];
                         array_traducido.push(instruccion);
                     })
-                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // inicio de otro condicional 
+                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {
+                    console.log(instruccion);  // inicio de otro condicional 
                     crearArrayCondicional(array_condicional, condicion).then(() => {
                         condicion = instruccion.substring(3);
-                        console.log(condicion);
                         array_condicional = [];
                         otro_condicional = true;
                     })
@@ -1632,8 +1958,32 @@ function comprobarArray(array) {
                     }
                     resolve(false);
                 }
+            } else if (es_tc) {
+                // instrucciones dentro de un testcase
+                if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones no identadas. ERROR
+                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE, LAS INSTRUCCIONES DEBEN IR IDENTADAS."
+                } else if (concuerda_repite || concuerda_repite_ident) {  // bucles no soportados en testcases. ERROR
+                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER BUCLES";
+                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste || concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // condicionales no soportados
+                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER CONDICIONALES.";
+                } else if (concuerda_testcase) {  // testcase sin cerrar el actual. ERROR.
+                    texto_salida.value = "CREAR ERROR: NO SE PUEDEN COMBINAR TESTCASES. ACABA ESTE Y LUEGO INICIAS OTRO.";
+                } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
+                    array_tcases.push(instruccion);
+                } else if (concuerda_assert_choca || concuerda_assert_noav || concuerda_assert_nocae || concuerda_assert_nopi) { // afirma final. OK.
+                    crearTestCase(array_tcases, instruccion).then(() => {
+                        es_tc = false;
+                        array_tcases = [];
+                    })
+                } else {  // ERROR
+                    terminado = depurarError(instruccion);
+                    while (!terminado) {
+                        terminado = depurarError(instruccion);
+                    }
+                    resolve(false);
+                }
             } else {
-                // si la instrucción no está dentro de bucle ni condicional
+                // si la instrucción no está dentro de bucle ni condicional ni de un caso de prueba
                 if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucción para pushear directamente al array
                     array_traducido.push(instruccion);
                 } else if (concuerda_repite) {  // es un bucle
@@ -1642,6 +1992,10 @@ function comprobarArray(array) {
                 } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // es un condicional
                     es_condicional = true;
                     condicion = instruccion.substring(3);
+                } else if (concuerda_testcase) {  // inicio de un testcase
+                    console.log(instruccion);
+                    es_tc = true;
+                    array_tcases.push(instruccion);
                 } else {  // ERROR
                     terminado = depurarError(instruccion);
                     while (!terminado) {
@@ -1664,7 +2018,7 @@ function comprobarArray(array) {
             resolve(true);
         }
     });
-}
+}*/
 
 // Función para dar información del error que hay en el código respecto a lo que ha introducido el usuario.
 function depurarError(instruccion_actual) {
@@ -1771,6 +2125,12 @@ function hayColision(pos_actual, direccion) {
                 break;
         }
     })
+}
+
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
+    }
 }
 
 
