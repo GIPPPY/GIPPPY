@@ -18,10 +18,11 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 
 *********************************/
 
-
 var nivel_actual = 1;
 const num_niveles = 12;
+var eficiente = 0;
 // REVISAR ERRORES -> A VECES NO SE MUESTRA EL ERROR QUE TOCA.  -> EN CASO DE FALTAR :, NO MUESTRA EL ERROR QUE TOCA.
+var idioma = "";
 var array_obstaculos = new Array;
 var array_instrucciones = new Array;
 var array_traducido = new Array;
@@ -30,146 +31,9 @@ var array_condicional = new Array;
 var actual_output_value = "";
 var array_idioma = new Array;
 var array_tcases = new Array;
+var casos_prueba = new Array;
+var array_oraculos = new Array;
 var error_inst = false;
-
-var array_esp = ["Juego sencillo para introducir a la programación en Python",
-"Traducir a robot", "Ejecutar programa", "Reducir Nivel", "Aumentar Nivel",
-"''' NIVEL 1" + '\n' + 'Este juego tiene un objetivo: Conseguir que el personaje llegue al final del nivel.' + '\n' + '\n' + 
-'Para conseguirlo, tenemos que ordenar al personaje que haga ciertos movimientos -> Estos movimientos son las instrucciones del programa, que deben ser escritas en este panel.'
-+ ' Estas instrucciones deben estar escritas en lenguaje Python, y se traducirán a un lenguaje que el personaje entienda para cargarlas y que se ejecuten.'
-+ '\n' + '\n' + 'En cada nivel se presentará un reto diferente para aprender las reglas del juego paso a paso. Veremos diferentes obstáculos que se tratan de manera diferente.'
-+ '\n' + 'Este primer nivel es el más sencillo, prueba a ejecutar la instrucción...' + '\n' + "'''" + '\n' + '\n' + 'avanza(4)',
-"''' NIVEL 2" + '\n' + 'Ya hemos visto el funcionamiento del juego y de la instrucción avanza(x), donde x es el número de casillas que avanza el robot.' + '\n' +
-'Este segundo nivel ya es un poco más difícil. Ahora necesitamos algo más. Prueba a ejecutar la secuencia que se ve...' + '\n' + '\n' + 'PISTA: El robot gira hacia la izquierda con la instrucción gira(-x). ' +
-'\n' + 'El robot gira hacia la derecha con la instrucción gira(x).' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)' + '\n' + 'gira(-1)',
-"''' NIVEL 3" + '\n' + 'Introducimos ahora un nuevo obstáculo con pinchos. Es más pequeño pero más peligroso!!. Ejecuta para ver qué pasa si chocas con él...'
-+ '\n' + "'''" + '\n' + '\n' + 'avanza(6)',
-"''' NIVEL 4" + '\n' + 'Este nivel es más complejo porque la primera fila de obstáculos es aleatoria, por lo que la solución del nivel es diferente cada vez.' + '\n' 
-+ "'''" + '\n' + '\n' + 'gira(-1)' + '\n' + 'avanza(2)' + '\n' + 'gira(1)',
-"''' NIVEL 5" + '\n' + 'El nivel 5 es una variante del nivel 4. Hay un obstáculo aleatorio que varía su posición. Ten cuidado con él y superarás el nivel!!' + '\n' + "'''" + '\n' +
-'\n' + 'avanza(5)',
-"''' NIVEL 6" + '\n' + 'Ten cuidado con este nivel, con solo un movimiento erróneo puedes acabar dentro de un callejón sin salida!!' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)',
-"''' NIVEL 7" + '\n' + 'En este nivel se introducen las repeticiones de movimientos (bucles). Para evitar escribir mucho texto, se pueden crear repeticiones.' + '\n' 
-+ 'Prueba a ejectuar el código que te ofrecemos, y observa con detenimiento los espacios que se dejan antes de las instrucciones dentro de la repetición.' + '\n' + 
-"Ojo: Si no dejas 2 espacios ESTRICTAMENTE, no se va a repetir lo que pongas debajo del repite(x):" + '\n' + "'''" + '\n' + '\n' + 'repite(4):' + '\n' 
-+ "  avanza(2)" + '\n' + "  gira(1)",
-"''' NIVEL 8" + '\n' + 'Este nivel es completamente aleatorio, y hay solo un espacio por el que se puede pasar, así que ve con mucho cuidado para superar este nivel.' +
-'\n' + 'Es recomendable intentar superar este nivel más de una vez para probar las diferentes soluciones posibles.' + '\n' + "'''" + '\n' + '\n' + 'avanza(6)' + '\n' + 'gira(-1)',
-"''' NIVEL 9" + '\n' + "El juego ya está complicándose bastante. Este nivel es aleatorio también, pero vamos a introducir una nueva estructura: CONDICIONALES." +
-'\n' + 'Los condicionales se basan en la certeza de una condición para ejecutar ciertas instrucciones. En caso de no cumplirse la condición, no se van a ejecutar. '  + '\n' +
-'PISTA: Las condiciones que el robot entiende dependen de su orientación en el tablero: robot_sur -> robot orientado hacia el sur del TABLERO; robot_este -> robot orientado hacia el este del TABLERO, robot_norte y robot_oeste.'  
-+ '\n' + '\n' + 'IMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):' + '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 
-'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
-"''' NIVEL 10" + '\n' + 'Nos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.' + '\n' + 'El nivel 10 no aporta nada nuevo, pero es el nivel más difícil de superar!!' 
-+ '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la platorma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 
-'avanza(9)',
-"''' NIVEL 11" + '\n' + 'En este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa ' +
-'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado.' + '\n' +  
-'Luego hay que introducir una serie de instrucciones que van a modificar el estado del programa. Por último, escribir el oráculo, que es el estado que queremos comprobar tras la ejecución de las instrucciones.' + '\n' +
-'ORÁCULO: La instrucción afirma(estado) es la que fija el oráculo. Los estados posibles son no_avanza (verificar que el robot ha colisionado con un obstáculo liso), no_pincha (verificar que el robot no ha colisionado con un obstáculo de pinchos), ' +
-'choca(verificar que el robot ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío)' + '\n' + "'''" + '\n' + '\n' + 'testcase1:  #Esto es el identificador' + '\n' + '  avanza(4)  #Esta es la secuencia de instrucciones'
-+ '\n' + '  afirma(no_pincha)  #Esto es el Oráculo',
-"''' NIVEL 12" + '\n' + 'Con este nivel se termina el juego. Es el nivel más difícil de solucionar, por lo que superar este nivel es pasarse el juego.' + '\n' + 'Prueba a hacer algunos casos de prueba antes de solucionar el nivel!' + '\n' + "'''"
-+ '\n' + '\n' + 'testcase1:' + '\n' + '  gira(-1)' + '\n' + '  avanza(3)' + '\n' + '  afirma(no_pincha)',
-" ** Programa traducido correctamente **",
-"Error, falta ''' para cerrar el comentario!!",
-"CUIDADO!! El robot se ha chocado con los pinchos...",
-"El robot ha caído al vacío :( , vuelve a intentarlo!!!",
-"Enhorabuena, has superado el nivel!!",
-"ERROR. No se puede hacer un repite() dentro de otro repite()",
-"ERROR. La instruccion ",
-" no existe...",
-"ERROR con los paréntesis, la estructura es: instrucción(parámetro)." + "\n"
-+ "Por ejemplo: avanza(5)",
-"ERROR. No has puesto parámetro de entrada.",
-"ERROR. La instrucción REPITE(x) tiene que acabar con el carácter ':'" + "\n" 
-+ "Por ejemplo: repite(6):",
-'ERROR. No se puede iniciar un bucle con repite(x) dentro de un condicional.',
-'ERROR. No se puede iniciar un condicional dentro de otro condicional.' + '\n' + 'Para crear más condiciones, hazlo en otra línea.',
-"ERROR. No se pueden crear condiciones dentro de un repite(x).",
-'No se puede decrementar más el nivel!!',
-'No se puede aumentar más el nivel!!',
-//POSICIÓN 33 ES LA PRIMERA REGEX
-/avanza\(\d+\)/, /gira\(\d+\)/, /gira\(-\d+\)/, /repite\(\d+\):/, /si\(robot_sur\):/, /si\(robot_norte\):/, /si\(robot_este\):/, /si\(robot_oeste\):/,
-/  repite\(\d+\):/, /  avanza\(\d+\)/, /  gira\(\d+\)/, /  gira\(-\d+\)/, /  si\(robot_sur\):/, /  si\(robot_norte\):/, /  si\(robot_este\):/, /  si\(robot_oeste\):/,
-"robot_norte", "robot_sur", "robot_este", "robot_oeste",
-//POSICIÓN 53 REGEX ERRORES
-/avanza\d+\)/g, /avanza\(\d+/g, /gira\d+\)/g, /gira\(d+/g, /gira-\d+\)/g, /gira\(-\d+/g, /avanza\(\)/, /gira\(\)/, /repite\(\):/, /si\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
-/repite\(\d+\)/, /si\(\w+\)/, /si\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
-//POSICIÓN 71
-"Condición NO existente..." + '\n' + "Condiciones: robot_norte, robot_sur, robot_este, robot_oeste", "ERROR. Estructura errónea.",
-//POSICIÓN 73
-/testcase\d+\:/, /  afirma\(no_avanza\)/, /  afirma\(no_pincha\)/, /  afirma\(choca\)/, /  afirma\(no_cae\)/
-];
-
-var array_eng = ["Easy game to introduce programming in Python",
-"Translate to robot", "Execute program", "Reduce Level", "Increase Level",
-"''' LEVEL 1" + '\n' + 'This game has only one objective: Help robot to reach the end of the level' + '\n' + '\n' + 
-'To do it, we must order the robot to make some movements -> This movements are the program instructions, that should be written in this panel'
-+ ' This instructions must be written using Python language, and they will be translated to a languaje "spoken" by the robot so they can be executed.'
-+ '\n' + '\n' + 'In each level, we will face a different challenge to learn game rules step by step. We will face different types of obstacles, each one working in a different way'
-+ '\n' + 'This first level is the easiest one, try to execute the instruction...' + '\n' + "'''" + '\n' + '\n' + 'forward(4)',
-"''' LEVEL 2" + '\n' + 'We have already seen how the game and the instruction avanza(x) work, where x is the number of steps the robot moves on x axis.' + '\n' +
-'This second level is a bit more difficult. Now we need something else.  Try to execute the instructions sequence...' + '\n' + '\n' + 'CLUE: Robot turns left with instruction gira(-x). ' 
-+ '\n' + 'Robot turns right with instruction gira(x).' +'\n' + "'''" + '\n' + '\n' + 'forward(5)' + '\n' + 'turn(-1)',
-"''' LEVEL 3" + '\n' + 'Now we introduce a new spiked obstacle . It is smaller but more dangerous!!. Execute the given sequence to see what happens when you collide with it...  '
-+ '\n' + "'''" + '\n' + '\n' + 'forward(6)',
-"''' LEVEL 4" + '\n' + 'This level is even more difficult because the first obstacles row is random, so the solution for this level is different each time you play this level.' + '\n' 
-+ "'''" + '\n' + '\n' + 'turn(-1)' + '\n' + 'forward(2)' + '\n' + 'turn(1)',
-"''' LEVEL 5" + '\n' + 'Level 5 is a modification of level 4. There is one random obstacle that changes its position. Stay alert and you will success!!' + '\n' + "'''" + '\n' +
-'\n' + 'forward(5)',
-"''' LEVEL 6" + '\n' + "Care with this level, only executing one wrong movement you may find yourself in a dead end!!" + '\n' + "'''" + '\n' + '\n' + 'forward(5)',
-"''' LEVEL 7" + '\n' + 'In this level we are introducing the movements repetitions (loops). To avoid writting too much text, repetitions are used.' + '\n' 
-+ 'Try to execute the given code, and take a look on the spaces before the instructions that are inside repeat(x) structure.' + '\n' + 
-"IMPORTANT: If you forget leaving STRICTLY 2 spaces for instructions inside repeat(x):, they will not be repeated." + '\n' + "'''" + '\n' + '\n' + 'repeat(4):' + '\n' 
-+ "  forward(2)" + '\n' + "  turn(1)",
-"''' LEVEL 8" + '\n' + 'This level is all random, and there is only one gap where the robot can go forward, so think and be careful to success on level 8.' +
-'\n' + 'It is good to try to complete this level more than once to try some possible different solutions.' + '\n' + "'''" + '\n' + '\n' + 'forward(6)' + '\n' + 'turn(-1)',
-"''' LEVEL 9" + '\n' + "Game is already getting difficult. This level is random, but we are introducing a new structure: CONDITIONALS." +
-'\n' + 'Conditionals are based on the certainty of a condition to execute some instructions . If condition is not accomplished, instructions are not executed. '  + '\n' +
-"CLUE: The conditions understood by the robot are depending on its orientation on the game: south_robot -> robot is south facing (SCENARIO is the reference) ; east_robot -> robot is east facing (SCENARIO is the reference)," +
-" north_robot and south_robot."  + '\n' + '\n' + 'IMPORTANT: Take care about the spaces, conditionals work as repeat(x) structure.' + '\n' + "'''" + '\n' + '\n' + 'if(north_robot):' + '\n' + '  forward(1)' + '\n' + '  turn(-1)' + '\n' + 
-'if(west_robot):' + '\n' + '  turn(1)' + '\n' + '  forward(2)' + '\n' + '  turn(-1)',
-"''' LEVEL 10" + '\n' + 'We are almost on the end of the game. As you will see, level 11 and 12 are designed to show the last programming concept.' + '\n' + 'Level 10 has nothing new, but facing this level will be really difficult!!' 
-+ '\n' + 'This level is full random excepting the last obstacles row, that cant be random because it might create an impossible level.' + '\n' + "'''" + '\n' + '\n' + 'forward(9)',
-"''' LEVEL 11" + '\n' + 'In this level 11, almost ending the game, code testing is introduced. Testing is a very useful way to validate code by creating test cases ' +
-', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can check later the result.' + '\n' +  
-'Then we must write the instructions that will modify the program state. Last, we need the oracle, that is the state that we want to check after executing those instructions.' + '\n' +
-'ORACLE: Oracle is defined by instruction assure(state). The possible states are not_forwards (robot collided with a normal obstacle), not_pricks (robot collided with a spiked obstacle), ' +
-'collides(robot has reached the outside limits from scenario) and not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
-+ '\n' + '  assert(not_pricks)  #This is the Oracle',
-"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this game literally means completing the game.' + '\n' + 'Try to make some testcases before finding the solution!' + '\n' + "'''"
-+ '\n' + '\n' + 'testcase1:' + '\n' + '  turn(-1)' + '\n' + '  forward(3)' + '\n' + '  assert(not_pricks)',
-" ** Program correctly translated **",
-"ERROR, missing ''' to close comment!!",
-"CARE!! Robot collided with spiked obstacle...",
-"Robot fall to the emptiness :( , try again!!!",
-"Congratulations, you have completed the level!!",
-"ERROR. You can't use instruction repeat() inside another repeat()",
-"ERROR. Instruction ",
-" not found...",
-"ERROR in parenthesis, the correct way is: instruction(parameter)." + "\n"
-+ "For example: forward(5)",
-"ERROR. You haven't written any input parameter.",
-"ERROR. Instruction REPITE(x) must end with character ':'" + "\n" 
-+ "For example: repeat(6):",
-"ERROR. Loops with repeat(x) can't be created inside conditional structures.",
-"ERROR. Conditional structures can't be created inside other conditionals." + '\n' + 'To create other conditions, write them in new lines.',
-"ERROR. Conditional structures can't be created inside repeat(x).",
-"You can't reduce more the level!!!",
-"You can't increase more the level!!",
-// POSICIÓN 33 REGEX
-/forward\(\d+\)/, /turn\(\d+\)/, /turn\(-\d+\)/, /repeat\(\d+\):/, /if\(south_robot\):/, /if\(north_robot\):/, /if\(east_robot\):/, /if\(west_robot\):/,
-/  repeat\(\d+\):/, /  forward\(\d+\)/, /  turn\(\d+\)/, /  turn\(-\d+\)/, /  if\(south_robot\):/, /  if\(north_robot\):/, /  if\(east_robot\):/, /  if\(west_robot\):/,
-"north_robot", "south_robot", "east_robot", "west_robot",
-//POSICIÓN 53 REGEX ERRORES
-/forward\d+\)/g, /forward\(\d+/g, /turn\d+\)/g, /turn\(d+/g, /turn-\d+\)/g, /turn\(-\d+/g, /forward\(\)/, /turn\(\)/, /repeat\(\):/, /if\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
-/repeat\(\d+\)/, /if\(\w+\)/, /if\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
-//POSICIÓN 71
-"Condition NOT found..." + '\n' + "Available conditions: north_robot, south_robot, east_robot, west_robot", "ERROR. Wrong structure.",
-/testcase\d+\:/, /  assert\(not_forwards\)/, /  assert\(not_pricks\)/, /  assert\(collides\)/, /  assert\(not_falls\)/
-];
-
 
 
 function cambiarIdioma(lang) {
@@ -180,10 +44,17 @@ function cambiarIdioma(lang) {
     var btn_rnivel = document.getElementById("rnivel"); 
     var texto_py = document.getElementById('tarea');
 
-    if (lang == "esp") {
-        array_idioma = array_esp;
-    } else {
-        array_idioma = array_eng;
+    switch (lang) {  // preparado para añadir los lenguajes que haya diseñados.
+        case "esp":
+            array_idioma = array_esp;
+            idioma = "español";
+            break;
+        case "eng":
+            array_idioma = array_eng;
+            idioma = "ingles";
+            break;
+        default:
+            break;
     }
 
     // Texto del h4 y los botones cambiado al idioma apropiado.
@@ -803,7 +674,7 @@ function cargar_nivel(nivel, prim_ejecucion) {
             break;
 
         case 10:
-            // nivel dificil
+            // NIVEL 10 -> nivel dificil
             continuar = limpiar_nivel();
             while (!continuar) {
                 continuar = limpiar_nivel();
@@ -911,11 +782,7 @@ function cargar_nivel(nivel, prim_ejecucion) {
             break;
 
         case 11:
-            /* UNIT TEST:
-            testcase1:
-              avanza(5)
-              afirmar(no_avanza)
-              */
+            /* NIVEL 11 -> Implementar testing */
             continuar = limpiar_nivel();
             while (!continuar) {
                 continuar = limpiar_nivel();
@@ -987,7 +854,7 @@ function cargar_nivel(nivel, prim_ejecucion) {
             break;
 
         case 12:
-            // Unit Test + nivel difícil
+            // NIVEL 12 -> Unit Test + nivel difícil
             continuar = limpiar_nivel();
             while (!continuar) {
                 continuar = limpiar_nivel();
@@ -1158,6 +1025,7 @@ function mostrarError(data) {
     alert(data);
 }
 
+// Función que se activa al hacer click en el botón "Traducir código". Resetea el nivel (consola, robot, arrays) y controla el parser de código.
 function traducirCodigo() {
     var texto_salida = document.getElementById("output");
     var btn = document.getElementById("ejecutarprog");
@@ -1170,14 +1038,17 @@ function traducirCodigo() {
     texto_salida.value = "";
     actual_output_value = "";
 
-    // Resetear errores
+    // Resetear error en instrucciones y solución eficiente.
     error_inst = false;
+    eficiente = 0;
 
     // Resetear arrays para las instrucciones.
     array_instrucciones = [];
     array_traducido = [];
     array_bucle = [];
     array_condicional = [];
+    array_oraculos = [];
+    casos_prueba = [];
     // Cuando se vuelva a traducir, el robot debe volver a la posición inicial para reiniciar el nivel.
     img_player.style.left = "10px";
     img_player.style.top = "180px";
@@ -1191,7 +1062,6 @@ function traducirCodigo() {
                 if (correcto) {
                     texto_salida.value = array_idioma[17];
                     actual_output_value = array_idioma[17];
-                    console.log(actual_output_value);
                     btn.disabled = false;
                 } else {
                     btn.disabled = true;
@@ -1202,7 +1072,7 @@ function traducirCodigo() {
 }
 
 
-// La función ya detecta correctamente los comentarios simples y multilinea, falta ver que hacer con lo que no es comment (meter en array_instrucciones).
+// Función para filtrar el contenido del panel de código (ignorar comentarios y añadir instrucciones al array).
 function parsearCodigo(codigo) {
 
     return new Promise(function(resolve, reject) {
@@ -1300,7 +1170,7 @@ function parsearCodigo(codigo) {
 }
 
 
-// Recibe un array de instrucciones y lo va recorriendo de manera recursiva.
+// Recibe un array de instrucciones y lo va recorriendo de manera recursiva. Con condicionales, funciona de otra manera.
 async function crearSecuencia(instrucciones) {
         var img_player = document.getElementById('robot');
         var img_src = img_player.getAttribute("src");
@@ -1310,24 +1180,26 @@ async function crearSecuencia(instrucciones) {
 
         var inst = instrucciones.pop();
 
-        if (inst.charAt(0) == 'r') {  // viene un condicional, hay que tratarlo de manera especial -> FORMATO: "condición (siempre empieza por R), instruccion1, instruccion2, ..."
-            var array_temporal = inst.split(',');
-            var orientacion_robot = array_temporal[0];
-            if (img_src == orientacion_robot) {
-                for (var i = 1; i < array_temporal.length; i++) {
-                    await eval(array_temporal[i]).then(continuar => {
-                        if (continuar == true) {
-                                /* sigue con el bucle */
-                        } else if (continuar == 2) {
-                            // nivel superado
-                            return true;
-                        } else {
-                            i = array_temporal.length;
-                        }
-                    })
+        if (inst.charAt(0) == 'r') {   // Viene un condicional, se trata de manera diferente (formato -> condición, instrucciones[])
+                var array_temporal = inst.split(',');
+                var orientacion_robot = array_temporal[0];
+                if (img_src == orientacion_robot) {
+                    for (var i = 1; i < array_temporal.length; i++) {
+                        await eval(array_temporal[i]).then(continuar => {
+                            if (continuar == true) {
+                                /* seguir con el bucle */
+                            } else if (continuar == 2) {
+                                // nivel superado
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                    }
                 }
-            }
-        } else {  // Instrucciones normales
+                crearSecuencia(instrucciones);
+        } else {
+            // Instrucciones normales
             // Modificar instrucciones en caso de estar el juego en Inglés, para llamar a las funciones que toca (implementado en castellano).
             if (inst.charAt(0) == 'f') {  // sustituir forward(x) -> avanza(x)
                 inst = inst.replace("forward", "avanza");
@@ -1345,12 +1217,92 @@ async function crearSecuencia(instrucciones) {
         }
 }
 
-
+/* Función que se ejecuta al pulsar el botón Ejecutar Código. Compara las instrucciones que ha introducido el usuario con las soluciones más eficientes, y llama
+a la función crearSecuencia(), que recorre el array de instrucciones.
+*/
 function ejecutarCodigo() {
     var btn = document.getElementById("ejecutarprog");
+    if (idioma == "español") {
+        switch (nivel_actual) {
+            case 1:
+                if (array_traducido.length == array_sol_n1.length && array_traducido.every((v,i) => v === array_sol_n1[i])) {
+                        eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 2:
+                if ((array_traducido.length == array_sol_n2yn3_1.length || array_traducido.length == array_sol_n2yn3_2.length) && 
+                   (array_traducido.every((v,i) => v === array_sol_n2yn3_1[i]) || array_traducido.every((v,i) => v === array_sol_n2yn3_2[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 3:
+                if ((array_traducido.length == array_sol_n2yn3_1.length || array_traducido.length == array_sol_n2yn3_2.length) && 
+                   (array_traducido.every((v,i) => v === array_sol_n2yn3_1[i]) || array_traducido.every((v,i) => v === array_sol_n2yn3_2[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 6:
+                if ((array_traducido.length == array_sol_n6_1.length || array_traducido.length == array_sol_n6_2.length) && 
+                (array_traducido.every((v,i) => v === array_sol_n6_1[i]) || array_traducido.every((v,i) => v === array_sol_n6_2[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 7:
+                if ((array_traducido.length == array_sol_n7_1.length || array_traducido.length == array_sol_n7_2.length) && 
+                (array_traducido.every((v,i) => v === array_sol_n7_1[i]) || array_traducido.every((v,i) => v === array_sol_n7_2[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 11:
+                break;     
+            default:
+                break; 
+        }
+    } else if (idioma == "ingles") {
+        switch (nivel_actual) {
+            case 1:
+                if (array_traducido.length == array_sol_n1_eng.length && array_traducido.every((v,i) => v === array_sol_n1_eng[i])) {
+                        eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 2:
+                if ((array_traducido.length == array_sol_n2yn3_1_eng.length || array_traducido.length == array_sol_n2yn3_2_eng.length) && 
+                   (array_traducido.every((v,i) => v === array_sol_n2yn3_1_eng[i]) || array_traducido.every((v,i) => v === array_sol_n2yn3_2_eng[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 3:
+                if ((array_traducido.length == array_sol_n2yn3_1_eng.length || array_traducido.length == array_sol_n2yn3_2_eng.length) && 
+                   (array_traducido.every((v,i) => v === array_sol_n2yn3_1_eng[i]) || array_traducido.every((v,i) => v === array_sol_n2yn3_2_eng[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 6:
+                if ((array_traducido.length == array_sol_n6_1_eng.length || array_traducido.length == array_sol_n6_2_eng.length) && 
+                (array_traducido.every((v,i) => v === array_sol_n6_1_eng[i]) || array_traducido.every((v,i) => v === array_sol_n6_2_eng[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 7:
+                if ((array_traducido.length == array_sol_n7_1_eng.length || array_traducido.length == array_sol_n7_2_eng.length) && 
+                (array_traducido.every((v,i) => v === array_sol_n7_1_eng[i]) || array_traducido.every((v,i) => v === array_sol_n7_2_eng[i]))) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+            case 11:
+                break;     
+            default:
+                break; 
+        }
+    } else {
+        /* Añadir arrays con comprobaciones de nivel en otros idiomas. De momento solo soporta español e inglés */
+    }
+
     array_traducido.reverse();
     console.log(array_traducido);
-    var terminado = crearSecuencia(array_traducido);
+    var terminado = crearSecuencia(array_traducido).then(() => {
+        /* PONER FALSE SOBRE LOS TESTCASES RESTANTES */
+    })
     btn.disabled = true;
 }
 
@@ -1391,17 +1343,24 @@ function avanza(npasos) {
                 } 
                 hayColision(x,1).then(colision => {
                     switch (colision) {
-                        case 0:
+                        case 0:  // no hay colisión 
                             img_player.style.left = x + "px";
                             i+=1;
                             break;   
-                        case 1:
+                        case 1:  // colisión obstáculo simple
+                            if (array_oraculos.includes(array_idioma[83])) {
+                                var indice = array_oraculos.indexOf(array_idioma[83]);
+                                texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                            }
                             resolve(true);
                             clearInterval(id);
                             break;
-                        case 2:
+                        case 2:  // colisión obstáculo pinchos
                             texto_salida.value = array_idioma[19];
-                            actual_output_value = array_idioma[19];
+                            if (array_oraculos.includes(array_idioma[84])) {
+                                var indice = array_oraculos.indexOf(array_idioma[84]);
+                                texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                            }
                             resolve(false);
                             clearInterval(id); 
                             break;
@@ -1420,8 +1379,11 @@ function avanza(npasos) {
                     img_player.src = "suelo_negro.png";
                     resolve(false);
                 } else {
-                    texto_salida.value = array_idioma[21];
-                    actual_output_value = array_idioma[21];
+                    if (eficiente == 0) {  // nivel aleatorio, no se puede comprobar la eficiencia
+                        texto_salida.value = array_idioma[21];
+                    } else if (eficiente == 2) {  // solución eficiente
+                        texto_salida.value = array_idioma[79];
+                    } else texto_salida.value = array_idioma[78];  // solución ineficiente
                     resolve(2);
                 }
             }
@@ -1437,17 +1399,24 @@ function avanza(npasos) {
                 }
                 hayColision(y,2).then(colision => {
                     switch (colision) {
-                        case 0:
+                        case 0:  // no hay colisión 
                             img_player.style.top = y + "px";
                             j+=1;
                             break;
-                        case 1:
+                        case 1:  // colisión con obstáculo simple
+                            if (array_oraculos.includes(array_idioma[83])) {  // si hay un caso de prueba no_avanza, mostrar TRUE.
+                                var indice = array_oraculos.indexOf(array_idioma[83]);
+                                texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                            }
                             resolve(true);
                             clearInterval(id);
                             break;
-                        case 2:
+                        case 2:  // colisión obstáculo pinchos
                             texto_salida.value = array_idioma[19];
-                            actual_output_value = array_idioma[19];
+                            if (array_oraculos.includes(array_idioma[84])) {
+                                var indice = array_oraculos.indexOf(array_idioma[84]);
+                                texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                            }
                             resolve(false);
                             clearInterval(id);
                             break;
@@ -1578,14 +1547,18 @@ function gira(ngiros) {
 
 }
 
+// Función que hace una comparación exacta con una regular expresion.
+// Parámetros: r -> Regular expresion; str -> Cadena a comparar.
 function matchExact(r, str) {
     var match = str.match(r);
     return match && str === match[0];
 }
 
+// Función para añadir las instrucciones del array bucle multiplicadas n veces al array de instrucciones cuando hay un repite(x).
+// Parámetros: array -> array con las instrucciones dentro de repite(x); nrepeticiones -> array de 1 posición con el número de veces que hay que multiplicar el array.
 function crearArrayBucle(array, nrepeticiones) {
     return new Promise(function(resolve, reject) {
-        if (array == []) {
+        if (array.length == 0) {
             resolve();
         } else {
             var rep = nrepeticiones[0];
@@ -1600,6 +1573,7 @@ function crearArrayBucle(array, nrepeticiones) {
     })
 }
 
+// DOCUMENTAR FUNCIÓN
 function crearArrayCondicional(array, condicion) {
     return new Promise(function(resolve, reject) {
         var inst_norte = "robot_lateral.gif";
@@ -1608,7 +1582,6 @@ function crearArrayCondicional(array, condicion) {
         var inst_oeste = "robot_espalda.gif";
 
         condicion = condicion.substring(0, condicion.length - 2); // quitamos caracteres sobrantes
-        console.log(condicion);
 
         if (array == []) {
             resolve();
@@ -1660,16 +1633,32 @@ function crearArrayCondicional(array, condicion) {
     })
 }
 
+// DOCUMENTAR FUNCIÓN
 function crearTestCase(array, oraculo) {
     return new Promise(function(resolve,reject) {
         var texto_salida = document.getElementById('output');
-        console.log(array);
-        console.log(oraculo);
-        console.log(actual_output_value);
-        resolve();
+        if (oraculo == "") {
+            texto_salida.value = array_idioma[80];
+            resolve(false);
+        }
+
+        if (casos_prueba.includes(array[0])) {  // El identificador de los testcases tiene que ser diferente.
+            texto_salida.value = array_idioma[81] + array[0].slice(0,-1) + array_idioma[82];
+            resolve(false);
+        } else {
+            casos_prueba.push(array[0]);
+            array_oraculos.push(oraculo);
+        }
+
+        for(var i = 1; i<array.length; i++) {
+            array_traducido.push(array[i]);
+        }
+
+        resolve(true);
     })
 }
 
+// DOCUMENTAR FUNCIÓN
 async function comprobarArray(array) {
     return new Promise(function(resolve,reject) {
         var texto_salida = document.getElementById('output');
@@ -1762,8 +1751,7 @@ async function comprobarArray(array) {
                                 array_condicional = [];
                                 array_traducido.push(instruccion);
                             })
-                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {
-                            console.log(instruccion);  // inicio de otro condicional 
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) { // inicio de otro condicional 
                             crearArrayCondicional(array_condicional, condicion).then(() => {
                                 condicion = instruccion.substring(3);
                                 array_condicional = [];
@@ -1798,11 +1786,16 @@ async function comprobarArray(array) {
                         } else if (concuerda_testcase) {  // testcase sin cerrar el actual. ERROR.
                             texto_salida.value = "CREAR ERROR: NO SE PUEDEN COMBINAR TESTCASES. ACABA ESTE Y LUEGO INICIAS OTRO.";
                         } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
+                            instruccion = instruccion.substring(2);
                             array_tcases.push(instruccion);
                         } else if (concuerda_assert_choca || concuerda_assert_noav || concuerda_assert_nocae || concuerda_assert_nopi) { // afirma final. OK.
-                            crearTestCase(array_tcases, instruccion).then(() => {
-                                es_tc = false;
-                                array_tcases = [];
+                            crearTestCase(array_tcases, instruccion).then((correcto) => {
+                                if (correcto) {
+                                    es_tc = false;
+                                    array_tcases = [];
+                                } else {
+                                    resolve(false);
+                                }
                             })
                         } else {  // ERROR
                             terminado = depurarError(instruccion);
@@ -1835,6 +1828,7 @@ async function comprobarArray(array) {
                 }
             });
 
+
             if (es_bucle) {
                 crearArrayBucle(array_bucle, repeticiones).then(() => {
                     resolve(true);
@@ -1842,6 +1836,10 @@ async function comprobarArray(array) {
             } else if (es_condicional) {
                 crearArrayCondicional(array_condicional, condicion).then(() => {
                     resolve(true);
+                })
+            } else if (es_tc) { 
+                crearTestCase(array_tcases, "").then(() => {
+                    resolve(false);
                 })
             } else {
                 resolve(true);
@@ -1851,176 +1849,11 @@ async function comprobarArray(array) {
         start();
     });
 }
-        /*}
-
-        array.forEach(instruccion => {
-            // si la instruccion no hace Match con ninguna de estas expresiones, ERROR DE COMPILACIÓN.
-            var concuerda_avanza = matchExact(array_idioma[33], instruccion);
-            var concuerda_gira1 = matchExact(array_idioma[34], instruccion);
-            var concuerda_gira2 = matchExact(array_idioma[35], instruccion);
-            var concuerda_repite = matchExact(array_idioma[36], instruccion);
-            var concuerda_si_sur = matchExact(array_idioma[37], instruccion);
-            var concuerda_si_norte = matchExact(array_idioma[38], instruccion);
-            var concuerda_si_este = matchExact(array_idioma[39], instruccion);
-            var concuerda_si_oeste = matchExact(array_idioma[40], instruccion);
-            var concuerda_repite_ident = matchExact(array_idioma[41], instruccion);
-            var concuerda_avanza_ident = matchExact(array_idioma[42], instruccion);
-            var concuerda_gira1_ident = matchExact(array_idioma[43], instruccion);
-            var concuerda_gira2_ident = matchExact(array_idioma[44], instruccion);
-            var concuerda_si_sur_ident = matchExact(array_idioma[45], instruccion);
-            var concuerda_si_norte_ident = matchExact(array_idioma[46], instruccion);
-            var concuerda_si_este_ident = matchExact(array_idioma[47], instruccion);
-            var concuerda_si_oeste_ident = matchExact(array_idioma[48], instruccion);
-            var concuerda_testcase = matchExact(array_idioma[73], instruccion);
-            var concuerda_assert_noav = matchExact(array_idioma[74], instruccion);
-            var concuerda_assert_nopi = matchExact(array_idioma[75], instruccion);
-            var concuerda_assert_choca = matchExact(array_idioma[76], instruccion);
-            var concuerda_assert_nocae = matchExact(array_idioma[77], instruccion);
 
 
-            if (es_bucle) {
-                // instrucciones dentro de la estructura iterativa repite():
-                if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
-                instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
-                array_bucle.push(instruccion);
-                } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
-                    texto_salida.value = array_idioma[22];
-                    resolve(false);
-                } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
-                    texto_salida.value = array_idioma[30];
-                    resolve(false);
-                } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del bucle
-                    es_bucle = false;
-                    crearArrayBucle(array_bucle, repeticiones).then(() => {
-                        array_bucle = [];
-                        array_traducido.push(instruccion);
-                    })
-                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // fin de bucle, inicio de condicional
-                    es_bucle = false;
-                    crearArrayBucle(array_bucle, repeticiones).then(() => {
-                        array_bucle = [];
-                        es_condicional = true;
-                        condicion = instruccion.substring(3);
-                    })
-                } else if (concuerda_repite) {  // inicio de otro bucle
-                    crearArrayBucle(array_bucle, repeticiones).then(() => {
-                        array_bucle = [];
-                        repeticiones = instruccion.match(/\d+/);
-                    })
-                } else if (concuerda_testcase) {         // inicio de un caso de prueba
-                    crearArrayBucle(array_bucle, repeticiones).then(() => {
-                        array_bucle = [];
-                        es_tc = true;
-                        array_tcases.push(instruccion);
-                    })
-                } else {  // ERROR
-                    terminado = depurarError(instruccion);
-                    while (!terminado) {
-                        terminado = depurarError(instruccion);
-                    }
-                    resolve(false);
-                }
-            } else if (es_condicional) {
-                // instrucciones dentro de estructura condicional si():    
-                if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
-                    instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
-                    array_condicional.push(instruccion);
-                } else if (concuerda_repite_ident) {  // no soporta combinación de estructuras
-                    texto_salida.value = array_idioma[28];
-                } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, no dependen del condicional
-                    es_condicional = false;
-                    crearArrayCondicional(array_condicional, condicion).then(() => {
-                        array_condicional = [];
-                        array_traducido.push(instruccion);
-                    })
-                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {
-                    console.log(instruccion);  // inicio de otro condicional 
-                    crearArrayCondicional(array_condicional, condicion).then(() => {
-                        condicion = instruccion.substring(3);
-                        array_condicional = [];
-                        otro_condicional = true;
-                    })
-                } else if (concuerda_repite) {  // fin de condicional, inicio de bucle
-                    es_condicional = false;
-                    crearArrayCondicional(array_condicional, condicion).then(() => {
-                        array_condicional = [];
-                        es_bucle = true;
-                        repeticiones = instruccion.match(/\d+/);
-                    })
-                } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) { // no puede haber más condiciones dentro de una condición
-                    texto_salida.value = array_idioma[29];
-                    resolve(false);
-
-                } else {  // ERROR
-                    terminado = depurarError(instruccion);
-                    while (!terminado) {
-                        terminado = depurarError(instruccion);
-                    }
-                    resolve(false);
-                }
-            } else if (es_tc) {
-                // instrucciones dentro de un testcase
-                if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones no identadas. ERROR
-                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE, LAS INSTRUCCIONES DEBEN IR IDENTADAS."
-                } else if (concuerda_repite || concuerda_repite_ident) {  // bucles no soportados en testcases. ERROR
-                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER BUCLES";
-                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste || concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // condicionales no soportados
-                    texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER CONDICIONALES.";
-                } else if (concuerda_testcase) {  // testcase sin cerrar el actual. ERROR.
-                    texto_salida.value = "CREAR ERROR: NO SE PUEDEN COMBINAR TESTCASES. ACABA ESTE Y LUEGO INICIAS OTRO.";
-                } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
-                    array_tcases.push(instruccion);
-                } else if (concuerda_assert_choca || concuerda_assert_noav || concuerda_assert_nocae || concuerda_assert_nopi) { // afirma final. OK.
-                    crearTestCase(array_tcases, instruccion).then(() => {
-                        es_tc = false;
-                        array_tcases = [];
-                    })
-                } else {  // ERROR
-                    terminado = depurarError(instruccion);
-                    while (!terminado) {
-                        terminado = depurarError(instruccion);
-                    }
-                    resolve(false);
-                }
-            } else {
-                // si la instrucción no está dentro de bucle ni condicional ni de un caso de prueba
-                if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucción para pushear directamente al array
-                    array_traducido.push(instruccion);
-                } else if (concuerda_repite) {  // es un bucle
-                    es_bucle = true;
-                    repeticiones = instruccion.match(/\d+/);
-                } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // es un condicional
-                    es_condicional = true;
-                    condicion = instruccion.substring(3);
-                } else if (concuerda_testcase) {  // inicio de un testcase
-                    console.log(instruccion);
-                    es_tc = true;
-                    array_tcases.push(instruccion);
-                } else {  // ERROR
-                    terminado = depurarError(instruccion);
-                    while (!terminado) {
-                        terminado = depurarError(instruccion);
-                    }
-                    resolve(false);
-                }
-            }
-        });
-
-        if (es_bucle) {
-            crearArrayBucle(array_bucle, repeticiones).then(() => {
-                resolve(true);
-            })
-        } else if (es_condicional) {
-            crearArrayCondicional(array_condicional, condicion).then(() => {
-                resolve(true);
-            })
-        } else {
-            resolve(true);
-        }
-    });
-}*/
-
-// Función para dar información del error que hay en el código respecto a lo que ha introducido el usuario.
+/* Función para dar información del error que hay en el código respecto a lo que ha introducido el usuario.
+ * instruccion_actual -> Línea del panel de código que provocó el error.
+*/
 function depurarError(instruccion_actual) {
 
     var error_parentesis1_av = instruccion_actual.match(array_idioma[53]);
@@ -2127,13 +1960,14 @@ function hayColision(pos_actual, direccion) {
     })
 }
 
+// Implementación de forEach asíncrono para garantizar iteraciones ordenadas.
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array);
     }
 }
 
-
+// Función para vaciar el nivel de obstáculos y resetear al robot, llamada al cargar cada nivel.
 function limpiar_nivel() {
         var id = null;
         var escenario = document.getElementById('escenario');
@@ -2141,6 +1975,8 @@ function limpiar_nivel() {
         var img_player = document.getElementById('robot');
         var btn = document.getElementById('ejecutarprog');
         btn.disabled = true;
+        casos_prueba = [];
+        array_oraculos = [];
         img_player.style.left = "10px";
         img_player.style.top = "180px";
         img_player.src = "robot_lateral.gif";
