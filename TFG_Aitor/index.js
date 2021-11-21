@@ -28,7 +28,6 @@ var array_instrucciones = new Array;
 var array_traducido = new Array;
 var array_bucle = new Array;
 var array_condicional = new Array;
-var actual_output_value = "";
 var array_idioma = new Array;
 var array_tcases = new Array;
 var casos_prueba = new Array;
@@ -36,6 +35,10 @@ var array_oraculos = new Array;
 var error_inst = false;
 
 
+// Función para cambiar el idioma del juego.
+/**
+ * @param {Idioma deseado para el juego} lang 
+ */
 function cambiarIdioma(lang) {
     var h4 = document.getElementById("h4_inicio");
     var btn_trad = document.getElementById("traducirprog");
@@ -110,6 +113,10 @@ function cambiarIdioma(lang) {
 
 
 // prim_ejecucion, si TRUE no hay que limpiar el nivel, si FALSE limpiar el nivel.
+/**
+ * @param {Nivel actual del juego} nivel 
+ * @param {Booleano para indicar si el juego se acaba de iniciar o no} prim_ejecucion 
+ */
 function cargar_nivel(nivel, prim_ejecucion) {
     var texto_py = document.getElementById('tarea');
     var texto_salida = document.getElementById("output");
@@ -694,7 +701,7 @@ function cargar_nivel(nivel, prim_ejecucion) {
             texto_py.value = array_idioma[14];
 
             while (i<5){
-                // el valor de w decide aleatoriamente donde habrá un hueco
+                // los valores de 'w' y 'x' deciden aleatoriamente donde habrá un hueco
                 if (w == j || x == j) {
                     j++;
                 } else {
@@ -983,8 +990,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
                     j++;
                 }
             }
-
-
             break;
     }
 }
@@ -1036,7 +1041,6 @@ function traducirCodigo() {
 
     // Resetear el valor de la consola.
     texto_salida.value = "";
-    actual_output_value = "";
 
     // Resetear error en instrucciones y solución eficiente.
     error_inst = false;
@@ -1048,6 +1052,7 @@ function traducirCodigo() {
     array_bucle = [];
     array_condicional = [];
     array_oraculos = [];
+    array_tcases = [];
     casos_prueba = [];
     // Cuando se vuelva a traducir, el robot debe volver a la posición inicial para reiniciar el nivel.
     img_player.style.left = "10px";
@@ -1061,7 +1066,6 @@ function traducirCodigo() {
             comprobarArray(array).then(correcto => {
                 if (correcto) {
                     texto_salida.value = array_idioma[17];
-                    actual_output_value = array_idioma[17];
                     btn.disabled = false;
                 } else {
                     btn.disabled = true;
@@ -1073,6 +1077,10 @@ function traducirCodigo() {
 
 
 // Función para filtrar el contenido del panel de código (ignorar comentarios y añadir instrucciones al array).
+/**
+ * @param {String con todo el contenido del panel de código} codigo 
+ * @returns Promise resolve()/reject()
+ */
 function parsearCodigo(codigo) {
 
     return new Promise(function(resolve, reject) {
@@ -1169,52 +1177,87 @@ function parsearCodigo(codigo) {
     })
 }
 
+// Función que muestra el resultado de los testcases que no se han cumplido.
+function printearTestCases() {
+    return new Promise(function(resolve,reject) {
+        /* PONER RESULTADO DE LOS TESTCASES RESTANTES */
+        var texto_salida = document.getElementById("output");
+        if(casos_prueba.length == 0) { // No hay/quedan testcases.
+            resolve();
+        } else {
+            for (var i = 0; i<casos_prueba.length; i++) {
+                if (array_oraculos[i] == array_idioma[86]) {
+                    texto_salida.value += '\n' + casos_prueba[i] + ' TRUE';
+                } else {
+                    texto_salida.value += '\n' + casos_prueba[i] + ' FALSE';
+                }
+            }
+            resolve();
+        }
+    })
+}
+
 
 // Recibe un array de instrucciones y lo va recorriendo de manera recursiva. Con condicionales, funciona de otra manera.
+/**
+ * 
+ * @param {Array con las instrucciones a ejecutar} instrucciones 
+ */
 async function crearSecuencia(instrucciones) {
-        var img_player = document.getElementById('robot');
-        var img_src = img_player.getAttribute("src");
-        if (instrucciones.length == 0) {
+    var img_player = document.getElementById('robot');
+    var img_src = img_player.getAttribute("src");
+    if (instrucciones.length == 0) {
+        printearTestCases().then(() => {
             return true;
-        }
+        })
+    }
 
-        var inst = instrucciones.pop();
+    var inst = instrucciones.pop();
 
-        if (inst.charAt(0) == 'r') {   // Viene un condicional, se trata de manera diferente (formato -> condición, instrucciones[])
-                var array_temporal = inst.split(',');
-                var orientacion_robot = array_temporal[0];
-                if (img_src == orientacion_robot) {
-                    for (var i = 1; i < array_temporal.length; i++) {
-                        await eval(array_temporal[i]).then(continuar => {
-                            if (continuar == true) {
-                                /* seguir con el bucle */
-                            } else if (continuar == 2) {
-                                // nivel superado
+    if (inst.charAt(0) == 'r') {   // Viene un condicional, se trata de manera diferente (formato -> condición, instrucciones[])
+            var array_temporal = inst.split(',');
+            var orientacion_robot = array_temporal[0];
+            if (img_src == orientacion_robot) {
+                for (var i = 1; i < array_temporal.length; i++) {
+                    await eval(array_temporal[i]).then(continuar => {
+                        if (continuar == true) {
+                            /* seguir con el bucle */
+                        } else if (continuar == 2) { // nivel superado
+                            printearTestCases().then(() => {
                                 return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                    }
+                            })
+                        } else { // colisión con pinchos o caer al vacío
+                            printearTestCases().then(() => {
+                                return true;
+                            })
+                        }
+                    });
                 }
-                crearSecuencia(instrucciones);
-        } else {
-            // Instrucciones normales
-            // Modificar instrucciones en caso de estar el juego en Inglés, para llamar a las funciones que toca (implementado en castellano).
-            if (inst.charAt(0) == 'f') {  // sustituir forward(x) -> avanza(x)
-                inst = inst.replace("forward", "avanza");
-            } else if (inst.charAt(0) == 't') {  // sustituir turn(x) -> gira(x)
-                inst = inst.replace("turn", "gira");
             }
-
-            eval(inst).then(continuar => {
-                if (continuar == true) {
-                    crearSecuencia(instrucciones);
-                } else if (continuar == 2) {
-                    return true;
-                }
-            })
+            crearSecuencia(instrucciones);
+    } else {
+        // Instrucciones normales
+        // Modificar instrucciones en caso de estar el juego en Inglés, para llamar a las funciones que toca (implementado en castellano).
+        if (inst.charAt(0) == 'f') {  // sustituir forward(x) -> avanza(x)
+            inst = inst.replace("forward", "avanza");
+        } else if (inst.charAt(0) == 't') {  // sustituir turn(x) -> gira(x)
+            inst = inst.replace("turn", "gira");
         }
+
+        eval(inst).then(continuar => {
+            if (continuar == true) {
+                crearSecuencia(instrucciones);
+            } else if (continuar == 2) {  // nivel superado
+                printearTestCases().then(() => {
+                    return true;
+                })
+            } else {  // colisión con pinchos o caer al vacío
+                printearTestCases().then(() => {
+                    return true;
+                })
+            }
+        })
+    }
 }
 
 /* Función que se ejecuta al pulsar el botón Ejecutar Código. Compara las instrucciones que ha introducido el usuario con las soluciones más eficientes, y llama
@@ -1222,8 +1265,10 @@ a la función crearSecuencia(), que recorre el array de instrucciones.
 */
 function ejecutarCodigo() {
     var btn = document.getElementById("ejecutarprog");
+    var texto_salida = document.getElementById('output');
     if (idioma == "español") {
         switch (nivel_actual) {
+            // comprobar si los niveles NO aleatorios (1,2,3,6,7 y 11) han sido superados de la manera más eficiente.
             case 1:
                 if (array_traducido.length == array_sol_n1.length && array_traducido.every((v,i) => v === array_sol_n1[i])) {
                         eficiente = 2;
@@ -1254,8 +1299,13 @@ function ejecutarCodigo() {
                 } else eficiente = 1;
                 break;
             case 11:
-                break;     
+                if (array_traducido.length == array_sol_n11.length && array_traducido.every((v,i) => v === array_sol_n11[i])) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;    
+ 
             default:
+                /* do nothing */
                 break; 
         }
     } else if (idioma == "ingles") {
@@ -1290,7 +1340,11 @@ function ejecutarCodigo() {
                 } else eficiente = 1;
                 break;
             case 11:
-                break;     
+                if (array_traducido.length == array_sol_n11_eng.length && array_traducido.every((v,i) => v === array_sol_n11_eng[i])) {
+                    eficiente = 2;
+                } else eficiente = 1;
+                break;
+
             default:
                 break; 
         }
@@ -1300,13 +1354,18 @@ function ejecutarCodigo() {
 
     array_traducido.reverse();
     console.log(array_traducido);
-    var terminado = crearSecuencia(array_traducido).then(() => {
-        /* PONER FALSE SOBRE LOS TESTCASES RESTANTES */
-    })
+    var terminado = crearSecuencia(array_traducido);
     btn.disabled = true;
 }
 
-// Mueve el robot horizontalmente, habrá que juntar esto con el de subir...
+// Función para mover al robot un número de casillas indicado por parámetro. Funciona tanto horizontalmente como verticalmente.
+/**
+ * @param {Número de casillas a avanzar por el robot} npasos 
+ * @returns Promise resolve()/reject()
+ *          resolve() -> true: termina la ejecución de avanza de manera natural (sin pararlo)
+ *                       false: termina la ejecución de avanza por colisión con pinchos o caída al vacío.
+ *                       2: termina la ejecución de avanza por finalizar el nivel.
+ */
 function avanza(npasos) {
     return new Promise(function(resolve, reject) {
         var img_final = document.getElementById('final');
@@ -1322,6 +1381,7 @@ function avanza(npasos) {
         var y = img_player.offsetTop;
         var maxPos_top = 5;
         var minPos_top = 305;
+        var limite = false;
     
         clearInterval(id);
 
@@ -1351,15 +1411,19 @@ function avanza(npasos) {
                             if (array_oraculos.includes(array_idioma[83])) {
                                 var indice = array_oraculos.indexOf(array_idioma[83]);
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                                array_oraculos.splice(indice, 1);
+                                casos_prueba.splice(indice, 1);
                             }
                             resolve(true);
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
-                            texto_salida.value = array_idioma[19];
+                            texto_salida.value += '\n' + array_idioma[19];
                             if (array_oraculos.includes(array_idioma[84])) {
                                 var indice = array_oraculos.indexOf(array_idioma[84]);
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                                array_oraculos.splice(indice, 1);
+                                casos_prueba.splice(indice, 1);
                             }
                             resolve(false);
                             clearInterval(id); 
@@ -1373,12 +1437,18 @@ function avanza(npasos) {
                 clearInterval(id);
             }
             if (x == maxPos_left) {
-                if (img_player.offsetTop != 180) {
-                    texto_salida.value = array_idioma[20];
-                    actual_output_value = array_idioma[20];
+                if (img_player.offsetTop != 180) {  // el robot se ha caído al vacío
+                    texto_salida.value += '\n' + array_idioma[20];
                     img_player.src = "suelo_negro.png";
+                    if (array_oraculos.includes(array_idioma[86])) {
+                        var indice = array_oraculos.indexOf(array_idioma[86]);
+                        texto_salida.value += '\n' + casos_prueba[indice] + ' FALSE';
+                        array_oraculos.splice(indice, 1);
+                        casos_prueba.splice(indice, 1);
+                    }
                     resolve(false);
-                } else {
+                    clearInterval(id);
+                } else {  // NIVEL COMPLETADO
                     if (eficiente == 0) {  // nivel aleatorio, no se puede comprobar la eficiencia
                         texto_salida.value = array_idioma[21];
                     } else if (eficiente == 2) {  // solución eficiente
@@ -1407,23 +1477,41 @@ function avanza(npasos) {
                             if (array_oraculos.includes(array_idioma[83])) {  // si hay un caso de prueba no_avanza, mostrar TRUE.
                                 var indice = array_oraculos.indexOf(array_idioma[83]);
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                                array_oraculos.splice(indice, 1);
+                                casos_prueba.splice(indice, 1);
                             }
                             resolve(true);
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
-                            texto_salida.value = array_idioma[19];
+                            texto_salida.value += '\n' + array_idioma[19];
                             if (array_oraculos.includes(array_idioma[84])) {
                                 var indice = array_oraculos.indexOf(array_idioma[84]);
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                                array_oraculos.splice(indice, 1);
+                                casos_prueba.splice(indice, 1);
                             }
                             resolve(false);
                             clearInterval(id);
                             break;
                         default:
                             break;  
-                    }
+                    }  
                 })
+                if (y <= maxPos_top || y >= minPos_top) {
+                    if (!limite) {
+                        limite = true;
+                    } else {
+                        if (array_oraculos.includes(array_idioma[85])) {
+                            var indice = array_oraculos.indexOf(array_idioma[85]);
+                            texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
+                            array_oraculos.splice(indice, 1);
+                            casos_prueba.splice(indice, 1);
+                            resolve(true);
+                            clearInterval(id);
+                        } 
+                    }
+                }
             } else {
                 resolve(true);
                 clearInterval(id);
@@ -1433,7 +1521,13 @@ function avanza(npasos) {
 }
 
 
-// Gira la imagen de robot ngiros (si ngiros es > 0 -> sentido contrario agujas del reloj, si ngiros < 0 -> sentido agujas del reloj).
+// Función que provoca que el robot gire mediante cambios de imagen.
+/**
+ * @param {Número de giros que va a dar el robot} ngiros 
+ *        Si ngiros > 0, el robot gira en sentido contrario a las agujas del reloj.
+ *        Si ngrios < 0, el robot gira en sentido de las agujas del reloj.
+ * @returns Promise resolve()/reject()
+ */
 function gira(ngiros) {
 
     return new Promise(function(resolve,reject) {
@@ -1548,14 +1642,23 @@ function gira(ngiros) {
 }
 
 // Función que hace una comparación exacta con una regular expresion.
-// Parámetros: r -> Regular expresion; str -> Cadena a comparar.
+/**
+ * @param {Expresión regular} r 
+ * @param {Cadena a comparar con la expresión regular r} str 
+ * @returns true si str hace un match exacto con r // false en los demás casos
+ */
+
 function matchExact(r, str) {
     var match = str.match(r);
     return match && str === match[0];
 }
 
 // Función para añadir las instrucciones del array bucle multiplicadas n veces al array de instrucciones cuando hay un repite(x).
-// Parámetros: array -> array con las instrucciones dentro de repite(x); nrepeticiones -> array de 1 posición con el número de veces que hay que multiplicar el array.
+/**
+ * @param {Array con las instrucciones dentro de la estructura repite(x)} array 
+ * @param {array de longitud 1 que contiene el número de veces que hay que multiplicar el array.} nrepeticiones 
+ * @returns Promise resolve()/reject()
+ */
 function crearArrayBucle(array, nrepeticiones) {
     return new Promise(function(resolve, reject) {
         if (array.length == 0) {
@@ -1573,7 +1676,12 @@ function crearArrayBucle(array, nrepeticiones) {
     })
 }
 
-// DOCUMENTAR FUNCIÓN
+// Función que analiza el array de instrucciones dentro de un condicional.
+/**
+ * @param {Aray con las instrucciones dentro del condicional} array 
+ * @param {Orientación del robot que condiciona la ejecución de las instrucciones} condicion 
+ * @returns Promise resolve()/reject()
+ */
 function crearArrayCondicional(array, condicion) {
     return new Promise(function(resolve, reject) {
         var inst_norte = "robot_lateral.gif";
@@ -1633,12 +1741,21 @@ function crearArrayCondicional(array, condicion) {
     })
 }
 
-// DOCUMENTAR FUNCIÓN
+// Función que analiza un array para crear los casos de prueba en caso de encontrarse un testcase.
+/**
+ * @param {Array que contiene el identificador y las instrucciones de un testcase} array 
+ * @param {Oráculo del testcase} oraculo 
+ * @returns Promise resolve()/reject()
+ */
 function crearTestCase(array, oraculo) {
     return new Promise(function(resolve,reject) {
         var texto_salida = document.getElementById('output');
         if (oraculo == "") {
-            texto_salida.value = array_idioma[80];
+            if (error_inst) {
+                /* no printear error */
+            } else {
+                texto_salida.value = array_idioma[80];
+            }
             resolve(false);
         }
 
@@ -1658,7 +1775,11 @@ function crearTestCase(array, oraculo) {
     })
 }
 
-// DOCUMENTAR FUNCIÓN
+// Función que valida cada línea de código del panel de código.
+/**
+ * @param {Array que contiene cada línea del panel de código} array 
+ * @returns Promise resolve()/reject()
+ */
 async function comprobarArray(array) {
     return new Promise(function(resolve,reject) {
         var texto_salida = document.getElementById('output');
@@ -1666,7 +1787,6 @@ async function comprobarArray(array) {
         var es_bucle = false;
         var es_condicional = false;
         var repeticiones = 0;
-        var otro_condicional = false;
         var condicion = "";
         var es_tc = false;
 
@@ -1691,6 +1811,7 @@ async function comprobarArray(array) {
                     var concuerda_si_este_ident = matchExact(array_idioma[47], instruccion);
                     var concuerda_si_oeste_ident = matchExact(array_idioma[48], instruccion);
                     var concuerda_testcase = matchExact(array_idioma[73], instruccion);
+                    var concuerda_testcase_ident = matchExact(array_idioma[98], instruccion);
                     var concuerda_assert_noav = matchExact(array_idioma[74], instruccion);
                     var concuerda_assert_nopi = matchExact(array_idioma[75], instruccion);
                     var concuerda_assert_choca = matchExact(array_idioma[76], instruccion);
@@ -1778,13 +1899,17 @@ async function comprobarArray(array) {
                     } else if (es_tc) {
                         // instrucciones dentro de un testcase
                         if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones no identadas. ERROR
-                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE, LAS INSTRUCCIONES DEBEN IR IDENTADAS."
+                            texto_salida.value = array_idioma[87];
+                            resolve(false);
                         } else if (concuerda_repite || concuerda_repite_ident) {  // bucles no soportados en testcases. ERROR
-                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER BUCLES";
+                            texto_salida.value = array_idioma[88];
+                            resolve(false);
                         } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste || concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // condicionales no soportados
-                            texto_salida.value = "CREAR ERROR: EN UN TESTCASE NO PUEDEN HABER CONDICIONALES.";
-                        } else if (concuerda_testcase) {  // testcase sin cerrar el actual. ERROR.
-                            texto_salida.value = "CREAR ERROR: NO SE PUEDEN COMBINAR TESTCASES. ACABA ESTE Y LUEGO INICIAS OTRO.";
+                            texto_salida.value = array_idioma[89];
+                            resolve(false);
+                        } else if (concuerda_testcase || concuerda_testcase_ident) {  // testcase sin cerrar el actual. ERROR.
+                            texto_salida.value = array_idioma[90];
+                            resolve(false);
                         } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
                             instruccion = instruccion.substring(2);
                             array_tcases.push(instruccion);
@@ -1851,9 +1976,11 @@ async function comprobarArray(array) {
 }
 
 
-/* Función para dar información del error que hay en el código respecto a lo que ha introducido el usuario.
- * instruccion_actual -> Línea del panel de código que provocó el error.
-*/
+// Función para dar información del error que hay en el código respecto a lo que ha introducido el usuario.
+/**
+ * @param {String con la línea de código que causó el error} instruccion_actual 
+ * @returns True para indicar la finalización del análisis del error.
+ */
 function depurarError(instruccion_actual) {
 
     var error_parentesis1_av = instruccion_actual.match(array_idioma[53]);
@@ -1869,16 +1996,25 @@ function depurarError(instruccion_actual) {
     var error_parametro_general = instruccion_actual.match(array_idioma[70]);
     var error_instruccion_nostruct_pos = instruccion_actual.match(array_idioma[63]);
     var error_instruccion_nostruct_neg = instruccion_actual.match(array_idioma[69]);
+    var error_instruccion_nostruct_str = instruccion_actual.match(array_idioma[100]);
     var error_instruccion_struct_num = instruccion_actual.match(array_idioma[64]);
     var error_instruccion_struct_str = instruccion_actual.match(array_idioma[65]);
     var error_repite_puntos = matchExact(array_idioma[66], instruccion_actual);
     var error_si_puntos = matchExact(array_idioma[67], instruccion_actual);
     var error_condicion = matchExact(array_idioma[68], instruccion_actual);
+    var error_assert_noident_1 = instruccion_actual.match(array_idioma[91]);
+    var error_assert_noident_2 = instruccion_actual.match(array_idioma[92]);
+    var error_assert_noident_3 = instruccion_actual.match(array_idioma[93]);
+    var error_assert_noident_4 = instruccion_actual.match(array_idioma[94]);
+    var error_oraculo = instruccion_actual.match(array_idioma[96]);
+    var error_tc_puntos = matchExact(array_idioma[99], instruccion_actual);
     var texto_salida = document.getElementById('output');
 
     if (error_inst) {
         return true;
     }
+
+    console.log(instruccion_actual);
 
     if (error_parentesis1_av != null || error_parentesis2_av != null || error_parentesis1_gi != null || error_parentesis2_gi != null || error_parentesis3_gi != null || error_parentesis4_gi != null) { // error paréntesis
         texto_salida.value = array_idioma[25];
@@ -1886,11 +2022,12 @@ function depurarError(instruccion_actual) {
     } else if (error_parametro_av != null || error_parametro_gira != null || error_parametro_repite != null || error_parametro_si != null) { // parámetro no encontrado
         texto_salida.value = array_idioma[26];
         error_inst = true;
-    } else if (error_instruccion_nostruct_pos != null || error_instruccion_nostruct_neg != null || error_parametro_general != null) { // instruccion no existente
-        texto_salida.value = array_idioma[23] + "" + instruccion_actual + array_idioma[24];
-        error_inst = true;
-    } else if (error_repite_puntos || error_si_puntos) { // caracter : no usado en estructuras repite, condicional y testcase
-        texto_salida.value = array_idioma[27];
+    } else if (error_instruccion_nostruct_pos != null || error_instruccion_nostruct_neg != null || error_parametro_general != null || error_instruccion_nostruct_str != null || error_tc_puntos) { // instruccion no existente
+        if (error_repite_puntos || error_si_puntos || error_tc_puntos) {  // caracter : no usado en estructuras repite, condicional y testcase
+            texto_salida.value = array_idioma[27];
+        } else {
+            texto_salida.value = array_idioma[23] + "" + instruccion_actual + array_idioma[24];
+        }
         error_inst = true;
     } else if (error_condicion) {  // no existe la condición
         texto_salida.value = array_idioma[71];
@@ -1898,14 +2035,28 @@ function depurarError(instruccion_actual) {
     } else if (error_instruccion_struct_num != null || error_instruccion_struct_str != null) {  // estructura errónea
         texto_salida.value = array_idioma[72];
         error_inst = true;
+    } else if (error_assert_noident_1 != null || error_assert_noident_2 != null || error_assert_noident_3 != null || error_assert_noident_4 != null)  {  // assert no identada
+        texto_salida.value = array_idioma[95];
+        error_inst = true;
+    } else if (error_oraculo != null) { // oráculo en el assert no válido
+        texto_salida.value = array_idioma[97];
+        error_inst = true;
     }
 
     return true;
 }
 
 
-// pos_actual: posición del robot.
-// direccion = 1 -> comprobar colisión horizontal; dirección = 2 -> comprobar colisión vertical
+// Función que detecta colisiones del robot con obstáculos.
+/**
+ * @param {Coordenada actual del robot en el tablero} pos_actual 
+ * @param {Número que indica el eje donde se está moviendo actualmente el robot} direccion 
+ *        direccion == 1: el robot se está moviendo en el eje x
+ *        direccion == 2: el robot se está moviendo en el eje y
+ * @returns Promise resolve()/reject()
+ *              resolve() -> 1: colisión con obstáculo sencillo
+ *                           2: colisión con obstáculo de pinchos
+ */
 function hayColision(pos_actual, direccion) {
     return new Promise(function(resolve, reject) {
         var img_player = document.getElementById('robot');
@@ -1968,6 +2119,9 @@ async function asyncForEach(array, callback) {
 }
 
 // Función para vaciar el nivel de obstáculos y resetear al robot, llamada al cargar cada nivel.
+/**
+ * @returns true si el nivel está limpiado completamente // false si todavía faltan obstáculos por limpiar
+ */
 function limpiar_nivel() {
         var id = null;
         var escenario = document.getElementById('escenario');
