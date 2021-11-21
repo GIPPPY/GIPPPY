@@ -21,26 +21,26 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 "''' NIVEL 6" + '\n' + 'Ten cuidado con este nivel, con solo un movimiento erróneo puedes acabar dentro de un callejón sin salida!!' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)',
 "''' NIVEL 7" + '\n' + 'En este nivel se introducen las repeticiones de movimientos (bucles). Para evitar escribir mucho texto, se pueden crear repeticiones.' + '\n' 
 + 'Prueba a ejectuar el código que te ofrecemos, y observa con detenimiento los espacios que se dejan antes de las instrucciones dentro de la repetición.' + '\n' + 
-"Ojo: Si no dejas 2 espacios ESTRICTAMENTE, no se va a repetir lo que pongas debajo del repite(x):" + '\n' + "'''" + '\n' + '\n' + 'repite(4):' + '\n' 
+"OJO: Si no dejas 2 espacios ESTRICTAMENTE, no se va a repetir lo que pongas debajo del repite(x):" + '\n' + "'''" + '\n' + '\n' + 'repite(4):' + '\n' 
 + "  avanza(2)" + '\n' + "  gira(1)",
 "''' NIVEL 8" + '\n' + 'Este nivel es completamente aleatorio, y hay solo un espacio por el que se puede pasar, así que ve con mucho cuidado para superar este nivel.' +
 '\n' + 'Es recomendable intentar superar este nivel más de una vez para probar las diferentes soluciones posibles.' + '\n' + "'''" + '\n' + '\n' + 'avanza(6)' + '\n' + 'gira(-1)',
 "''' NIVEL 9" + '\n' + "El juego ya está complicándose bastante. Este nivel es aleatorio también, pero vamos a introducir una nueva estructura: CONDICIONALES." +
 '\n' + 'Los condicionales se basan en la certeza de una condición para ejecutar ciertas instrucciones. En caso de no cumplirse la condición, no se van a ejecutar. '  + '\n' +
-'PISTA: Las condiciones que el robot entiende dependen de su orientación en el tablero: robot_sur -> robot orientado hacia el sur del TABLERO; robot_este -> robot orientado hacia el este del TABLERO, robot_norte y robot_oeste.'  
-+ '\n' + '\n' + 'IMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):' + '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 
-'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
+'PISTA: Las condiciones que el robot entiende dependen de su orientación en el tablero: robot_sur, robot_este, robot_norte y robot_oeste. Para ayudarte más, el robot ahora mismo mira hacia el Norte, y los botones de '  
++ 'Reducir Nivel y Aumentar Nivel se encuentran al Este del robot. Con esto, ya debes de poder usar los condicionales!!' + '\n' + '\n' + 'IMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):' 
++ '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
 "''' NIVEL 10" + '\n' + 'Nos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.' + '\n' + 'El nivel 10 no aporta nada nuevo, pero es el nivel más difícil de superar!!' 
-+ '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la platorma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 
-'avanza(9)',
++ '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la platorma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 'avanza(9)',
 "''' NIVEL 11" + '\n' + 'En este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa ' +
-'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado.' + '\n' +  
+'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado. El formato del identificador tiene que ' + 
+'ser testcase y un número sin espacios (tal y como se ve abajo).' + '\n' +  
 'Luego hay que introducir una serie de instrucciones que van a modificar el estado del programa. Por último, escribir el oráculo, que es el estado que queremos comprobar tras la ejecución de las instrucciones.' + '\n' +
 'ORÁCULO: La instrucción afirma(estado) es la que fija el oráculo. Los estados posibles son no_avanza (verificar que el robot ha colisionado con un obstáculo liso), pincha (verificar que el robot ha colisionado con un obstáculo de pinchos), ' +
-'choca(verificar que el robot ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío)' + '\n' + "'''" + '\n' + '\n' + 'testcase1:  #Esto es el identificador' + '\n' + '  avanza(4)  #Esta es la secuencia de instrucciones'
+'choca(verificar que el robot ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío).' + '\n' + "'''" + '\n' + '\n' + 'testcase1:  #Esto es el identificador' + '\n' + '  avanza(4)  #Esta es la secuencia de instrucciones'
 + '\n' + '  afirma(pincha)  #Esto es el Oráculo',
 "''' NIVEL 12" + '\n' + 'Con este nivel se termina el juego. Es el nivel más difícil de solucionar, por lo que superar este nivel es pasarse el juego.' + '\n' + 'Prueba a hacer algunos casos de prueba antes de solucionar el nivel!' + '\n' + "'''"
-+ '\n' + '\n' + 'testcase1:' + '\n' + '  gira(-1)' + '\n' + '  avanza(3)' + '\n' + '  afirma(no_pincha)',
++ '\n' + '\n' + 'testcase1:' + '\n' + '  gira(-1)' + '\n' + '  avanza(3)' + '\n' + '  afirma(pincha)',
 " ** Programa traducido correctamente **",
 "Error, falta ''' para cerrar el comentario!!",
 "CUIDADO!! El robot se ha chocado con los pinchos...",
@@ -52,8 +52,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 "ERROR con los paréntesis, la estructura es: instrucción(parámetro)." + "\n"
 + "Por ejemplo: avanza(5)",
 "ERROR. No has puesto parámetro de entrada.",
-"ERROR. La instrucción REPITE(x) tiene que acabar con el carácter ':'" + "\n" 
-+ "Por ejemplo: repite(6):",
+"ERROR. Las estructuras tienen que acabar con el carácter ':'" + "\n" + "Por ejemplo: repite(6):",
 'ERROR. No se puede iniciar un bucle con repite(x) dentro de un condicional.',
 'ERROR. No se puede iniciar un condicional dentro de otro condicional.' + '\n' + 'Para crear más condiciones, hazlo en otra línea.',
 "ERROR. No se pueden crear condiciones dentro de un repite(x).",
@@ -64,7 +63,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 /  repite\(\d+\):/, /  avanza\(\d+\)/, /  gira\(\d+\)/, /  gira\(-\d+\)/, /  si\(robot_sur\):/, /  si\(robot_norte\):/, /  si\(robot_este\):/, /  si\(robot_oeste\):/,
 "robot_norte", "robot_sur", "robot_este", "robot_oeste",
 //POSICIÓN 53 REGEX ERRORES
-/avanza\d+\)/g, /avanza\(\d+/g, /gira\d+\)/g, /gira\(d+/g, /gira-\d+\)/g, /gira\(-\d+/g, /avanza\(\)/, /gira\(\)/, /repite\(\):/, /si\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
+/avanza\d+\)/g, /avanza\(\d+/g, /gira\d+\)/g, /gira\(\d+/g, /gira-\d+\)/g, /gira\(-\d+/g, /avanza\(\)/, /gira\(\)/, /repite\(\):/, /si\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
 /repite\(\d+\)/, /si\(\w+\)/, /si\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
 //POSICIÓN 71
 "Condición NO existente..." + '\n' + "Condiciones: robot_norte, robot_sur, robot_este, robot_oeste", "ERROR. Estructura errónea.",
@@ -75,7 +74,18 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 //POSICIÓN 80   
 "ERROR. Los testcases tienen que acabar con la instrucción afirma(estado).",
 "ERROR. El identificador ", " ya existe.",
-"  afirma(no_avanza)", "  afirma(pincha)", "  afirma(choca)", "  afirma(no_cae)"
+"  afirma(no_avanza)", "  afirma(pincha)", "  afirma(choca)", "  afirma(no_cae)",
+//POSICIÓN 87
+"ERROR. Las instrucciones dentro de la estructura testcase deben respetar la identación de Python.",
+"ERROR. No puede haber bucles dentro de una estructura testcase!!",
+"ERROR. No puede haber condicionales dentro de una estructura testcase!!",
+"ERROR. No se pueden combinar testcases!! Acaba este y luego inicia otro.",
+//POSICIÓN 91
+/afirma\(no_avanza\)/, /afirma\(pincha\)/, /afirma\(choca\)/, /afirma\(no_cae\)/,
+"ERROR. La instrucción afirma() tiene que respetar la identación de Python!!",
+/  afirma\(\w+\)/, "ERROR. Oráculo no existente. Oráculos disponibles: no_avanza, pincha, choca, no_cae", /  testcase\d+\:/,
+// POSICIÓN 99
+/testcase\d+/, /\si\(\w+\)/ 
 ];
 
 const array_eng = ["Easy game to introduce programming in Python",
@@ -103,13 +113,14 @@ const array_eng = ["Easy game to introduce programming in Python",
 '\n' + 'It is good to try to complete this level more than once to try some possible different solutions.' + '\n' + "'''" + '\n' + '\n' + 'forward(6)' + '\n' + 'turn(-1)',
 "''' LEVEL 9" + '\n' + "Game is already getting difficult. This level is random, but we are introducing a new structure: CONDITIONALS." +
 '\n' + 'Conditionals are based on the certainty of a condition to execute some instructions . If condition is not accomplished, instructions are not executed. '  + '\n' +
-"CLUE: The conditions understood by the robot are depending on its orientation on the game: south_robot -> robot is south facing (SCENARIO is the reference) ; east_robot -> robot is east facing (SCENARIO is the reference)," +
-" north_robot and south_robot."  + '\n' + '\n' + 'IMPORTANT: Take care about the spaces, conditionals work as repeat(x) structure.' + '\n' + "'''" + '\n' + '\n' + 'if(north_robot):' + '\n' + '  forward(1)' + '\n' + '  turn(-1)' + '\n' + 
-'if(west_robot):' + '\n' + '  turn(1)' + '\n' + '  forward(2)' + '\n' + '  turn(-1)',
+"CLUE: The conditions understood by the robot are depending on its orientation on the game: south_robot, east_robot, north_robot and west_robot." + " To help you, robot is right now oriented to the North, "
++ 'and buttons Reduce Level and Increase Level are placed on the East. Now that you know this, you can use conditionals!!' + '\n' + '\n' + 'IMPORTANT: Take care about the spaces, conditionals work as repeat(x) structure.'
+ + '\n' + "'''" + '\n' + '\n' + 'if(north_robot):' + '\n' + '  forward(1)' + '\n' + '  turn(-1)' + '\n' + 'if(west_robot):' + '\n' + '  turn(1)' + '\n' + '  forward(2)' + '\n' + '  turn(-1)',
 "''' LEVEL 10" + '\n' + 'We are almost on the end of the game. As you will see, level 11 and 12 are designed to show the last programming concept.' + '\n' + 'Level 10 has nothing new, but facing this level will be really difficult!!' 
 + '\n' + 'This level is full random excepting the last obstacles row, that cant be random because it might create an impossible level.' + '\n' + "'''" + '\n' + '\n' + 'forward(9)',
 "''' LEVEL 11" + '\n' + 'In this level 11, almost ending the game, code testing is introduced. Testing is a very useful way to validate code by creating test cases ' +
-', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can check later the result.' + '\n' +  
+', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can check later the result. ' +
+"Identifier format must be testcase and a number without blank spaces (as done below in the example)." + '\n' +  
 'Then we must write the instructions that will modify the program state. Last, we need the oracle, that is the state that we want to check after executing those instructions.' + '\n' +
 'ORACLE: Oracle is defined by instruction assert(state). The possible states are not_forwards (robot collided with a normal obstacle), pricks (robot collided with a spiked obstacle), ' +
 'collides(robot has reached the outside limits from scenario) and not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
@@ -127,7 +138,7 @@ const array_eng = ["Easy game to introduce programming in Python",
 "ERROR in parenthesis, the correct way is: instruction(parameter)." + "\n"
 + "For example: forward(5)",
 "ERROR. You haven't written any input parameter.",
-"ERROR. Instruction REPITE(x) must end with character ':'" + "\n" 
+"ERROR. Structures must end with character ':'" + "\n" 
 + "For example: repeat(6):",
 "ERROR. Loops with repeat(x) can't be created inside conditional structures.",
 "ERROR. Conditional structures can't be created inside other conditionals." + '\n' + 'To create other conditions, write them in new lines.',
@@ -139,7 +150,7 @@ const array_eng = ["Easy game to introduce programming in Python",
 /  repeat\(\d+\):/, /  forward\(\d+\)/, /  turn\(\d+\)/, /  turn\(-\d+\)/, /  if\(south_robot\):/, /  if\(north_robot\):/, /  if\(east_robot\):/, /  if\(west_robot\):/,
 "north_robot", "south_robot", "east_robot", "west_robot",
 //POSICIÓN 53 REGEX ERRORES
-/forward\d+\)/g, /forward\(\d+/g, /turn\d+\)/g, /turn\(d+/g, /turn-\d+\)/g, /turn\(-\d+/g, /forward\(\)/, /turn\(\)/, /repeat\(\):/, /if\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
+/forward\d+\)/g, /forward\(\d+/g, /turn\d+\)/g, /turn\(\d+/g, /turn-\d+\)/g, /turn\(-\d+/g, /forward\(\)/, /turn\(\)/, /repeat\(\):/, /if\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
 /repeat\(\d+\)/, /if\(\w+\)/, /if\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
 //POSICIÓN 71
 "Condition NOT found..." + '\n' + "Available conditions: north_robot, south_robot, east_robot, west_robot", "ERROR. Wrong structure.",
@@ -149,5 +160,16 @@ const array_eng = ["Easy game to introduce programming in Python",
 //POSICIÓN 80
 "ERROR. Testcases must finish with the instruction assert(state).",
 "ERROR. Testcase identifier ", " already exists.",
-"  assert(not_forwards)", "  assert(pricks)", "  assert(collides)", "  assert(not_falls)"
+"  assert(not_forwards)", "  assert(pricks)", "  assert(collides)", "  assert(not_falls)",
+//POSICIÓN 87
+"ERROR. Inside a testcase structure, instructions must respect Python identation!!",
+"ERROR. Loops are not allowed inside a testcase structure!!",
+"ERROR. Conditionals are not allowed inside a testcase structure!!",
+"ERROR. You can't combine testcases!! First, close this one, and then create another.",
+//POSICIÓN 91
+/assert\(not_forwards\)/, /assert\(pricks\)/, /assert\(collides\)/, /assert\(not_falls\)/,
+"ERROR. Instruction assert() must respect Python identation!!",
+/  assert\(\w+\)/, "ERROR. Oracle NOT found. Available oracles: not_forwards, pricks, collides, not_falls", /  testcase\d+\:/,
+// POSICIÓN 99
+/testcase\d+/, /if+\(\w+\)/
 ];

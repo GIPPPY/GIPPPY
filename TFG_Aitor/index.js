@@ -21,7 +21,6 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 var nivel_actual = 1;
 const num_niveles = 12;
 var eficiente = 0;
-// REVISAR ERRORES -> A VECES NO SE MUESTRA EL ERROR QUE TOCA.  -> EN CASO DE FALTAR :, NO MUESTRA EL ERROR QUE TOCA.
 var idioma = "";
 var array_obstaculos = new Array;
 var array_instrucciones = new Array;
@@ -1353,7 +1352,6 @@ function ejecutarCodigo() {
     }
 
     array_traducido.reverse();
-    console.log(array_traducido);
     var terminado = crearSecuencia(array_traducido);
     btn.disabled = true;
 }
@@ -2013,8 +2011,6 @@ function depurarError(instruccion_actual) {
     if (error_inst) {
         return true;
     }
-
-    console.log(instruccion_actual);
 
     if (error_parentesis1_av != null || error_parentesis2_av != null || error_parentesis1_gi != null || error_parentesis2_gi != null || error_parentesis3_gi != null || error_parentesis4_gi != null) { // error paréntesis
         texto_salida.value = array_idioma[25];
