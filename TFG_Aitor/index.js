@@ -2006,11 +2006,17 @@ function depurarError(instruccion_actual) {
     var error_assert_noident_4 = instruccion_actual.match(array_idioma[94]);
     var error_oraculo = instruccion_actual.match(array_idioma[96]);
     var error_tc_puntos = matchExact(array_idioma[99], instruccion_actual);
+    var error_av_tipo = instruccion_actual.match(array_idioma[101]);
+    var error_gi_tipo = instruccion_actual.match(array_idioma[102]);
+    var error_re_tipo = instruccion_actual.match(array_idioma[103]);
+    var error_si_tipo = instruccion_actual.match(array_idioma[104]);
+    var error_af_tipo = instruccion_actual.match(array_idioma[105]);
     var texto_salida = document.getElementById('output');
 
     if (error_inst) {
         return true;
     }
+
 
     if (error_parentesis1_av != null || error_parentesis2_av != null || error_parentesis1_gi != null || error_parentesis2_gi != null || error_parentesis3_gi != null || error_parentesis4_gi != null) { // error paréntesis
         texto_salida.value = array_idioma[25];
@@ -2036,6 +2042,9 @@ function depurarError(instruccion_actual) {
         error_inst = true;
     } else if (error_oraculo != null) { // oráculo en el assert no válido
         texto_salida.value = array_idioma[97];
+        error_inst = true;
+    } else if (error_av_tipo != null || error_gi_tipo != null || error_re_tipo != null || error_si_tipo != null || error_af_tipo != null) { // tipo del parámetro erróneo
+        texto_salida.value = array_idioma[106];
         error_inst = true;
     }
 

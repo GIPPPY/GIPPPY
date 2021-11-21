@@ -85,7 +85,9 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 "ERROR. La instrucción afirma() tiene que respetar la identación de Python!!",
 /  afirma\(\w+\)/, "ERROR. Oráculo no existente. Oráculos disponibles: no_avanza, pincha, choca, no_cae", /  testcase\d+\:/,
 // POSICIÓN 99
-/testcase\d+/, /\si\(\w+\)/ 
+/testcase\d+/, /\si\(\w+\)/, /avanza\(\w+\)/, /gira\(\w+\)/, /repite\(\w+\):/, /si\(\d+\):/, /afirma\(\d+\)/,
+// POSICIÓN 106
+"ERROR. El tipo del parámetro es erróneo. Las instrucciones avanza, gira y repite reciben un número; las instrucciones si y afirma reciben cadenas de texto"
 ];
 
 const array_eng = ["Easy game to introduce programming in Python",
@@ -171,5 +173,7 @@ const array_eng = ["Easy game to introduce programming in Python",
 "ERROR. Instruction assert() must respect Python identation!!",
 /  assert\(\w+\)/, "ERROR. Oracle NOT found. Available oracles: not_forwards, pricks, collides, not_falls", /  testcase\d+\:/,
 // POSICIÓN 99
-/testcase\d+/, /if+\(\w+\)/
+/testcase\d+/, /if\(\w+\)/, /forward\(\w+\)/, /turn\(\w+\)/, /repeat\(\w+\):/, /if\(\d+\):/, /assert\(\d+\)/,
+// POSICIÓN 106
+"ERROR. Parameter type is wrong. Forward, turn and repeat need a number; if and assert need a text string"
 ];
