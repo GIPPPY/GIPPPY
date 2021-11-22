@@ -10,8 +10,8 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 + '\n' + '\n' + 'En cada nivel se presentará un reto diferente para aprender las reglas del juego paso a paso. Veremos diferentes obstáculos que se tratan de manera diferente.'
 + '\n' + 'Este primer nivel es el más sencillo, prueba a ejecutar la instrucción...' + '\n' + "'''" + '\n' + '\n' + 'avanza(4)',
 "''' NIVEL 2" + '\n' + 'Ya hemos visto el funcionamiento del juego y de la instrucción avanza(x), donde x es el número de casillas que avanza el robot.' + '\n' +
-'Este segundo nivel ya es un poco más difícil. Ahora necesitamos algo más. Prueba a ejecutar la secuencia que se ve...' + '\n' + '\n' + 'PISTA: El robot gira hacia la izquierda con la instrucción gira(-x). ' +
-'\n' + 'El robot gira hacia la derecha con la instrucción gira(x).' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)' + '\n' + 'gira(-1)',
+'Este segundo nivel ya es un poco más difícil. Ahora necesitamos algo más. Prueba a ejecutar la secuencia que se ve...' + '\n' + '\n' + '- El robot gira en sentido de las agujas del reloj con la instrucción gira(-x). ' 
++ '\n' + '- El robot gira en sentido contrario de las agujas del reloj con la instrucción gira(x). ' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)' + '\n' + 'gira(-1)',
 "''' NIVEL 3" + '\n' + 'Introducimos ahora un nuevo obstáculo con pinchos. Es más pequeño pero más peligroso!!. Ejecuta para ver qué pasa si chocas con él...'
 + '\n' + "'''" + '\n' + '\n' + 'avanza(6)',
 "''' NIVEL 4" + '\n' + 'Este nivel es más complejo porque la primera fila de obstáculos es aleatoria, por lo que la solución del nivel es diferente cada vez.' + '\n' 
@@ -92,47 +92,47 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 
 const array_eng = ["Easy game to introduce programming in Python",
 "Translate to robot", "Execute program", "Reduce Level", "Increase Level",
-"''' LEVEL 1" + '\n' + 'This game has only one objective: Help robot to reach the end of the level' + '\n' + '\n' + 
-'To do it, we must order the robot to make some movements -> This movements are the program instructions, that should be written in this panel'
-+ ' This instructions must be written using Python language, and they will be translated to a languaje "spoken" by the robot so they can be executed.'
-+ '\n' + '\n' + 'In each level, we will face a different challenge to learn game rules step by step. We will face different types of obstacles, each one working in a different way'
-+ '\n' + 'This first level is the easiest one, try to execute the instruction...' + '\n' + "'''" + '\n' + '\n' + 'forward(4)',
-"''' LEVEL 2" + '\n' + 'We have already seen how the game and the instruction forward(x) work, where x is the number of steps the robot moves on x axis.' + '\n' +
-'This second level is a bit more difficult. Now we need something else.  Try to execute the instructions sequence...' + '\n' + '\n' + 'CLUE: Robot turns left with instruction turn(-x). ' 
-+ '\n' + 'Robot turns right with instruction turn(x).' +'\n' + "'''" + '\n' + '\n' + 'forward(5)' + '\n' + 'turn(-1)',
-"''' LEVEL 3" + '\n' + 'Now we introduce a new spiked obstacle . It is smaller but more dangerous!!. Execute the given sequence to see what happens when you collide with it...  '
+"''' LEVEL 1" + '\n' + 'This game has only one objective: Help the robot to reach the end of the level by going through the door.' + '\n' + '\n' + 
+'To do it, we must give the robot instructions to make certain movements. These instructions make up our program and should be written in this panel.'
++ ' The instructions must be written using the language Python, when you click the button -Translate to robot- they will be translated to a language that the robot can understand and execute.'
++ '\n' + '\n' + 'This is the first level of this game. At each level, we will face a different challenge and learn the game rules step by step. We will face different types of obstacles, each one working in a different way'
++ '\n' + 'This first level is the easiest one, try to execute the instruction below...' + '\n' + "'''" + '\n' + '\n' + 'forward(4)',
+"''' LEVEL 2" + '\n' + 'We have already seen how the game and the instruction forward(x) work. When calling forward(x), x is the number of steps the robot moves on x axis.' + '\n' +
+'This second level is a bit more difficult. We will add an instruction to turn the robot around.' + '\n' + '\n' + '- Robot turns clockwise with instruction turn(-x). ' 
++ '\n' + '- Robot turns counter clockwise with instruction turn(x).' +'\n' + 'Try to execute the instructions sequence...\n'  + "'''" + '\n' + '\n' + 'forward(5)' + '\n' + 'turn(-1)',
+"''' LEVEL 3" + '\n' + 'In this level we introduce a new spiked obstacle. It is smaller but more dangerous!!. Execute the given sequence to see what happens when you collide with it...  After that, solve the challenge. '
 + '\n' + "'''" + '\n' + '\n' + 'forward(6)',
-"''' LEVEL 4" + '\n' + 'This level is even more difficult because the first obstacles row is random, so the solution for this level is different each time you play this level.' + '\n' 
+"''' LEVEL 4" + '\n' + 'This level is even more difficult because the first obstacles row is placed in random order, so the solution for this level is different each time you play this level.' + '\n'  + 'Nevertheless you have to find a solution that works with all possible placements of the obstacles.\n' 
 + "'''" + '\n' + '\n' + 'turn(-1)' + '\n' + 'forward(2)' + '\n' + 'turn(1)',
-"''' LEVEL 5" + '\n' + 'Level 5 is a modification of level 4. There is one random obstacle that changes its position. Stay alert and you will success!!' + '\n' + "'''" + '\n' +
+"''' LEVEL 5" + '\n' + 'Level 5 is a modification of level 4. There is one random obstacle that changes its position. Stay alert and you will succeed!!' + '\n' + "'''" + '\n' +
 '\n' + 'forward(5)',
-"''' LEVEL 6" + '\n' + "Care with this level, by only executing one wrong movement you may find yourself in a dead end!!" + '\n' + "'''" + '\n' + '\n' + 'forward(5)',
-"''' LEVEL 7" + '\n' + 'In this level we are introducing the movement repetitions (loops). To avoid writting too much text, repetitions are used.' + '\n' 
-+ 'Try to execute the given code, and take a look on the spaces before the instructions that are inside repeat(x) structure.' + '\n' + 
-"IMPORTANT: If you forget leaving STRICTLY 2 spaces for instructions inside repeat(x):, they will not be repeated." + '\n' + "'''" + '\n' + '\n' + 'repeat(4):' + '\n' 
+"''' LEVEL 6" + '\n' + "Take care with this level, by executing only one wrong movement you may find yourself in a dead end!!" + '\n' + "'''" + '\n' + '\n' + 'forward(5)',
+"''' LEVEL 7" + '\n' + 'In this level we are introducing loops. Repetitions are usefull when we need to repeat the same instruction several times. A loop is a control structure which allows a block of instructions, the loop body, to be executed repeatedly in succession.' + '\n' 
++ 'Try to execute the given code, be aware of the spaces (identation) before the instructions that are in the loop body.' + '\n' + 
+"IMPORTANT: If you forget to put EXACTLY 2 spaces in from of the instructions, they are not part of the loop body and hence they will not be repeated." + '\n' + "'''" + '\n' + '\n' + 'repeat(4):' + '\n' 
 + "  forward(2)" + '\n' + "  turn(1)",
-"''' LEVEL 8" + '\n' + 'This level is all random, and there is only one gap where the robot can go forward, so think and be careful to success on level 8.' +
+"''' LEVEL 8" + '\n' + 'In this level the placement of all obstancles is completely random, and there is only one gap  in the obstacle-rows where the robot can go forward, so think and be careful to success on level 8.' +
 '\n' + 'It is good to try to complete this level more than once to try some possible different solutions.' + '\n' + "'''" + '\n' + '\n' + 'forward(6)' + '\n' + 'turn(-1)',
-"''' LEVEL 9" + '\n' + "Game is already getting difficult. This level is random, but we are introducing a new structure: CONDITIONALS." +
-'\n' + 'Conditionals are based on the certainty of a condition to execute some instructions . If condition is not accomplished, instructions are not executed. '  + '\n' +
-"CLUE: The conditions understood by the robot are depending on its orientation on the game: south_robot, east_robot, north_robot and west_robot." + " To help you, robot is right now oriented to the North, "
-+ 'and buttons Reduce Level and Increase Level are placed on the East. Now that you know this, you can use conditionals!!' + '\n' + '\n' + 'IMPORTANT: Take care about the spaces, conditionals work as repeat(x) structure.'
+"''' LEVEL 9" + '\n' + "The game is already getting more difficult. This level also has random obstacles. Moreover, we are introducing a new control structure: CONDITIONALS." +
+'\n' + 'Conditionals are based on a condition whose value decides whether or not to execute some instructions. If the condition is not true, instructions are not executed. '  + '\n' +
+"CLUE: The conditions understood by the robot are depending on its orientation on the game: south_robot, east_robot, north_robot and west_robot." + " To help you, the robot in its starting position is oriented to the North, "
++ 'and the buttons -Reduce Level- and -Increase Level- are placed on the East. Now that you know this, you can use conditionals!!' + '\n' + '\n' + 'IMPORTANT: Take care about the identation, conditionals work only with the right identation of 2 spaces as the repeat(x) structure.'
  + '\n' + "'''" + '\n' + '\n' + 'if(north_robot):' + '\n' + '  forward(1)' + '\n' + '  turn(-1)' + '\n' + 'if(west_robot):' + '\n' + '  turn(1)' + '\n' + '  forward(2)' + '\n' + '  turn(-1)',
-"''' LEVEL 10" + '\n' + 'We are almost on the end of the game. As you will see, level 11 and 12 are designed to show the last programming concept.' + '\n' + 'Level 10 has nothing new, but facing this level will be really difficult!!' 
-+ '\n' + 'This level is full random excepting the last obstacles row, that cant be random because it might create an impossible level.' + '\n' + "'''" + '\n' + '\n' + 'forward(9)',
-"''' LEVEL 11" + '\n' + 'In this level 11, almost ending the game, code testing is introduced. Testing is a very useful way to validate code by creating test cases ' +
-', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can check later the result. ' +
-"Identifier format must be testcase and a number without blank spaces (as done below in the example)." + '\n' +  
-'Then we must write the instructions that will modify the program state. Last, we need the oracle, that is the state that we want to check after executing those instructions.' + '\n' +
-'ORACLE: Oracle is defined by instruction assert(state). The possible states are not_forwards (robot collided with a normal obstacle), pricks (robot collided with a spiked obstacle), ' +
-'collides(robot has reached the outside limits from scenario) and not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
-+ '\n' + '  assert(pricks)  #This is the Oracle',
-"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this game literally means passing the game.' + '\n' + 'Try to make some testcases before finding the solution!' + '\n' + "'''"
-+ '\n' + '\n' + 'testcase1:' + '\n' + '  turn(-1)' + '\n' + '  forward(3)' + '\n' + '  assert(pricks)',
+"''' LEVEL 10" + '\n' + 'We are almost at the end of the game. As you will see, level 11 and 12 are designed to show the last programming concepts.' + '\n' + 'Level 10 has nothing new, but solving this level will be really difficult!!' 
++ '\n' + 'This level is full of randomly places obstacles except for the last obstacles row, that cannot be random because it might create an impossible level.' + '\n' + "'''" + '\n' + '\n' + 'forward(9)',
+"''' LEVEL 11" + '\n' + 'In this level 11, testing is introduced. Testing is a very useful way to validate code by creating test cases ' +
+', taking in acount some events that modify the program state.' + '\n' + '\n' + 'HOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can identify it when we check the results. ' +
+"The identifier should start with the word testcase and a number without blank spaces (as done below in the example)." + '\n' +  
+'Then we must write the instructions that will modify the program state. Last, we need the oracle, that checks that we are in the desired state after executing the instructions.' + '\n' +
+'ORACLE: Oracles are defined by assert(state) instructions. The possible states are:\n\n - not_forwards (robot collided with a normal obstacle and cannot go forward),\n - stabbed (robot collided with a spiked obstacle and was stabbed),\n ' +
+'- collides(robot has reached the outside limits from scenario), and \n - not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
++ '\n' + '  assert(stabbed)  #This is the Oracle',
+"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this level literally means passing the game.' + '\n' + 'Try to execute some testcases to check different states before finding the solution!' + '\n' + "'''"
++ '\n' + '\n' + 'testcase1:' + '\n' + '  turn(-1)' + '\n' + '  forward(3)' + '\n' + '  assert(stabbed)',
 " ** Program correctly translated **",
 "ERROR, missing ''' to close comment!!",
 "CARE!! Robot collided with spiked obstacle...",
-"Robot fall to the emptiness :( , try again!!!",
+"Robot fell into the emptiness :( , try again!!!",
 "Congratulations, you have completed the level!!",
 "ERROR. You can't use instruction repeat() inside another repeat()",
 "ERROR. Instruction ",
@@ -145,8 +145,8 @@ const array_eng = ["Easy game to introduce programming in Python",
 "ERROR. Loops with repeat(x) can't be created inside conditional structures.",
 "ERROR. Conditional structures can't be created inside other conditionals." + '\n' + 'To create other conditions, write them in new lines.',
 "ERROR. Conditional structures can't be created inside repeat(x).",
-"You can't reduce more the level!!!",
-"You can't increase more the level!!",
+"You can't reduce the level any more!!!",
+"You can't increase the level any more!!",
 // POSICIÓN 33 REGEX
 /forward\(\d+\)/, /turn\(\d+\)/, /turn\(-\d+\)/, /repeat\(\d+\):/, /if\(south_robot\):/, /if\(north_robot\):/, /if\(east_robot\):/, /if\(west_robot\):/,
 /  repeat\(\d+\):/, /  forward\(\d+\)/, /  turn\(\d+\)/, /  turn\(-\d+\)/, /  if\(south_robot\):/, /  if\(north_robot\):/, /  if\(east_robot\):/, /  if\(west_robot\):/,
@@ -156,22 +156,22 @@ const array_eng = ["Easy game to introduce programming in Python",
 /repeat\(\d+\)/, /if\(\w+\)/, /if\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
 //POSICIÓN 71
 "Condition NOT found..." + '\n' + "Available conditions: north_robot, south_robot, east_robot, west_robot", "ERROR. Wrong structure.",
-/testcase\d+\:/, /  assert\(not_forwards\)/, /  assert\(pricks\)/, /  assert\(collides\)/, /  assert\(not_falls\)/,
+/testcase\d+\:/, /  assert\(not_forwards\)/, /  assert\(stabbed\)/, /  assert\(collides\)/, /  assert\(not_falls\)/,
 "Congratulations, you have completed the level!!" + '\n' + "Your solution is not the most efficient. Try again by using less instructions or by using smaller parameters!!",
 "Congratulations, you have completed the level!!" + '\n' + "You also found the most efficient solution. Good job!!",
 //POSICIÓN 80
 "ERROR. Testcases must finish with the instruction assert(state).",
 "ERROR. Testcase identifier ", " already exists.",
-"  assert(not_forwards)", "  assert(pricks)", "  assert(collides)", "  assert(not_falls)",
+"  assert(not_forwards)", "  assert(stabbed)", "  assert(collides)", "  assert(not_falls)",
 //POSICIÓN 87
 "ERROR. Inside a testcase structure, instructions must respect Python identation!!",
 "ERROR. Loops are not allowed inside a testcase structure!!",
 "ERROR. Conditionals are not allowed inside a testcase structure!!",
 "ERROR. You can't combine testcases!! First, close this one, and then create another.",
 //POSICIÓN 91
-/assert\(not_forwards\)/, /assert\(pricks\)/, /assert\(collides\)/, /assert\(not_falls\)/,
+/assert\(not_forwards\)/, /assert\(stabbed\)/, /assert\(collides\)/, /assert\(not_falls\)/,
 "ERROR. Instruction assert() must respect Python identation!!",
-/  assert\(\w+\)/, "ERROR. Oracle NOT found. Available oracles: not_forwards, pricks, collides, not_falls", /  testcase\d+\:/,
+/  assert\(\w+\)/, "ERROR. Oracle NOT found. Available oracles: not_forwards, stabbed, collides, not_falls", /  testcase\d+\:/,
 // POSICIÓN 99
 /testcase\d+/, /if\(\w+\)/, /forward\(\w+\)/, /turn\(\w+\)/, /repeat\(\w+\):/, /if\(\d+\):/, /assert\(\d+\)/,
 // POSICIÓN 106
