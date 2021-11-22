@@ -4,9 +4,9 @@
 
 const array_esp = ["Juego sencillo para introducir a la programación en Python",
 "Traducir a robot", "Ejecutar programa", "Reducir Nivel", "Aumentar Nivel",
-"''' NIVEL 1" + '\n' + 'Este juego tiene un objetivo: Conseguir que el personaje llegue al final del nivel.' + '\n' + '\n' + 
+"''' NIVEL 1" + '\n' + 'Este juego tiene un objetivo: Conseguir que el robot llegue al final del nivel.' + '\n' + '\n' + 
 'Para conseguirlo, tenemos que ordenar al personaje que haga ciertos movimientos -> Estos movimientos son las instrucciones del programa, que deben ser escritas en este panel.'
-+ ' Estas instrucciones deben estar escritas en lenguaje Python, y se traducirán a un lenguaje que el personaje entienda para cargarlas y que se ejecuten.'
++ ' Estas instrucciones deben estar escritas en lenguaje Python, y se traducirán a un lenguaje que el robot entienda para cargarlas y que se ejecuten.'
 + '\n' + '\n' + 'En cada nivel se presentará un reto diferente para aprender las reglas del juego paso a paso. Veremos diferentes obstáculos que se tratan de manera diferente.'
 + '\n' + 'Este primer nivel es el más sencillo, prueba a ejecutar la instrucción...' + '\n' + "'''" + '\n' + '\n' + 'avanza(4)',
 "''' NIVEL 2" + '\n' + 'Ya hemos visto el funcionamiento del juego y de la instrucción avanza(x), donde x es el número de casillas que avanza el robot.' + '\n' +
@@ -30,7 +30,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 'PISTA: Las condiciones que el robot entiende dependen de su orientación en el tablero: robot_sur, robot_este, robot_norte y robot_oeste. Para ayudarte más, el robot ahora mismo mira hacia el Norte, y los botones de '  
 + 'Reducir Nivel y Aumentar Nivel se encuentran al Este del robot. Con esto, ya debes de poder usar los condicionales!!' + '\n' + '\n' + 'IMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):' 
 + '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
-"''' NIVEL 10" + '\n' + 'Nos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.' + '\n' + 'El nivel 10 no aporta nada nuevo, pero es el nivel más difícil de superar!!' 
+"''' NIVEL 10" + '\n' + 'Nos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.' + '\n' + 'El nivel 10 no aporta nada nuevo, pero es uno de los niveles más difícil de superar!!' 
 + '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la platorma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 'avanza(9)',
 "''' NIVEL 11" + '\n' + 'En este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa ' +
 'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado. El formato del identificador tiene que ' + 
@@ -97,17 +97,17 @@ const array_eng = ["Easy game to introduce programming in Python",
 + ' This instructions must be written using Python language, and they will be translated to a languaje "spoken" by the robot so they can be executed.'
 + '\n' + '\n' + 'In each level, we will face a different challenge to learn game rules step by step. We will face different types of obstacles, each one working in a different way'
 + '\n' + 'This first level is the easiest one, try to execute the instruction...' + '\n' + "'''" + '\n' + '\n' + 'forward(4)',
-"''' LEVEL 2" + '\n' + 'We have already seen how the game and the instruction avanza(x) work, where x is the number of steps the robot moves on x axis.' + '\n' +
-'This second level is a bit more difficult. Now we need something else.  Try to execute the instructions sequence...' + '\n' + '\n' + 'CLUE: Robot turns left with instruction gira(-x). ' 
-+ '\n' + 'Robot turns right with instruction gira(x).' +'\n' + "'''" + '\n' + '\n' + 'forward(5)' + '\n' + 'turn(-1)',
+"''' LEVEL 2" + '\n' + 'We have already seen how the game and the instruction forward(x) work, where x is the number of steps the robot moves on x axis.' + '\n' +
+'This second level is a bit more difficult. Now we need something else.  Try to execute the instructions sequence...' + '\n' + '\n' + 'CLUE: Robot turns left with instruction turn(-x). ' 
++ '\n' + 'Robot turns right with instruction turn(x).' +'\n' + "'''" + '\n' + '\n' + 'forward(5)' + '\n' + 'turn(-1)',
 "''' LEVEL 3" + '\n' + 'Now we introduce a new spiked obstacle . It is smaller but more dangerous!!. Execute the given sequence to see what happens when you collide with it...  '
 + '\n' + "'''" + '\n' + '\n' + 'forward(6)',
 "''' LEVEL 4" + '\n' + 'This level is even more difficult because the first obstacles row is random, so the solution for this level is different each time you play this level.' + '\n' 
 + "'''" + '\n' + '\n' + 'turn(-1)' + '\n' + 'forward(2)' + '\n' + 'turn(1)',
 "''' LEVEL 5" + '\n' + 'Level 5 is a modification of level 4. There is one random obstacle that changes its position. Stay alert and you will success!!' + '\n' + "'''" + '\n' +
 '\n' + 'forward(5)',
-"''' LEVEL 6" + '\n' + "Care with this level, only executing one wrong movement you may find yourself in a dead end!!" + '\n' + "'''" + '\n' + '\n' + 'forward(5)',
-"''' LEVEL 7" + '\n' + 'In this level we are introducing the movements repetitions (loops). To avoid writting too much text, repetitions are used.' + '\n' 
+"''' LEVEL 6" + '\n' + "Care with this level, by only executing one wrong movement you may find yourself in a dead end!!" + '\n' + "'''" + '\n' + '\n' + 'forward(5)',
+"''' LEVEL 7" + '\n' + 'In this level we are introducing the movement repetitions (loops). To avoid writting too much text, repetitions are used.' + '\n' 
 + 'Try to execute the given code, and take a look on the spaces before the instructions that are inside repeat(x) structure.' + '\n' + 
 "IMPORTANT: If you forget leaving STRICTLY 2 spaces for instructions inside repeat(x):, they will not be repeated." + '\n' + "'''" + '\n' + '\n' + 'repeat(4):' + '\n' 
 + "  forward(2)" + '\n' + "  turn(1)",
@@ -127,7 +127,7 @@ const array_eng = ["Easy game to introduce programming in Python",
 'ORACLE: Oracle is defined by instruction assert(state). The possible states are not_forwards (robot collided with a normal obstacle), pricks (robot collided with a spiked obstacle), ' +
 'collides(robot has reached the outside limits from scenario) and not_falls(robot did not fall from scenario).' + '\n' + "'''"+ '\n' + '\n' + 'testcase1:  #This is the identifier' + '\n' + '  forward(4)  #This is the instructions sequence'
 + '\n' + '  assert(pricks)  #This is the Oracle',
-"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this game literally means completing the game.' + '\n' + 'Try to make some testcases before finding the solution!' + '\n' + "'''"
+"''' LEVEL 12"+ '\n' + 'This level ends the game. It is the most difficult level, so completing this game literally means passing the game.' + '\n' + 'Try to make some testcases before finding the solution!' + '\n' + "'''"
 + '\n' + '\n' + 'testcase1:' + '\n' + '  turn(-1)' + '\n' + '  forward(3)' + '\n' + '  assert(pricks)',
 " ** Program correctly translated **",
 "ERROR, missing ''' to close comment!!",
