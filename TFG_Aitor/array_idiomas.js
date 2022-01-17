@@ -20,7 +20,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 '\n' + 'avanza(5)',
 "''' NIVEL 6" + '\n' + 'Ten cuidado con este nivel, con solo un movimiento erróneo puedes acabar dentro de un callejón sin salida!!' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)',
 "''' NIVEL 7" + '\n' + 'En este nivel se introducen las repeticiones de movimientos (bucles). Para evitar escribir mucho texto, se pueden crear repeticiones.' + '\n' 
-+ 'Prueba a ejectuar el código que te ofrecemos, y observa con detenimiento los espacios que se dejan antes de las instrucciones dentro de la repetición.' + '\n' + 
++ 'Prueba a ejecutar el código que te ofrecemos, y observa con detenimiento los espacios que se dejan antes de las instrucciones dentro de la repetición.' + '\n' + 
 "OJO: Si no dejas 2 espacios ESTRICTAMENTE, no se va a repetir lo que pongas debajo del repite(x):" + '\n' + "'''" + '\n' + '\n' + 'repite(4):' + '\n' 
 + "  avanza(2)" + '\n' + "  gira(1)",
 "''' NIVEL 8" + '\n' + 'Este nivel es completamente aleatorio, y hay solo un espacio por el que se puede pasar, así que ve con mucho cuidado para superar este nivel.' +
@@ -31,7 +31,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 + 'Reducir Nivel y Aumentar Nivel se encuentran al Este del robot. Con esto, ya debes de poder usar los condicionales!!' + '\n' + '\n' + 'IMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):' 
 + '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
 "''' NIVEL 10" + '\n' + 'Nos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.' + '\n' + 'El nivel 10 no aporta nada nuevo, pero es uno de los niveles más difícil de superar!!' 
-+ '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la platorma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 'avanza(9)',
++ '\n' + 'Es un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la plataforma final y el nivel sería imposible de superar.' + '\n' + "'''" + '\n' + '\n' + 'avanza(9)',
 "''' NIVEL 11" + '\n' + 'En este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa ' +
 'tras una serie de eventos que modifican el estado.' + '\n' + '\n' + 'FUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado. El formato del identificador tiene que ' + 
 'ser testcase y un número sin espacios (tal y como se ve abajo).' + '\n' +  
@@ -47,7 +47,7 @@ const array_esp = ["Juego sencillo para introducir a la programación en Python"
 "El robot ha caído al vacío :( , vuelve a intentarlo!!!",
 "Enhorabuena, has superado el nivel!!",
 "ERROR. No se puede hacer un repite() dentro de otro repite()",
-"ERROR. La instruccion ",
+"ERROR. La instrucción ",
 " no existe...",
 "ERROR con los paréntesis, la estructura es: instrucción(parámetro)." + "\n"
 + "Por ejemplo: avanza(5)",
@@ -176,4 +176,92 @@ const array_eng = ["Easy game to introduce programming in Python",
 /testcase\d+/, /if\(\w+\)/, /forward\(\w+\)/, /turn\(\w+\)/, /repeat\(\w+\):/, /if\(\d+\):/, /assert\(\d+\)/,
 // POSICIÓN 106
 "ERROR. Parameter type is wrong. Forward, turn and repeat need a number; if and assert need a text string"
+];
+ 
+const array_vlc = ["Joc sencill per a introducirse a la programació amb Python",
+"Traducir a robot", "Ejecutar programa", "Reduir Nivell", "Aumentar Nivell",
+"''' NIVELL 1" + '\n' + "Este joc té un objectiu: Aconseguir que el robot arribe al final del nivell." + '\n' + '\n' + 
+"Per a aconseguir-ho, hem d'''ordenar al personatge que faça certs moviments -> Estos moviments són les instruccions del programa, que han de ser escrites en este panell."
++ " Estes instruccions han d'''estar escrites en llenguatge Python, i es traduiran a un llenguatge que el robot entenga per a carregar-les i que s'''executen."
++ '\n' + '\n' + "En cada nivell es presentarà un repte diferent per a aprendre les regles del joc pas a pas. Veurem diferents obstacles que es tracten de manera diferent."
++ '\n' + "Este primer nivell és el més senzill, prova a executar la instrucció..." + '\n' + "'''" + '\n' + '\n' + 'avanza(4)',
+"''' NIVELL 2" + '\n' + 'Ja hem vist el funcionament del joc i de la instrucció avança (x) , on x és el nombre de caselles que avança el robot.' + '\n' +
+'Este segon nivell ja és un poc més difícil. Ara necessitem un poc més. Prova a executar la seqüència que es veu...' + '\n' + '\n' + '- El robot gira en sentit de les agulles del rellotge amb la instrucció gira (-x). ' 
++ '\n' + '- El robot gira en sentit contrari de les agulles del rellotge amb la instrucció gira (x). ' + '\n' + "'''" + '\n' + '\n' + 'avanza(5)' + '\n' + 'gira(-1)',
+"''' NIVELL 3" + '\n' + 'Introduïm ara un nou obstacle amb rostes. És més xicotet però més perillós!! . Executa per a veure què passa si xoques amb ell...'
++ '\n' + "'''" + '\n' + '\n' + 'avanza(6)',
+"''' NIVELL 4" + '\n' + "Este nivell és més complex perquè la primera fila d'''obstacles és aleatòria, per la qual cosa la solució del nivell és diferent cada vegada." + '\n' 
++ "'''" + '\n' + '\n' + 'gira(-1)' + '\n' + 'avanza(2)' + '\n' + 'gira(1)',
+"''' NIVELL 5" + '\n' + 'El nivell 5 és una variant del nivell 4. Hi ha un obstacle aleatori que varia la seua posició. Vés en compte amb ell i superaràs el nivell!!' + '\n' + "'''" + '\n' +
+'\n' + 'avanza(5)',
+"''' NIVELL 6" + '\n' + "Vés en compte amb este nivell, amb només un moviment erroni pots acabar dins d''un carreró sense eixida!!" + '\n' + "'''" + '\n' + '\n' + 'avanza(5)',
+"''' NIVELL 7" + '\n' + "En este nivell s'''introduïxen les repeticions de moviments (bucles) . Per a evitar escriure molt text, es poden crear repeticions." + '\n' 
++ "Prova a executar el codi que t'''oferim, i observa amb deteniment els espais que es deixen abans de les instruccions dins de la repetició." + '\n' + 
+"ULL: Si no deixes 2 espais ESTRICTAMENT, no es va a repetir el que poses davall del repite(x):" + '\n' + "'''" + '\n' + '\n' + 'repite(4):' + '\n' 
++ "  avanza(2)" + '\n' + "  gira(1)",
+"''' NIVELL 8" + '\n' + 'Este nivell és completament aleatori, i hi ha només un espai pel qual es pot passar, així que veu amb molt atenció per a superar este nivell.' +
+'\n' + "És recomanable intentar superar este nivell més d''una vegada per a provar les diferents solucions possibles." + '\n' + "'''" + '\n' + '\n' + 'avanza(6)' + '\n' + 'gira(-1)',
+"''' NIVELL 9" + '\n' + "El joc ja està complicant-se prou. Este nivell és aleatori també, però introduirem una nova estructura: CONDICIONAL." +
+'\n' + "Els condicional es basen en la certesa d'''una condició per a executar certes instruccions. En cas de no complir-se la condició, no es van a executar. "  + '\n' +
+'PISTA: Les condicions que el robot entén depenen de la seua orientació en el tauler: robot_sur, robot_este, robot_norte i robot_oeste. Per a ajudar-te més, el robot ara mateix mira cap al Nord, i els botons de '  
++ "Reduir Nivell y Aumentar Nivell es troben a l'''Est del robot. Amb açò, ja deus de poder usar els condicional!!" + '\n' + '\n' + 'IMPORTANT: Molta atenció amb els espais, ja que succeïx igual que en el cas del repite(x):' 
++ '\n' + "'''" + '\n' + '\n' + 'si(robot_norte):' + '\n' + '  avanza(1)' + '\n' + '  gira(-1)' + '\n' + 'si(robot_oeste):' + '\n' + '  gira(1)' + '\n' + '  avanza(2)' + '\n' + '  gira(-1)',
+"''' NIVELL 10" + '\n' + "Ens acostem al final del joc. Els nivells 11 i 12, com podràs veure, s'''han dissenyat per a ensenyar l'''últim concepte del joc." + '\n' + 'El nivell 10 no aporta res de nou, però és un dels nivells més difícil de superar!!' 
++ '\n' + "És un nivell completament aleatori, excepte l'''última fila de totes, que si haguera sigut també aleatòria podria tancar l'''accés a la plataforma final i el nivell seria impossible de superar." + '\n' + "'''" + '\n' + '\n' + 'avanza(9)',
+"''' NIVELL 11" + '\n' + "En este nivell 11, quasi acabant el joc, s'''introduïx el concepte de testing de codi. El testing és una ferramenta molt usada per a validar el codi per mitjà de casos de prova sobre l'''estat del programa " +
+"després d'''una sèrie d'''esdeveniments que modifiquen l'''estat." + '\n' + '\n' + "FUNCIONAMENT: L'''estructura que s'''ha de seguir la pots veure baix. Cal donar un identificador als casos de prova per a poder veure el resultat. El format de l'''identificador té que " + 
+'ser testcase i un número sense espais (tal com es veu baix.' + '\n' +  
+"Després cal introduir una sèrie d'''instruccions que modificaran l'''estat del programa. Finalment, escriure l'''oracle, que és l''estat que volem comprovar després de l'''execució de les instruccions." + '\n' +
+"ORACLE: La instrucció afirma (estat) és la que fixa l'''oracle. Els estats possibles són no_avanza (verificar que el robot ha col·lidit amb un obstacle llis), punxa (verificar que el robot ha col·lidit amb un obstacle de punxes), " +
+'xoca (verificar que el robot ha arribat als límits del tauler) i no_cae (verificar que el robot no cau al buit).' + '\n' + "'''" + '\n' + '\n' + "testcase1:  #Este és l'''identificador" + '\n' + "  avanza(4)  #Esta és la seqüència d'''instruccions"
++ '\n' + "  afirma(pincha)  #Açò és l'''Oracle",
+"''' NIVELL 12" + '\n' + "Amb este nivell s'''acaba el joc. És el nivell més difícil de solucionar, per la qual cosa superar este nivell és passar-se el joc.' + '\n' + 'Prova a fer alguns casos de prova abans de solucionar el nivell!" + '\n' + "'''"
++ '\n' + '\n' + 'testcase1:' + '\n' + '  gira(-1)' + '\n' + '  avanza(3)' + '\n' + '  afirma(pincha)',
+" ** Programa traduït correctament **",
+"Error, falta '''per a tancar el comentari!!",
+"ATENCIÓ!! El robot s'ha xocat amb les rostes...",
+"El robot ha caigut al buit :( torna a intentar-ho!!!",
+"Enhorabona, has superat el nivell!!",
+"ERROR. No es pot fer un repite() dins d'un altre repite()",
+"ERROR. La instrucció ",
+" no existix...",
+"ERROR amb els parèntesis, l'estructura és: instrucció (paràmetre)." + "\n"
++ "Per exemple: avanza(5)",
+"ERROR. No has puesto parámetro de entrada.",
+"ERROR. Les estructures han d'acabar amb el caràcter ':'" + "\n" + "Per exemple: repite(6):",
+"ERROR. No es pot iniciar un bucle amb repite(x) dins d'''un condicional.",
+"ERROR. No es pot iniciar un condicional dins d'''un altre condicional.' + '\n' + 'Per a crear més condicions, fes-ho en una altra línia.",
+"ERROR. No es poden crear condicions dins d'un repite(x).",
+'No es pot decrementar més el nivell!!',
+'No es pot aumentar més el nivell!!',
+//POSICIÓN 33 ES LA PRIMERA REGEX
+/avanza\(\d+\)/, /gira\(\d+\)/, /gira\(-\d+\)/, /repite\(\d+\):/, /si\(robot_sur\):/, /si\(robot_norte\):/, /si\(robot_este\):/, /si\(robot_oeste\):/,
+/  repite\(\d+\):/, /  avanza\(\d+\)/, /  gira\(\d+\)/, /  gira\(-\d+\)/, /  si\(robot_sur\):/, /  si\(robot_norte\):/, /  si\(robot_este\):/, /  si\(robot_oeste\):/,
+"robot_norte", "robot_sur", "robot_este", "robot_oeste",
+//POSICIÓN 53 REGEX ERRORES
+/avanza\d+\)/g, /avanza\(\d+/g, /gira\d+\)/g, /gira\(\d+/g, /gira-\d+\)/g, /gira\(-\d+/g, /avanza\(\)/, /gira\(\)/, /repite\(\):/, /si\(\):/, /\w+\(\d+\)/, /\w+\(\d+\):/, /\w+\(\w+\):/,
+/repite\(\d+\)/, /si\(\w+\)/, /si\(\w+\):/, /\w+\(-\d+\)/, /\w+\(\)/,
+//POSICIÓN 71
+"Condició NO existent..." + '\n' + "Condicions: robot_norte, robot_sur, robot_este, robot_oeste", "ERROR. Estructura errònia.",
+//POSICIÓN 73
+/testcase\d+\:/, /  afirma\(no_avanza\)/, /  afirma\(pincha\)/, /  afirma\(choca\)/, /  afirma\(no_cae\)/,
+"Enhorabona, has superat el nivell!!" + '\n' + "La solució no és la més eficient. Intenta superar el nivell amb menys instruccions o amb paràmetres més xicotets!!",
+"Enhorabona, has superat el nivell!!" + '\n' + "Además, has trobat la solució més eficient. Molt bé!!",
+//POSICIÓN 80   
+"ERROR. Els testcases han d'acabar amb la instrucció afirma(estado).",
+"ERROR. L'identificador ", " ja existix.",
+"  afirma(no_avanza)", "  afirma(pincha)", "  afirma(choca)", "  afirma(no_cae)",
+//POSICIÓN 87
+"ERROR. Les instruccions dins de l'estructura testcase han de respectar la identació de Python.",
+"ERROR. No pot haver-hi bucles dins d'una estructura testcas!!",
+"ERROR. No pot haver-hi condicional dins d'una estructura testcase!!",
+"ERROR. No es poden combinar testcases!! Acaba este i després inicia un altre.",
+//POSICIÓN 91
+/afirma\(no_avanza\)/, /afirma\(pincha\)/, /afirma\(choca\)/, /afirma\(no_cae\)/,
+"ERROR. La instrucció afirma() ha de respectar la identación de Python!!",
+/  afirma\(\w+\)/, "ERROR. Oracle no existent. Oracles disponibles: no_avanza, pincha, choca, no_cae", /  testcase\d+\:/,
+// POSICIÓN 99
+/testcase\d+/, /\si\(\w+\)/, /avanza\(\w+\)/, /gira\(\w+\)/, /repite\(\w+\):/, /si\(\d+\):/, /afirma\(\d+\)/,
+// POSICIÓN 106
+"ERROR. El tipus del paràmetre és erroni. Les instruccions avança, gira i repetix reben un número; les instruccions si i afirma reben cadenes de text"
 ];

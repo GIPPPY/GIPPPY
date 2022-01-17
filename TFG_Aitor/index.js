@@ -55,6 +55,10 @@ function cambiarIdioma(lang) {
             array_idioma = array_eng;
             idioma = "ingles";
             break;
+        case "vlc":
+            array_idioma = array_vlc;
+            idioma = "valenciano";
+            break;
         default:
             break;
     }
