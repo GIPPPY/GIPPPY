@@ -3,6 +3,9 @@
 
 // ESPAÑOL
 let map_esp = new Map();
+map_esp.set('avanza', "avanza");
+map_esp.set('gira', "gira");
+
 map_esp.set('titulo', "Juego sencillo para introducir a la programación en Python");
 map_esp.set('btnTraducir', "Traducir a robot");
 map_esp.set('btnEjecutar', "Ejecutar programa");
@@ -13,13 +16,14 @@ map_esp.set('nivel2', "''' NIVEL 2\nYa hemos visto el funcionamiento del juego y
 map_esp.set('nivel3', "''' NIVEL 3\nIntroducimos ahora un nuevo obstáculo con pinchos. Es más pequeño pero más peligroso!!. Ejecuta para ver qué pasa si chocas con él...\n'''\n\navanza(6)");
 map_esp.set('nivel4', "''' NIVEL 4\nEste nivel es más complejo porque la primera fila de obstáculos es aleatoria, por lo que la solución del nivel es diferente cada vez.\n'''\n\ngira(-1)\navanza(2)\ngira(1)");
 map_esp.set('nivel5', "''' NIVEL 5\nEl nivel 5 es una variante del nivel 4. Hay un obstáculo aleatorio que varía su posición. Ten cuidado con él y superarás el nivel!!\n'''\n\navanza(5)");
-map_esp.set('nivel6', "''' NIVEL 6\nTTen cuidado con este nivel, con solo un movimiento erróneo puedes acabar dentro de un callejón sin salida!!\n'''\n\navanza(5)");
+map_esp.set('nivel6', "''' NIVEL 6\nTen cuidado con este nivel, con solo un movimiento erróneo puedes acabar dentro de un callejón sin salida!!\n'''\n\navanza(5)");
 map_esp.set('nivel7', "''' NIVEL 7\nEn este nivel se introducen las repeticiones de movimientos (bucles). Para evitar escribir mucho texto, se pueden crear repeticiones.\n\nPrueba a ejecutar el código que te ofrecemos, y observa con detenimiento los espacios que se dejan antes de las instrucciones dentro de la repetición.\nOJO: Si no dejas 2 espacios ESTRICTAMENTE, no se va a repetir lo que pongas debajo del repite(x):\n'''\n\nrepite(4):\n  avanza(2)\n  gira(1)");
 map_esp.set('nivel8', "''' NIVEL 8\nEste nivel es completamente aleatorio, y hay solo un espacio por el que se puede pasar, así que ve con mucho cuidado para superar este nivel.\nEs recomendable intentar superar este nivel más de una vez para probar las diferentes soluciones posibles.\n'''\n\navanza(6)\ngira(-1)");
 map_esp.set('nivel9', "''' NIVEL 9\nEl juego ya está complicándose bastante. Este nivel es aleatorio también, pero vamos a introducir una nueva estructura: CONDICIONALES.\nLos condicionales se basan en la certeza de una condición para ejecutar ciertas instrucciones. En caso de no cumplirse la condición, no se van a ejecutar.\nPISTA: Las condiciones que el robot entiende dependen de su orientación en el tablero: robot_sur, robot_este, robot_norte y robot_oeste. Para ayudarte más, el robot ahora mismo mira hacia el Norte. Fíjate en la brújula. Con esto, ya debes de poder usar los condicionales!!\n\nIMPORTANTE: Mucha atención con los espacios, ya que sucede igual que en el caso del repite(x):\n'''\n\nsi(robot_norte):\n  avanza(1)\n  gira(-1)\nsi(robot_oeste):\n  gira(1)\n  avanza(2)\n  gira(-1)");
 map_esp.set('nivel10', "''' NIVEL 10\nNos  acercamos al final del juego. Los niveles 11 y 12, como podrás ver, se han diseñado para enseñar el último concepto del juego.\nEl nivel 10 no aporta nada nuevo, pero es uno de los niveles más difícil de superar!!\nEs un nivel completamente aleatorio, excepto la última fila de todas, que si hubiera sido también aleatoria podría cerrar el acceso a la plataforma final y el nivel sería imposible de superar.\n'''\n\navanza(9)");
 map_esp.set('nivel11', "''' NIVEL 11\nEn este nivel 11, casi terminando el juego, se introduce el concepto de testing de código. El testing es una herramienta muy usada para validar el código mediante casos de prueba sobre el estado del programa tras una serie de eventos que modifican el estado.\n\nFUNCIONAMIENTO: La estructura a seguir la puedes ver abajo. Hay que dar un identificador a los casos de prueba para poder ver el resultado. El formato del identificador tiene que ser testcase y un número sin espacios (tal y como se ve abajo).\nLuego hay que introducir una serie de instrucciones que van a modificar el estado del programa. Por último, escribir el oráculo, que es el estado que queremos comprobar tras la ejecución de las instrucciones.\nORÁCULO: La instrucción afirma(estado) es la que fija el oráculo. Los estados posibles son no_avanza (verificar que el robot ha colisionado con un obstáculo liso), pincha (verificar que el robot ha colisionado con un obstáculo de pinchos), choca(verificar que el robot ha llegado a los límites del tablero) y no_cae(verificar que el robot no cae al vacío).\n'''\n\ntestcase1:  #Esto es el identificador\n  avanza(4)  #Esta es la secuencia de instrucciones\n  afirma(pincha)  #Esto es el Oráculo");
 map_esp.set('nivel12', "''' NIVEL 12\nCon este nivel se termina el juego. Es el nivel más difícil de solucionar, por lo que superar este nivel es pasarse el juego.\nPrueba a hacer algunos casos de prueba antes de solucionar el nivel!\n'''\n\ntestcase1:\n  gira(-1)\n  avanza(3)\n  afirma(pincha)");
+map_esp.set('nivel13',"''' NIVEL 13\nInstrucción while....\n'''\n\nmientras(x<3):\n  avanza(2)\n  gira(1)");
 
 map_esp.set('17', " ** Programa traducido correctamente **");
 map_esp.set('18', "Error, falta ''' para cerrar el comentario!!");
@@ -60,64 +64,10 @@ map_esp.set('95', "ERROR. La instrucción afirma() tiene que respetar la identac
 map_esp.set('97', "ERROR. Oráculo no existente. Oráculos disponibles: no_avanza, pincha, choca, no_cae");
 map_esp.set('106', "ERROR. El tipo del parámetro es erróneo. Las instrucciones avanza, gira y repite reciben un número; las instrucciones si y afirma reciben cadenas de texto");
 
-// EXPRESIONES EN ESPAÑOL
-let map_reg_esp = new Map();
-map_reg_esp.set('33',/avanza\(\d+\)/);
-map_reg_esp.set('34',/gira\(\d+\)/);
-map_reg_esp.set('35',/gira\(-\d+\)/);
-map_reg_esp.set('36',/repite\(\d+\):/);
-map_reg_esp.set('37',/si\(robot_sur\):/);
-map_reg_esp.set('38',/si\(robot_norte\):/);
-map_reg_esp.set('39',/si\(robot_este\):/);
-map_reg_esp.set('40',/si\(robot_oeste\):/);
-map_reg_esp.set('41',/  repite\(\d+\):/);
-map_reg_esp.set('42',/  avanza\(\d+\)/);
-map_reg_esp.set('43',/  gira\(\d+\)/);
-map_reg_esp.set('44',/  gira\(-\d+\)/);
-map_reg_esp.set('45',/  si\(robot_sur\):/);
-map_reg_esp.set('46',/  si\(robot_norte\):/);
-map_reg_esp.set('47',/  si\(robot_este\):/);
-map_reg_esp.set('48',/  si\(robot_oeste\):/);
-/* REGEX ERRORES*/
-map_reg_esp.set('53',/avanza\d+\)/g);
-map_reg_esp.set('54',/avanza\(\d+/g);
-map_reg_esp.set('55',/gira\d+\)/g);
-map_reg_esp.set('56',/gira\(\d+/g);
-map_reg_esp.set('57',/gira-\d+\)/g);
-map_reg_esp.set('58',/gira\(-\d+/g);
-map_reg_esp.set('59',/avanza\(\)/);
-map_reg_esp.set('60',/gira\(\)/);
-map_reg_esp.set('61',/repite\(\):/);
-map_reg_esp.set('62',/si\(\):/);
-map_reg_esp.set('63',/\w+\(\d+\)/);
-map_reg_esp.set('64',/\w+\(\d+\):/);
-map_reg_esp.set('65',/\w+\(\w+\):/);
-map_reg_esp.set('66',/repite\(\d+\)/);
-map_reg_esp.set('67',/si\(\w+\)/);
-map_reg_esp.set('68',/si\(\w+\):/);
-map_reg_esp.set('69',/\w+\(-\d+\)/);
-map_reg_esp.set('70',/\w+\(\)/);
-map_reg_esp.set('73',/testcase\d+\:/);
-map_reg_esp.set('74',/  afirma\(no_avanza\)/);
-map_reg_esp.set('75',/  afirma\(pincha\)/);
-map_reg_esp.set('76',/  afirma\(choca\)/);
-map_reg_esp.set('77',/  afirma\(no_cae\)/);
-map_reg_esp.set('98',/  testcase\d+\:/);
-map_reg_esp.set('91',/afirma\(no_avanza\)/);
-map_reg_esp.set('92',/afirma\(pincha\)/);
-map_reg_esp.set('93',/afirma\(choca\)/);
-map_reg_esp.set('94',/afirma\(no_cae\)/);
-map_reg_esp.set('96',/  afirma\(\w+\)/);
-map_reg_esp.set('99',/testcase\d+/);
-map_reg_esp.set('100',/\si\(\w+\)/);
-map_reg_esp.set('101',/avanza\(\w+\)/);
-map_reg_esp.set('102',/gira\(\w+\)/);
-map_reg_esp.set('103',/repite\(\w+\):/);
-map_reg_esp.set('104',/si\(\d+\):/);
-map_reg_esp.set('105',/afirma\(\d+\)/);
-
 // INGLES
 let map_eng = new Map();
+map_eng.set('gira', "turn");
+map_eng.set('avanza', "forward");
 map_eng.set('titulo', "Easy game to introduce programming in Python");
 map_eng.set('btnTraducir', "Traslate to robot");
 map_eng.set('btnEjecutar', "Execute program");
@@ -135,6 +85,7 @@ map_eng.set('nivel9', "''' LEVEL 9\nThe game is already getting more difficult. 
 map_eng.set('nivel10', "''' LEVEL 10\nWe are almost at the end of the game. As you will see, level 11 and 12 are designed to show the last programming concepts.\nLevel 10 has nothing new, but solving this level will be really difficult!!\nThis level is full of randomly places obstacles except for the last obstacles row, that cannot be random because it might create an impossible level.\n'''\n\nforward(9)");
 map_eng.set('nivel11', "''' LEVEL 11\nIn this level 11, testing is introduced. Testing is a very useful way to validate code by creating test cases, taking in acount some events that modify the program state.\n\nHOW IT WORKS: The structure is shown below outside the comment. First, we must give a different identifier to each test case, so we can identify it when we check the results. The identifier should start with the word testcase and a number without blank spaces (as done below in the example).\nThen we must write the instructions that will modify the program state. Last, we need the oracle, that checks that we are in the desired state after executing the instructions.\nORACLE: Oracles are defined by assert(state) instructions. The possible states are:\n\n - not_forwards (robot collided with a normal obstacle and cannot go forward),\n - stabbed (robot collided with a spiked obstacle and was stabbed),\n - collides(robot has reached the outside limits from scenario), and \n - not_falls(robot did not fall from scenario).\n'''\n\ntestcase1:  #This is the identifier\n  forward(4)  #This is the instructions sequence\n  assert(stabbed)  #This is the Oracle");
 map_eng.set('nivel12', "''' LEVEL 12\nThis level ends the game. It is the most difficult level, so completing this level literally means passing the game.\nTry to execute some testcases to check different states before finding the solution!\n'''\n\ntestcase1:\n  turn(-1)\n  forward(3)\n  assert(stabbed)");
+map_eng.set('nivel13',"''' NIVEL 13\nWhile instruction....\n'''\n\nmientras(x<3):\n  avanza(2)\n  gira(1)\n  x+=1");
 
 map_eng.set('17', " ** Program correctly translated **");
 map_eng.set('18', "ERROR, missing ''' to close comment!!");
@@ -175,67 +126,11 @@ map_eng.set('95', "ERROR. Instruction assert() must respect Python identation!!"
 map_eng.set('97', "ERROR. Oracle NOT found. Available oracles: not_forwards, stabbed, collides, not_falls");
 map_eng.set('106', "ERROR. Parameter type is wrong. Forward, turn and repeat need a number; if and assert need a text string");
 
-// EXPRESIONES EN INGLES
-let map_reg_eng = new Map();
-map_reg_eng.set('33',/forward\(\d+\)/);
-map_reg_eng.set('34',/turn\(\d+\)/);
-map_reg_eng.set('35',/turn\(-\d+\)/);
-map_reg_eng.set('36',/repeat\(\d+\):/);
-map_reg_eng.set('37',/if\(south_robot\):/);
-map_reg_eng.set('38',/if\(north_robot\):/);
-map_reg_eng.set('39',/if\(east_robot\):/);
-map_reg_eng.set('40',/if\(west_robot\):/);
-map_reg_eng.set('41',/  repeat\(\d+\):/);
-map_reg_eng.set('42',/  forward\(\d+\)/);
-map_reg_eng.set('43',/  turn\(\d+\)/);
-map_reg_eng.set('44',/  turn\(-\d+\)/);
-map_reg_eng.set('45',/  if\(south_robot\):/);
-map_reg_eng.set('46',/  if\(north_robot\):/);
-map_reg_eng.set('47',/  if\(east_robot\):/);
-map_reg_eng.set('48',/  if\(west_robot\):/);
-/* REGEX ERRORES*/
-map_reg_eng.set('53',/forward\d+\)/g);
-map_reg_eng.set('54',/forward\(\d+/g);
-map_reg_eng.set('55',/turn\d+\)/g);
-map_reg_eng.set('56',/turn\(\d+/g);
-map_reg_eng.set('57',/turn-\d+\)/g);
-map_reg_eng.set('58',/turn\(-\d+/g);
-map_reg_eng.set('59',/forward\(\)/);
-map_reg_eng.set('60',/turn\(\)/);
-map_reg_eng.set('61',/repeat\(\):/);
-map_reg_eng.set('62',/if\(\):/);
-map_reg_eng.set('63',/\w+\(\d+\)/);
-map_reg_eng.set('64',/\w+\(\d+\):/);
-map_reg_eng.set('65',/\w+\(\w+\):/);
-map_reg_eng.set('66',/repeat\(\d+\)/);
-map_reg_eng.set('67',/if\(\w+\)/);
-map_reg_eng.set('68',/if\(\w+\):/);
-map_reg_eng.set('69',/\w+\(-\d+\)/);
-map_reg_eng.set('70',/\w+\(\)/);
-map_reg_eng.set('73',/testcase\d+\:/);
-map_reg_eng.set('74',/  assert\(not_forwards\)/);
-map_reg_eng.set('75',/  assert\(stabbed\)/);
-map_reg_eng.set('76',/  assert\(collides\)/);
-map_reg_eng.set('77',/  assert\(not_falls\)/);
-map_reg_eng.set('98',/  testcase\d+\:/);
-map_reg_eng.set('91',/assert\(not_forwards\)/);
-map_reg_eng.set('92',/assert\(stabbed\)/);
-map_reg_eng.set('93',/assert\(collides\)/);
-map_reg_eng.set('94',/assert\(not_falls\)/);
-map_reg_eng.set('96',/  assert\(\w+\)/);
-map_reg_eng.set('99',/testcase\d+/);
-map_reg_eng.set('100',/\if\(\w+\)/);
-map_reg_eng.set('101',/forward\(\w+\)/);
-map_reg_eng.set('102',/turn\(\w+\)/);
-map_reg_eng.set('103',/repeat\(\w+\):/);
-map_reg_eng.set('104',/if\(\d+\):/);
-map_reg_eng.set('105',/assert\(\d+\)/);
-
 // VALENCIANO
 let map_vlc = new Map();
 map_vlc.set('titulo', "Joc sencill per a introducirse a la programació amb Python");
-map_vlc.set('btnTraducir', "Traducir a robot");
-map_vlc.set('btnEjecutar', "Ejecutar programa");
+map_vlc.set('btnTraducir', "Traduir a robot");
+map_vlc.set('btnEjecutar', "Executar programa");
 map_vlc.set('btnNivelMenos', "Reduir Nivell");
 map_vlc.set('btnNivelMas', "Aumentar Nivell");
 map_vlc.set('nivel1', "''' NIVELL 1\nEste joc té un objectiu: Aconseguir que el robot arribe al final del nivell.\n\nPer a aconseguir-ho, hem d´ordenar al personatge que faça certs moviments -> Estos moviments són les instruccions del programa, que han de ser escrites en este panell. Estes instruccions han d´estar escrites en llenguatge Python, i es traduiran a un llenguatge que el robot entenga per a carregar-les i que s´executen.\n\nEn cada nivell es presentarà un repte diferent per a aprendre les regles del joc pas a pas. Veurem diferents obstacles que es tracten de manera diferent.\nEste primer nivell és el més senzill, prova a executar la instrucció...\n'''\n\navanza(4)");
@@ -250,6 +145,7 @@ map_vlc.set('nivel9', "''' NIVELL 9\nEl joc ja està complicant-se prou. Este ni
 map_vlc.set('nivel10', "''' NIVELL 10\nEns acostem al final del joc. Els nivells 11 i 12, com podràs veure, s´han dissenyat per a ensenyar l´últim concepte del joc.\nEl nivell 10 no aporta res de nou, però és un dels nivells més difícil de superar!!\nÉs un nivell completament aleatori, excepte l´última fila de totes, que si haguera sigut també aleatòria podria tancar l´accés a la plataforma final i el nivell seria impossible de superar.\n'''\n\navanza(9)");
 map_vlc.set('nivel11', "''' NIVELL 11\nEn este nivell 11, quasi acabant el joc, s´introduïx el concepte de testing de codi. El testing és una ferramenta molt usada per a validar el codi per mitjà de casos de prova sobre l´estat del programa després d´una sèrie d´esdeveniments que modifiquen l´estat.\n\nFUNCIONAMENT: L´estructura que s´ha de seguir la pots veure baix. Cal donar un identificador als casos de prova per a poder veure el resultat. El format de l´identificador té que ser testcase i un número sense espais (tal com es veu baix.\nDesprés cal introduir una sèrie d´instruccions que modificaran l´estat del programa. Finalment, escriure l´oracle, que és l´estat que volem comprovar després de l´execució de les instruccions.\nORACLE: La instrucció afirma (estat) és la que fixa l´oracle. Els estats possibles són no_avanza (verificar que el robot ha col·lidit amb un obstacle llis), punxa (verificar que el robot ha col·lidit amb un obstacle de punxes), xoca (verificar que el robot ha arribat als límits del tauler) i no_cae (verificar que el robot no cau al buit).\n'''\n\ntestcase1:  #Este és l´identificador\n  avanza(4)  #Esta és la seqüència d´instruccions\n  afirma(pincha)  #Açò és l´Oracle");
 map_vlc.set('nivel12', "''' NIVELL 12\nAmb este nivell s´acaba el joc. És el nivell més difícil de solucionar, per la qual cosa superar este nivell és passar-se el joc.\nProva a fer alguns casos de prova abans de solucionar el nivell!\n'''\n\ntestcase1:\n  gira(-1)\n  avanza(3)\n  afirma(pincha)");
+map_vlc.set('nivel13',"''' NIVEL 13\nInstrucció while....\n'''\n\nmientras(x<3):\n  avanza(2)\n  gira(1)");
 
 map_vlc.set('17', " ** Programa traduït correctament **");
 map_vlc.set('18', "Error, falta ''' per a tancar el comentari!!");
