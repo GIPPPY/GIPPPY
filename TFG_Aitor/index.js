@@ -22,6 +22,7 @@ var nivel_actual = 1;
 const num_niveles = 13;
 var eficiente = 0;
 var idioma = "";
+var repeticiones_permitidas = 25;
 var array_obstaculos = new Array;
 var array_instrucciones = new Array;
 var array_traducido = new Array;
@@ -34,6 +35,44 @@ var array_oraculos = new Array;
 var error_inst = false;
 let map_idioma = new Map();
 let map_regex = new Map();
+let stop = false;
+let niveles_superados = 0;
+let imagen_robot_espalda = "robot_espalda.gif";
+let imagen_robot_frente = "robot_frente.gif";
+let imagen_robot_derecha = "robot_lateral.gif";
+let imagen_robot_izquierda = "robot_lateral_atras.gif";
+/*
+var reloj;
+var start;
+var stop;
+var reinicia;
+var sec = 0;
+var min = 0;
+var hrs = 0;
+var t;
+
+function tick(){
+    sec++;
+    if (sec >= 60) {
+        sec = 0;
+        min++;
+        if (min >= 60) {
+            min = 0;
+            hrs++;
+        }
+    }
+}
+function add() {
+    tick();
+    reloj.textContent = (hrs > 9 ? hrs : "0" + hrs) 
+        	 + ":" + (min > 9 ? min : "0" + min)
+       		 + ":" + (sec > 9 ? sec : "0" + sec);
+    timer();
+}
+function timer() {
+    t = setTimeout(add, 1000);
+}
+*/
 
 // Función para cambiar el idioma del juego.
 /**
@@ -43,6 +82,7 @@ function cambiarIdioma(lang) {
     var h4 = document.getElementById("h4_inicio");
     var btn_trad = document.getElementById("traducirprog");
     var btn = document.getElementById('ejecutarprog');
+    var btn_parar = document.getElementById('pararprog');
     var btn_anivel = document.getElementById("anivel");
     var btn_rnivel = document.getElementById("rnivel"); 
     var texto_py = document.getElementById('tarea');
@@ -71,6 +111,7 @@ function cambiarIdioma(lang) {
     h4.innerHTML = map_idioma.get('titulo');
     btn_trad.value = map_idioma.get('btnTraducir');
     btn.value = map_idioma.get('btnEjecutar');
+    btn_parar.value = map_idioma.get('btnParar');
     btn_rnivel.value = map_idioma.get('btnNivelMenos');
     btn_anivel.value = map_idioma.get('btnNivelMas');
     output.value = "";				
@@ -84,17 +125,23 @@ function cambiarIdioma(lang) {
  * @param {Nivel actual del juego} nivel 
  * @param {Booleano para indicar si el juego se acaba de iniciar o no} prim_ejecucion 
  */
-function cargar_nivel(nivel, prim_ejecucion) {
+function cargar_nivel(nivel, prim_ejecucion, esParada) {
     var img_brujula = document.getElementById('brujula');
 	img_brujula.style.height = nivel > 8 ? '85px' : '0px';
 	img_brujula.style.width = nivel > 8 ? '85px' : '0px';
 	nivel_actual = nivel;
+
+	//reloj = document.getElementById("reloj");
+	//reloj.textContent = "00:00:00";
+	//seconds = 0; minutes = 0; hours = 0;
+	//clearTimeout(t);
+	//t = setTimeout(add, 1000);
+
+    iniciar_nivel('nivel'+nivel, prim_ejecucion, esParada);
 	
     switch(nivel_actual) {
         case 1:
-            // NIVEL 1
-			iniciar_nivel('nivel1', prim_ejecucion);
-			
+            // NIVEL 1			
             for (var i=0; i<9; i++) {
 				incluir_obstaculo(2,i,'obs');
 				incluir_obstaculo(4,i,'obs');
@@ -103,8 +150,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
         case 2:
             // NIVEL 2
-			iniciar_nivel('nivel2', prim_ejecucion);
-
 			incluir_obstaculo(0,0,'obs');
 			incluir_obstaculo(0,3,'obs');
 			incluir_obstaculo(0,6,'obs');
@@ -116,8 +161,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
         case 3:
             // NIVEL 3
-			iniciar_nivel('nivel3', prim_ejecucion);
-
 			incluir_obstaculo(0,0,'obs');
 			incluir_obstaculo(0,3,'obs');
 			incluir_obstaculo(0,6,'obs');
@@ -129,21 +172,7 @@ function cargar_nivel(nivel, prim_ejecucion) {
             
         case 4:
             // NIVEL 4 -->  ALEATORIO
-			iniciar_nivel('nivel4', prim_ejecucion);
-			
-            var x = Math.floor((Math.random() * 7) + 1);
-            var i = 0;
-            var j = 0;
-
-            while (i<6){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (x!=j){
-					incluir_obstaculo(j,2,'obs');
-                    i++;					
-                }
-				j++;
-            }
-
+            incluir_obstaculo_aleatorio(2,'obs',7,6);
 			incluir_obstaculo(0,5,'obs');
 			incluir_obstaculo(2,5,'obs');
 			incluir_obstaculo(4,5,'obs');
@@ -154,8 +183,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
         case 5:
             // NIVEL 5 --> ALEATORIO
-            iniciar_nivel('nivel5', prim_ejecucion);
-
 			incluir_obstaculo(1,3,'pinchos');
 			incluir_obstaculo(2,3,'pinchos');
 			incluir_obstaculo(3,3,'pinchos');
@@ -178,8 +205,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
         case 6:
             // NIVEL 6
-			iniciar_nivel('nivel6', prim_ejecucion);
-
             for (var i=1; i<8; i++) {
 			    incluir_obstaculo(1,i,'obs');
 			    incluir_obstaculo(5,i,'obs');
@@ -194,8 +219,6 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
         case 7:
             // NIVEL 7: INTRODUCIR BUCLES 'REPITE'
-			iniciar_nivel('nivel7', prim_ejecucion);
-			
 			incluir_obstaculo(0,0,'obs');
 			incluir_obstaculo(0,5,'pinchos');
 			incluir_obstaculo(0,8,'obs');
@@ -209,69 +232,38 @@ function cargar_nivel(nivel, prim_ejecucion) {
 			incluir_obstaculo(6,8,'obs');			
 
             break;
-
+			
         case 8:
-            // NIVEL 8 -> ALEATORIO COMPLETAMENTE            
-			iniciar_nivel('nivel8', prim_ejecucion);
-			
-            var i = 0;
-            var j = 0;
-            var x = Math.floor((Math.random() * 7) + 1);
-            while (i<6){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (x!=j){
-					incluir_obstaculo(j,2,'obs');
-                    i++;					
-                }
-				j++;
-            }
-			
-            i = 0;
-            j = 0;
-            x = Math.floor((Math.random() * 7) + 1);
-            while (i<6){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (x!=j){
-					incluir_obstaculo(j,4,'pinchos');
-                    i++;					
-                }
-				j++;
-            }
-			
-            i = 0;
-            j = 0;
-            x = Math.floor((Math.random() * 7) + 1);
-            while (i<6){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (x!=j){
-					incluir_obstaculo(j,7,'obs');
-                    i++;					
-                }
-				j++;
-            }
-
+            // NIVEL 8 -> While
+			incluir_obstaculo(0,0,'obs');
+			incluir_obstaculo(0,5,'obs');
+			incluir_obstaculo(0,8,'obs');
+			incluir_obstaculo(2,1,'obs');
+			incluir_obstaculo(2,5,'obs');
+			incluir_obstaculo(3,4,'obs');
+			incluir_obstaculo(4,1,'obs');
+			incluir_obstaculo(4,5,'obs');
+			incluir_obstaculo(6,0,'obs');
+			incluir_obstaculo(6,5,'obs');
+			incluir_obstaculo(6,8,'obs');	
+            
             break;
 
         case 9:
-            // NIVEL 9 -> INTRODUCIR CONDICIONALES            
-			iniciar_nivel('nivel9', prim_ejecucion);
-			
+            // NIVEL 9 -> ALEATORIO COMPLETAMENTE
+            incluir_obstaculo_aleatorio(2,'obs',7,6);
+            incluir_obstaculo_aleatorio(4,'pinchos',7,6);
+            incluir_obstaculo_aleatorio(7,'obs',7,6);
+            break;
+
+        case 10:
+            // NIVEL 10 -> INTRODUCIR CONDICIONALES			
 			incluir_obstaculo(0,0,'pinchos');
 			incluir_obstaculo(6,0,'pinchos');
 			incluir_obstaculo(3,7,'pinchos');
-
-            var i = 0;
-            var j = 0;
-            var x = Math.floor((Math.random() * 7) + 1);
-            while (i<6){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (x!=j){
-					incluir_obstaculo(j,2,'obs');
-                    i++;					
-                }
-				j++;
-            }
-			
+            incluir_obstaculo_aleatorio(2,'obs',7,6);
+            //incluir_obstaculo_aleatorio(4,'pinchos',7,5);
+		
             var i = 0;
             var j = 0;
             var y = Math.floor((Math.random() * 7) + 1);
@@ -290,67 +282,34 @@ function cargar_nivel(nivel, prim_ejecucion) {
 
             break;
 
-        case 10:
-            // NIVEL 10 -> nivel dificil
-			iniciar_nivel('nivel10', prim_ejecucion);
+        case 11:
+            // NIVEL 11 -> nivel dificil
+            incluir_obstaculo_aleatorio(4,'pinchos',7,6);
+            incluir_obstaculo_aleatorio(6,'pinchos',7,6);
 
             var i = 0;
             var j = 0;
             // w,x -> primera fila de obstáculos
             var w = Math.floor((Math.random() * 7) + 1);
             var x = Math.floor((Math.random() * 7) + 1);
-			while (i<5){
+            while (i<5){
                 // los valores de 'w' y 'x' deciden aleatoriamente donde habrá un hueco
                 if (w!=j && x!=j){
-					incluir_obstaculo(j,2,'pinchos');
+                    incluir_obstaculo(j,2,'pinchos');
                     i++;					
                 }
-				j++;
+                j++;
             }
-
-            i = 0;
-            j = 0;
-            // y -> segunda fila
-            var y = Math.floor((Math.random() * 7) + 1);
-            while (i<6){
-                // el valor de y decide aleatoriamente donde habrá un hueco
-                if (y!=j){
-					incluir_obstaculo(j,4,'pinchos');
-                    i++;					
-                }
-				j++;
-            }
-
-            i = 0;
-            j = 0;
-            // z -> tercera fila
-            var z = Math.floor((Math.random() * 7) + 1);
-            while (i<6) {
-                // el valor de z decide aleatoriamente donde habrá un hueco
-                if (z!=j){
-					incluir_obstaculo(j,6,'pinchos');
-                    i++;					
-                }
-				j++;
-			}
-
-            i = 0;
-            j = 0;
-            while (i<6) {
+            for (var i=0; i<7; i++) {
                 // dejar libre el hueco del final
-                if (3!=j){
-					incluir_obstaculo(j,8,'pinchos');
-                    i++;					
-                }
-				j++;
+                if (i!=3)
+					incluir_obstaculo(i,8,'pinchos');
             }
 
             break;
 
-        case 11:
-            /* NIVEL 11 -> Implementar testing */            
-			iniciar_nivel('nivel11', prim_ejecucion);
-
+        case 12:
+            /* NIVEL 12 -> Implementar testing */
             for(var b=0; b<9; b++) {
                 if (b!=3 && b!=7) {
 					incluir_obstaculo(0,b,'obs');
@@ -365,10 +324,8 @@ function cargar_nivel(nivel, prim_ejecucion) {
             }
             break;
 
-        case 12:
-            // NIVEL 12 -> Unit Test + nivel difícil
-			iniciar_nivel('nivel12', prim_ejecucion);
-
+        case 13:
+            // NIVEL 13 -> Unit Test + nivel difícil
             for(var b=0; b<9; b++) {
                 incluir_obstaculo(0,b,'pinchos');
                 incluir_obstaculo(6,b,'pinchos');
@@ -389,25 +346,21 @@ function cargar_nivel(nivel, prim_ejecucion) {
 					incluir_obstaculo(j,7,'pinchos');
             }
             break;
-			
-		case 13:
-            // NIVEL 13 -> While
-			iniciar_nivel('nivel13', prim_ejecucion);
-			
-            incluir_obstaculo(0,0,'obs');
-            incluir_obstaculo(1,2,'obs');
-            incluir_obstaculo(2,2,'pinchos');
-            incluir_obstaculo(3,6,'obs');
-            incluir_obstaculo(5,7,'pinchos');
-            incluir_obstaculo(5,8,'obs');
-            incluir_obstaculo(6,0,'obs');
-            incluir_obstaculo(6,1,'obs');
-            incluir_obstaculo(6,2,'obs');
-            incluir_obstaculo(6,3,'obs');
-            incluir_obstaculo(6,4,'obs');
-            incluir_obstaculo(6,5,'obs');
-			
-            break;
+    }
+}
+
+function incluir_obstaculo_aleatorio(columna, tipo, num_total, num_obs) {
+    var x = Math.floor((Math.random() * num_total) + 1);
+    var i = 0;
+    var j = 0;
+
+    while (i<num_obs){
+        // el valor de x decide aleatoriamente donde habrá un hueco
+        if (x!=j){
+            incluir_obstaculo(j,columna,tipo);
+            i++;					
+        }
+        j++;
     }
 }
 
@@ -426,7 +379,7 @@ function incluir_obstaculo(pos_x, pos_y, tipo) {
 }
 
 function cambio_nivel(mas_menos) {
-
+    stop=true;
     switch(mas_menos) {
         case 0:
             //cargar nivel anterior
@@ -434,7 +387,7 @@ function cambio_nivel(mas_menos) {
                 mostrarError(map_idioma.get('31'));
             } else {
                 nivel_actual--;
-                cargar_nivel(nivel_actual, false);
+                cargar_nivel(nivel_actual, false, false);
             }
             break;
         case 1:
@@ -443,7 +396,7 @@ function cambio_nivel(mas_menos) {
                 mostrarError(map_idioma.get('32'));
             } else {
                 nivel_actual++;
-                cargar_nivel(nivel_actual, false);
+                cargar_nivel(nivel_actual, false, false);
             }
             break;
     }
@@ -489,7 +442,7 @@ function traducirCodigo() {
     // Cuando se vuelva a traducir, el robot debe volver a la posición inicial para reiniciar el nivel.
     img_player.style.left = "10px";
     img_player.style.top = "180px";
-    img_player.src = "robot_lateral.gif";
+    img_player.src = imagen_robot_derecha;
 
     parsearCodigo(texto).then(array => {
         if (array == null) {
@@ -636,34 +589,76 @@ function printearTestCases() {
  * @param {Array con las instrucciones a ejecutar} instrucciones 
  */
 async function crearSecuencia(instrucciones) {
+    var btn_parar = document.getElementById("pararprog");	
     var img_player = document.getElementById('robot');
     var img_src = img_player.getAttribute("src");
+    if (stop) {
+        cargar_nivel(nivel_actual, false, true);
+        return false;
+    }
     if (instrucciones.length == 0) {
         printearTestCases().then(() => {
             return true;
         })
+        btn_parar.disabled = true;
     }
 
     var inst = instrucciones.pop();
-	//console.log(inst);
+	console.log(inst);
 	if (inst == null){
       //console.log(inst);
+	} else if (inst.charAt(0) == 'w') { // Viene un WHILE
+		inst = inst.replace("while_,", "");
+        var array_instWhile = inst.split(',');
+
+        for (var i = 0; i < repeticiones_permitidas; i++) {
+			for (var j = 0; j < array_instWhile.length; j++) {
+				await eval(array_instWhile[j]).then(continuar => {
+					if (continuar == true) {
+						/* seguir con el bucle */
+					} else if (continuar == 3 || continuar == 2) { // nivel superado
+						printearTestCases().then(() => {
+							return true;
+						})
+						i = repeticiones_permitidas;
+						j = array_instWhile.length;
+                        instrucciones = new Array;
+                        btn_parar.disabled = true;
+					} else { // colisión con pinchos o caer al vacío
+						printearTestCases().then(() => {
+							return true;
+						})
+						i = repeticiones_permitidas;
+						j = array_instWhile.length;
+                        instrucciones = new Array;
+                        btn_parar.disabled = true;
+					}
+				});
+			}
+        }
+		crearSecuencia(instrucciones);
 	} else if (inst.charAt(0) == 'r') {   // Viene un condicional, se trata de manera diferente (formato -> condición, instrucciones[])
             var array_temporal = inst.split(',');
             var orientacion_robot = array_temporal[0];
             if (img_src == orientacion_robot) {
                 for (var i = 1; i < array_temporal.length; i++) {
                     await eval(array_temporal[i]).then(continuar => {
-                        if (continuar == true) {
+                        if (continuar == true || continuar == 3) {
                             /* seguir con el bucle */
                         } else if (continuar == 2) { // nivel superado
                             printearTestCases().then(() => {
                                 return true;
                             })
+                            i = array_temporal.length;
+                            instrucciones = new Array;
+                            btn_parar.disabled = true;
                         } else { // colisión con pinchos o caer al vacío
                             printearTestCases().then(() => {
                                 return true;
                             })
+                            i = array_temporal.length;
+                            instrucciones = new Array;
+                            btn_parar.disabled = true;
                         }
                     });
                 }
@@ -677,21 +672,28 @@ async function crearSecuencia(instrucciones) {
         } else if (inst.charAt(0) == 't') {  // sustituir turn(x) -> gira(x)
             inst = inst.replace("turn", "gira");
         }
-
         eval(inst).then(continuar => {
-            if (continuar == true) {
+            if (continuar == true || continuar == 3) {
                 crearSecuencia(instrucciones);
             } else if (continuar == 2) {  // nivel superado
                 printearTestCases().then(() => {
                     return true;
                 })
+                instrucciones = new Array;
+                btn_parar.disabled = true;
             } else {  // colisión con pinchos o caer al vacío
                 printearTestCases().then(() => {
                     return true;
                 })
+                instrucciones = new Array;
+                btn_parar.disabled = true;
             }
         })
     }
+}
+
+async function pararCodigo() {
+	stop = true;
 }
 
 /* Función que se ejecuta al pulsar el botón Ejecutar Código. Compara las instrucciones que ha introducido el usuario con las soluciones más eficientes, y llama
@@ -699,6 +701,8 @@ a la función crearSecuencia(), que recorre el array de instrucciones.
 */
 function ejecutarCodigo() {
     var btn = document.getElementById("ejecutarprog");
+    var btn_parar = document.getElementById("pararprog");
+    btn_parar.disabled = false;
 	let array_sol1;
 	let array_sol2;
 	
@@ -734,8 +738,8 @@ function ejecutarCodigo() {
 	validarSolucion(array_sol1, array_sol2);
     
     array_traducido.reverse();
-    var terminado = crearSecuencia(array_traducido);
-    btn.disabled = true;	
+    crearSecuencia(array_traducido);
+    btn.disabled = true;
 }
 
 function traducirSolucion(array_sol) {
@@ -769,7 +773,15 @@ function validarSolucion(array_sol1, array_sol2) {
  */
 function avanza(npasos) {
     return new Promise(function(resolve, reject) {
+        if (stop) {
+            cargar_nivel(nivel_actual, false, true);
+            clearInterval(id);
+            resolve(false);
+            return;
+        }
+
 		var img_nivel = document.getElementById('corona-nivel' + nivel_actual);
+		var img_nivel_src = img_nivel.getAttribute("src");
         var txt_nivel = document.getElementById('txt-nivel' + nivel_actual);
         var img_final = document.getElementById('final');
         var texto_salida = document.getElementById('output');
@@ -788,20 +800,20 @@ function avanza(npasos) {
     
         clearInterval(id);
 
-        if (img_src == "robot_lateral.gif" || img_src == "robot_lateral_atras.gif"){
+        if (img_src == imagen_robot_derecha || img_src == imagen_robot_izquierda){
             id = setInterval(framehorizontal, 275);
         }
 
-        if (img_src == "robot_frente.gif" || img_src == "robot_espalda.gif") {
+        if (img_src == imagen_robot_frente || img_src == imagen_robot_espalda) {
             id = setInterval(framevertical, 275);
         }
     
         function framehorizontal(){
             if ( x < maxPos_left && i < npasos) {
-                if (img_src == "robot_lateral.gif") {
+                if (img_src == imagen_robot_derecha) {
                     x = x + 60;
                 }
-                if (img_src == "robot_lateral_atras.gif" && x > minPos_left) {
+                if (img_src == imagen_robot_izquierda && x > minPos_left) {
                     x = x - 60;
                 } 
                 hayColision(x,1).then(colision => {
@@ -818,7 +830,7 @@ function avanza(npasos) {
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
                             }
-                            resolve(true);
+                            resolve(3);
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
@@ -853,10 +865,30 @@ function avanza(npasos) {
                     resolve(false);
                     clearInterval(id);
                 } else {  // NIVEL COMPLETADO
-					img_nivel.src = "coronaOK.png";
-					txt_nivel.style.color = "green";
+					if (img_nivel_src != "coronaOK.png") {
+						niveles_superados++;
+						img_nivel.src = "coronaOK.png";
+						txt_nivel.style.color = "green";
+						if (niveles_superados >= 1 && niveles_superados <= 9) {
+							imagen_robot_frente = "robot_frente_gafas.gif";
+							imagen_robot_espalda = "robot_espalda_gafas.gif";
+							imagen_robot_derecha = "robot_lateral_gafas.gif";
+							imagen_robot_izquierda = "robot_lateral_atras_gafas.gif";
+                            img_player.src = imagen_robot_frente;
+						} else if (niveles_superados >= 2){//num_niveles) {
+							imagen_robot_frente = "robot_frente_gafas_gorro.gif";
+							imagen_robot_espalda = "robot_espalda_gafas_gorro.gif";
+							imagen_robot_derecha = "robot_lateral_gafas_gorro.gif";
+							imagen_robot_izquierda = "robot_lateral_atras_gafas_gorro.gif";
+                            img_player.src = imagen_robot_frente;
+						} else if (niveles_superados == num_niveles){
+                            document.body.style.backgroundImage = "url('confeti.gif')";
+							alert("¡¡FELICIDADES, HAS SUPERADO TODOS LOS NIVELES!!");
+						}
+					}
+					
                     if (eficiente == 0) {  // nivel aleatorio, no se puede comprobar la eficiencia
-                        texto_salida.value = map_idioma.get('22');
+                        texto_salida.value = map_idioma.get('21');
                     } else if (eficiente == 2) {  // solución eficiente
                         texto_salida.value = map_idioma.get('79');
                     } else texto_salida.value = map_idioma.get('78');  // solución ineficiente
@@ -867,10 +899,10 @@ function avanza(npasos) {
 
         function framevertical() {
             if (j < npasos) {
-                if (img_src == "robot_espalda.gif" && y > maxPos_top) {
+                if (img_src == imagen_robot_espalda && y > maxPos_top) {
                     y = y - 60;
                 }
-                if (img_src == "robot_frente.gif" && y < minPos_top) {
+                if (img_src == imagen_robot_frente && y < minPos_top) {
                     y = y + 60;
                 }
                 hayColision(y,2).then(colision => {
@@ -886,7 +918,7 @@ function avanza(npasos) {
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
                             }
-                            resolve(true);
+                            resolve(3);
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
@@ -937,6 +969,13 @@ function avanza(npasos) {
 function gira(ngiros) {
 
     return new Promise(function(resolve,reject) {
+        if (stop) {
+            cargar_nivel(nivel_actual, false, true);
+            clearInterval(id);
+            resolve(false);
+            return;
+        }
+
         var i = 1;
         var j;
         var id = null;
@@ -960,25 +999,25 @@ function gira(ngiros) {
             }
             if (!invertir) {
                 switch (img_src) {
-                    case "robot_lateral.gif":
+                    case imagen_robot_derecha:
                         var giro_espalda = 1;
                         var giro_izq = 2;
                         var giro_frente = 3;
                         var giro_der = 4;
                         break;
-                    case "robot_frente.gif":
+                    case imagen_robot_frente:
                         var giro_der = 1;
                         var giro_espalda = 2;
                         var giro_izq = 3;
                         var giro_frente = 4;
                         break;
-                    case "robot_lateral_atras.gif":
+                    case imagen_robot_izquierda:
                         var giro_frente = 1;
                         var giro_der = 2;
                         var giro_espalda = 3;
                         var giro_izq = 4;
                         break;
-                    case "robot_espalda.gif":
+                    case imagen_robot_espalda:
                         var giro_izq = 1;
                         var giro_frente = 2;
                         var giro_der = 3;
@@ -989,25 +1028,25 @@ function gira(ngiros) {
                 }
             } else {
                 switch (img_src) {
-                    case "robot_lateral.gif":
+                    case imagen_robot_derecha:
                         var giro_frente = 1;
                         var giro_izq = 2;
                         var giro_espalda = 3;
                         var giro_der = 4;
                         break;
-                    case "robot_frente.gif":
+                    case imagen_robot_frente:
                         var giro_izq = 1;
                         var giro_espalda = 2;
                         var giro_der = 3;
                         var giro_frente = 4;
                         break;
-                    case "robot_lateral_atras.gif":
+                    case imagen_robot_izquierda:
                         var giro_espalda = 1;
                         var giro_der = 2;
                         var giro_frente = 3;
                         var giro_izq = 4;
                         break;
-                    case "robot_espalda.gif":
+                    case imagen_robot_espalda:
                         var giro_der = 1;
                         var giro_frente = 2;
                         var giro_izq = 3;
@@ -1022,16 +1061,16 @@ function gira(ngiros) {
                 j = i - (4*rotaciones);
                 switch (j) {
                     case giro_espalda:
-                        img_player.src = "robot_espalda.gif";
+                        img_player.src = imagen_robot_espalda;
                         break;
                     case giro_izq:
-                        img_player.src = "robot_lateral_atras.gif";
+                        img_player.src = imagen_robot_izquierda;
                         break;
                     case giro_frente:
-                        img_player.src = "robot_frente.gif";
+                        img_player.src = imagen_robot_frente;
                         break;
                     case giro_der:
-                        img_player.src = "robot_lateral.gif";
+                        img_player.src = imagen_robot_derecha;
                         rotaciones++;
                         break;
                     default:
@@ -1053,7 +1092,6 @@ function gira(ngiros) {
  * @param {Cadena a comparar con la expresión regular r} str 
  * @returns true si str hace un match exacto con r // false en los demás casos
  */
-
 function matchExact(r, str) {
     var match = str.match(r);
     return match && str === match[0];
@@ -1062,23 +1100,26 @@ function matchExact(r, str) {
 // Función para añadir las instrucciones del array while.
 /**
  * @param {Array con las instrucciones dentro del while} array 
- * @param {array de longitud 1 que contiene el número de veces que hay que multiplicar el array.} nrepeticiones 
+ * @param {Condición de la instrucción} condicion 
  * @returns Promise resolve()/reject()
  */
-function crearArrayWhile(array, nrepeticiones) {
+function crearArrayWhile(array, condicion) {
     return new Promise(function(resolve, reject) {
         if (array.length == 0) {
             resolve();
-        } else {
-            var rep = nrepeticiones[0];
-            // bucle para multiplicar el array por el número de instrucciones (rep*array.length)
-            for (var i = 0; i < rep; i++) {
-                for (var j = 0; j < array.length; j++) {
-                    array_traducido.push(array[j]);
-                }
-            }
-            resolve(); 
-        }
+        } 
+		var instrucciones = "";
+        for (var i = 0; i < array.length; i++) {
+            var inst = array[i];
+            if (inst.charAt(0) == 'f') {  // sustituir forward(x) -> avanza(x)
+                inst = inst.replace("forward", "avanza");
+            } else if (inst.charAt(0) == 't') {  // sustituir turn(x) -> gira(x)
+                inst = inst.replace("turn", "gira");
+            }    
+            instrucciones += ',' + inst;
+        }		
+		array_traducido.push('while_' + instrucciones);		
+        resolve();
     })
 }
 
@@ -1113,10 +1154,10 @@ function crearArrayBucle(array, nrepeticiones) {
  */
 function crearArrayCondicional(array, condicion) {
     return new Promise(function(resolve, reject) {
-        var inst_norte = "robot_lateral.gif";
-        var inst_sur = "robot_lateral_atras.gif";
-        var inst_este = "robot_frente.gif";
-        var inst_oeste = "robot_espalda.gif";
+        var inst_norte = imagen_robot_derecha;
+        var inst_sur = imagen_robot_izquierda;
+        var inst_este = imagen_robot_frente;
+        var inst_oeste = imagen_robot_espalda;
 
         condicion = condicion.substring(0, condicion.length - 2); // quitamos caracteres sobrantes
 
@@ -1156,13 +1197,13 @@ function crearArrayCondicional(array, condicion) {
         }
 
         // Verificar que instrucción hay que añadir al array, dependiendo de la condición del si()
-        if (inst_norte != "robot_lateral.gif") {
+        if (inst_norte != imagen_robot_derecha) {
             array_traducido.push(inst_norte);
-        } else if (inst_sur != "robot_lateral_atras.gif") {
+        } else if (inst_sur != imagen_robot_izquierda) {
             array_traducido.push(inst_sur);
-        } else if (inst_este != "robot_frente.gif") {
+        } else if (inst_este != imagen_robot_frente) {
             array_traducido.push(inst_este);
-        } else if (inst_oeste != "robot_espalda.gif") {
+        } else if (inst_oeste != imagen_robot_espalda) {
             array_traducido.push(inst_oeste);
         }
 
@@ -1369,34 +1410,39 @@ async function comprobarArray(array) {
                     } else if (es_while) {
                         // instrucciones dentro de la estructura iterativa while():
                         if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
-                        instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
-                        array_while.push(instruccion);
-                        } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
+                            instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
+                            array_while.push(instruccion);
+                        } else if (concuerda_mientras_no_choca) { // no soporta whiles dentro de otro while
                             texto_salida.value = 'ERROR WHILE 1'; // map_idioma.get('22');
                             resolve(false);
-                        } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
-                            texto_salida.value = 'ERROR WHILE 2'; //map_idioma.get('30');
+                        } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
+                            texto_salida.value = 'ERROR WHILE 2'; // map_idioma.get('22');
                             resolve(false);
-                        } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del bucle
-                            es_bucle = false;
+                        } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
+                            texto_salida.value = 'ERROR WHILE 3'; //map_idioma.get('30');
+                            resolve(false);
+                        } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del while
+                            es_while = false;
                             crearArrayWhile(array_while, repeticiones).then(() => {
                                 array_while = [];
                                 array_traducido.push(instruccion);
                             })
-                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // fin de bucle, inicio de condicional
-                            es_bucle = false;
+                        } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste) {  // fin de while, inicio de condicional
+                            es_while = false;
                             crearArrayWhile(array_while, repeticiones).then(() => {
                                 array_while = [];
                                 es_condicional = true;
                                 condicion = instruccion.substring(3);
                             })
                         } else if (concuerda_repite) {  // inicio de otro bucle
+                            es_while = false;
                             crearArrayWhile(array_while, repeticiones).then(() => {
                                 array_while = [];
                                 es_bucle = true;
                                 repeticiones = instruccion.match(/\d+/);
                             })
                         } else if (concuerda_testcase) {         // inicio de un caso de prueba
+                            es_while = false;
                             crearArrayWhile(array_while, repeticiones).then(() => {
                                 array_while = [];
                                 es_tc = true;
@@ -1425,9 +1471,10 @@ async function comprobarArray(array) {
                         } else if (concuerda_testcase) {  // inicio de un testcase
                             es_tc = true;
                             array_tcases.push(instruccion);
-						} else if (concuerda_mientras_no_choca) { // MIENTRAS
-                            es_while = true;
-                            array_while.push(instruccion);
+                        } else if (concuerda_mientras_no_choca) { // MIENTRAS
+                            es_while = true;							
+                            condicion = 'no_choca'; // TODO: instruccion.substring(9);
+                            //array_while.push(instruccion);
                         } else {  // ERROR
                             terminado = depurarError(instruccion);
                             while (!terminado) {
@@ -1622,19 +1669,25 @@ async function asyncForEach(array, callback) {
 /**
  * @returns true si el nivel está limpiado completamente // false si todavía faltan obstáculos por limpiar
  */
-function limpiar_nivel() {
+function limpiar_nivel(esParada) {
         var id = null;
         var escenario = document.getElementById('escenario');
         var texto_salida = document.getElementById('output');
         var img_player = document.getElementById('robot');
         var btn = document.getElementById('ejecutarprog');
+        var btn_parar = document.getElementById('pararprog');
+
         btn.disabled = true;
+        btn_parar.disabled = true;
         casos_prueba = [];
         array_oraculos = [];
         img_player.style.left = "10px";
         img_player.style.top = "180px";
-        img_player.src = "robot_lateral.gif";
-        texto_salida.value = "";
+        img_player.src = imagen_robot_derecha;
+
+        if (!esParada)
+            texto_salida.value = "";
+
         for (var i = 0; i < array_obstaculos.length; i++) {
             id = array_obstaculos.pop();
             escenario.removeChild(id);
@@ -1646,17 +1699,22 @@ function limpiar_nivel() {
         return false;
 }
 
-function iniciar_nivel(nivel, prim_ejecucion) {
+function iniciar_nivel(nivel, prim_ejecucion, esParada) {
+    //$('#exampleModal').modal(options)
+    document.body.style.backgroundImage = "";
 	var btn = document.getElementById('ejecutarprog');
+	var btn_parar = document.getElementById('pararprog');
 	var btn_usuario = document.getElementById('usuario');
     var texto_py = document.getElementById('tarea');
     var texto_salida = document.getElementById("output");
     var continuar;
+	stop = false;
+	btn_parar.disabled = true;
 	
 	if (!prim_ejecucion) {
-		continuar = limpiar_nivel();
+		continuar = limpiar_nivel(false);
 		while (!continuar) {
-			continuar = limpiar_nivel();
+			continuar = limpiar_nivel(false);
 		}
 	} else {
 		cambiarIdioma("esp");
@@ -1664,7 +1722,8 @@ function iniciar_nivel(nivel, prim_ejecucion) {
 		texto_salida.value = "";
 		//cambiarUsuario();
 	}
-	texto_py.value = map_idioma.get(nivel);
+    if (!esParada)
+	    texto_py.value = map_idioma.get(nivel);
 }
 
 function cambiarUsuario() {

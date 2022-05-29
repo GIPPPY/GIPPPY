@@ -13,22 +13,39 @@
 	<script src="map_expresiones.js"></script>
 	
 	<style>
-	.img-nivel {
-		margin: 3%;
-		position: relative;
-	}
-	.txt-nivel {
-		position: absolute;
-		top: 4px;
-		left: 13px;
-		color: rgb(150, 152, 154);
-	}
-	.txt-nivel2 {
-		position: absolute;
-		top: 4px;
-		left: 7px;
-		color: rgb(150, 152, 154);
-	}
+        .suelo{
+            position:absolute;              
+            z-index: 0; 
+            width: 50px; 
+            height: 50px;
+        }
+        .bandera {
+            position:absolute; 
+            top: 75px; 
+            width: 40px; 
+            height: 30px;
+        }
+        .corona {
+            margin-right: 5px; 
+            width: 40px;
+            width: 40px;
+        }
+        .img-nivel {
+            margin: 3%;
+            position: relative;
+        }
+        .txt-nivel {
+            position: absolute;
+            top: 4px;
+            left: 13px;
+            color: rgb(150, 152, 154);
+        }
+        .txt-nivel2 {
+            position: absolute;
+            top: 4px;
+            left: 7px;
+            color: rgb(150, 152, 154);
+        }
 	</style>
 </head>
 
@@ -40,13 +57,13 @@
                 <h4 id="h4_inicio" style="margin-left: 40px; margin-top: 20px;">Juego sencillo para introducir a la programación con lenguaje Python</h4>
             </td>
             <td>
-                <input type="image" src="bandera_spn.gif" style="position:absolute; left: 900px; top: 75px; width: 40px; height: 30px;" onclick="cambiarIdioma('esp')">
+                <input type="image" class="bandera" src="bandera_spn.gif" style="left: 1000px;" onclick="cambiarIdioma('esp')">
             </td>
             <td>
-                <input type="image" src="bandera_vlc.png" style="position:absolute; left: 1000px; top: 75px; width: 40px; height: 30px;" onclick="cambiarIdioma('vlc')">
+                <input type="image" class="bandera" src="bandera_vlc.png" style="left: 1050px;" onclick="cambiarIdioma('vlc')">
             </td>
             <td>
-                <input type="image" src="uk_flag.png" style="position:absolute; left: 1100px; top: 75px; width: 40px; height: 30px;" onclick="cambiarIdioma('eng')">
+                <input type="image" class="bandera" src="uk_flag.png" style="left: 1100px;" onclick="cambiarIdioma('eng')">
             </td>
         </tr>
 	</table>
@@ -57,56 +74,56 @@
 			</td-->
 			<td width="585" height="40"></td>
 			<td class="img-nivel">
-				<img id="corona-nivel1" src="coronaKO.png" alt="1" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(1,false)">
-				<h3 class="txt-nivel" id='txt-nivel1' onclick="cargar_nivel(1,false)">1</h3>
+				<img class="corona" id="corona-nivel1" src="coronaKO.png" alt="1" onclick="cargar_nivel(1,false)">
+				<h3 class="txt-nivel" id='txt-nivel1' onclick="cargar_nivel(1,false,false)">1</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel2" src="coronaKO.png" alt="2" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(2,false)">
-				<h3 class="txt-nivel" id='txt-nivel2' onclick="cargar_nivel(2,false)">2</h3>
+				<img class="corona" id="corona-nivel2" src="coronaKO.png" alt="2" onclick="cargar_nivel(2,false)">
+				<h3 class="txt-nivel" id='txt-nivel2' onclick="cargar_nivel(2,false,false)">2</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel3" src="coronaKO.png" alt="3" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(3,false)">
-				<h3 class="txt-nivel" id='txt-nivel3' onclick="cargar_nivel(3,false)">3</h3>
+				<img class="corona" id="corona-nivel3" src="coronaKO.png" alt="3" onclick="cargar_nivel(3,false)">
+				<h3 class="txt-nivel" id='txt-nivel3' onclick="cargar_nivel(3,false,false)">3</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel4" src="coronaKO.png" alt="4" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(4,false)">
-				<h3 class="txt-nivel" id='txt-nivel4' onclick="cargar_nivel(4,false)">4</h3>
+				<img class="corona" id="corona-nivel4" src="coronaKO.png" alt="4" onclick="cargar_nivel(4,false)">
+				<h3 class="txt-nivel" id='txt-nivel4' onclick="cargar_nivel(4,false,false)">4</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel5" src="coronaKO.png" alt="5" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(5,false)">
-				<h3 class="txt-nivel" id='txt-nivel5' onclick="cargar_nivel(5,false)">5</h3>
+				<img class="corona" id="corona-nivel5" src="coronaKO.png" alt="5" onclick="cargar_nivel(5,false)">
+				<h3 class="txt-nivel" id='txt-nivel5' onclick="cargar_nivel(5,false,false)">5</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel6" src="coronaKO.png" alt="6" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(6,false)">
-				<h3 class="txt-nivel" id='txt-nivel6' onclick="cargar_nivel(6,false)">6</h3>
+				<img class="corona" id="corona-nivel6" src="coronaKO.png" alt="6" onclick="cargar_nivel(6,false)">
+				<h3 class="txt-nivel" id='txt-nivel6' onclick="cargar_nivel(6,false,false)">6</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel7" src="coronaKO.png" alt="7" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(7,false)">
-				<h3 class="txt-nivel" id='txt-nivel7' onclick="cargar_nivel(7,false)">7</h3>
+				<img class="corona" id="corona-nivel7" src="coronaKO.png" alt="7" onclick="cargar_nivel(7,false)">
+				<h3 class="txt-nivel" id='txt-nivel7' onclick="cargar_nivel(7,false,false)">7</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel8" src="coronaKO.png" alt="8" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(8,false)">
-				<h3 class="txt-nivel" id='txt-nivel8' onclick="cargar_nivel(8,false)">8</h3>
+				<img class="corona" id="corona-nivel8" src="coronaKO.png" alt="8" onclick="cargar_nivel(8,false)">
+				<h3 class="txt-nivel" id='txt-nivel8' onclick="cargar_nivel(8,false,false)">8</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel9" src="coronaKO.png" alt="9" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(9,false)">
-				<h3 class="txt-nivel" id='txt-nivel9' onclick="cargar_nivel(9,false)">9</h3>
+				<img class="corona" id="corona-nivel9" src="coronaKO.png" alt="9" onclick="cargar_nivel(9,false)">
+				<h3 class="txt-nivel" id='txt-nivel9' onclick="cargar_nivel(9,false,false)">9</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel10" src="coronaKO.png" alt="10" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(10,false)">
-				<h3 class="txt-nivel2" id='txt-nivel10' onclick="cargar_nivel(10,false)">10</h3>
+				<img class="corona" id="corona-nivel10" src="coronaKO.png" alt="10" onclick="cargar_nivel(10,false)">
+				<h3 class="txt-nivel2" id='txt-nivel10' onclick="cargar_nivel(10,false,false)">10</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel11" src="coronaKO.png" alt="11" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(11,false)">
-				<h3 class="txt-nivel2" id='txt-nivel11' onclick="cargar_nivel(11,false)">11</h3>
+				<img class="corona" id="corona-nivel11" src="coronaKO.png" alt="11" onclick="cargar_nivel(11,false)">
+				<h3 class="txt-nivel2" id='txt-nivel11' onclick="cargar_nivel(11,false,false)">11</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel12" src="coronaKO.png" alt="12" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(12,false)">
-				<h3 class="txt-nivel2" id='txt-nivel12' onclick="cargar_nivel(12,false)">12</h3>
+				<img class="corona" id="corona-nivel12" src="coronaKO.png" alt="12" onclick="cargar_nivel(12,false)">
+				<h3 class="txt-nivel2" id='txt-nivel12' onclick="cargar_nivel(12,false,false)">12</h3>
 			</td>
 			<td class="img-nivel">
-				<img id="corona-nivel13" src="coronaKO.png" alt="13" style="margin-rigth: 5px; width: 40px;" onclick="cargar_nivel(13,false)">
-				<h3 class="txt-nivel2" id='txt-nivel13' onclick="cargar_nivel(13,false)">13</h3>
+				<img class="corona" id="corona-nivel13" src="coronaKO.png" alt="13" onclick="cargar_nivel(13,false)">
+				<h3 class="txt-nivel2" id='txt-nivel13' onclick="cargar_nivel(13,false,false)">13</h3>
 			</td>
 		</tr>		
     </table>
@@ -120,77 +137,78 @@
                 <td style= "width: 100%; height: 100%;">
                     <div id="escenario" style= "position:relative; width:640px; height: 420px; background-color:rgb(3, 4, 36);">
                         <img id="robot" src = "robot_lateral.gif" style="position:absolute; border: 0; left: 10px; top: 180px; z-index: 3; width: 40px; height: 55px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 10px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 65px;" >
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 70px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 70px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 130px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 130px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 190px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 190px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 250px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 250px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 310px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 310px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 370px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 370px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 430px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 430px; top: 365px;">
 
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 5px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 65px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 125px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 185px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 245px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 305px; z-index: 0; width: 50px; height: 50px;">
-                        <img src = "suelo_inicio.png" style="position:absolute; left: 490px; top: 365px; z-index: 0; width: 50px; height: 50px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 5px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 65px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 125px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 185px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 245px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 305px;">
+                        <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 365px;">
 
                         <img id="brujula" src = "brujula.png" style="position:absolute; left: 545px; top: 15px; z-index: 0; width: 0px; height: 0px;">
                         <img src = "suelo_final.png" style="position:absolute; left: 550px; top: 185px; z-index: 0; width: 55px; height: 55px;">
@@ -202,6 +220,8 @@
                 <td>
                     <input id="traducirprog" class="btn btn-dark" type="button" style="margin-left: 40px;" value="Traducir a robot" onclick="traducirCodigo()">
                     <input id="ejecutarprog" class="btn btn-success" type="button" style="margin-left: 20px;" disabled value="Ejecutar programa" onclick="ejecutarCodigo()">
+                    <input id="pararprog" class="btn btn-warning" type="button" style="margin-left: 20px;" disabled value="Parar programa" onclick="pararCodigo()">
+                    <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Launch demo modal</button-->
                 </td>
                 <td>
                     <input class="btn btn-dark btn-sm" id="rnivel" type="button" style="margin-left: 10px;" value="Reducir Nivel" onclick="cambio_nivel(0)">
@@ -211,5 +231,24 @@
         </tbody>
     </table>
     <textarea readonly id="output" style="position:relative; left: 500px;" rows="8" cols="60"></textarea>
+    <!--div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div-->
 </body>
 </html>
