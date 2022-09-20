@@ -61,12 +61,14 @@ map_reg_esp.set('error_tipo_afirma',/afirma\(\d+\)/);
 
 // EXPRESIONES EN INGLES
 let map_reg_eng = new Map();
+map_reg_esp.set('avanza',/avanza\(\d+\)/);
+map_reg_esp.set('avanza_identado',/  avanza\(\d+\)/);
 map_reg_eng.set('avanza',/forward\(\d+\)/);
 map_reg_eng.set('avanza_identado',/  forward\(\d+\)/);
-map_reg_eng.set('gira+',/turn\(\d+\)/);
-map_reg_eng.set('gira+_identado',/  turn\(\d+\)/);
-map_reg_eng.set('gira-',/turn\(-\d+\)/);
-map_reg_eng.set('gira-_identado',/  turn\(-\d+\)/);
+map_reg_eng.set('gira_der',/turn\(\d+\)/);
+map_reg_eng.set('gira_der_identado',/  turn\(\d+\)/);
+map_reg_eng.set('gira_izq',/turn\(-\d+\)/);
+map_reg_eng.set('gira_izq_identado',/  turn\(-\d+\)/);
 map_reg_eng.set('repite',/repeat\(\d+\):/);
 map_reg_eng.set('repite_identado',/  repeat\(\d+\):/);
 map_reg_eng.set('si_robot_sur',/if\(south_robot\):/);
@@ -83,8 +85,8 @@ map_reg_eng.set('afirma_no_avanza',/  assert\(not_forwards\)/);
 map_reg_eng.set('afirma_pincha',/  assert\(stabbed\)/);
 map_reg_eng.set('afirma_choca',/  assert\(collides\)/);
 map_reg_eng.set('afirma_no_cae',/  assert\(not_falls\)/);
-map_reg_eng.set('mientras_no_choca',			/while\(no_choca\):/);
-map_reg_eng.set('mientras_no_choca_identado',	/  while\(no_choca\):/);
+map_reg_eng.set('mientras_no_choca',			/while\(no_crash\):/);
+map_reg_eng.set('mientras_no_choca_identado',	/  while\(no_crash\):/);
 /* REGEX ERRORES*/
 map_reg_eng.set('error_avanza1',/forward\d+\)/g);
 map_reg_eng.set('error_avanza2',/forward\(\d+/g);

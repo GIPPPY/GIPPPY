@@ -13,6 +13,12 @@
 	<script src="map_expresiones.js"></script>
 	
 	<style>
+        .premio{
+            position:absolute;              
+            z-index: 0; 
+            width: 50px; 
+            height: 50px;
+        }
         .suelo{
             position:absolute;              
             z-index: 0; 
@@ -28,11 +34,12 @@
         .corona {
             margin-right: 5px; 
             width: 40px;
-            width: 40px;
+            height: 36px;
         }
         .img-nivel {
             margin: 3%;
             position: relative;
+            height: 45px;
         }
         .txt-nivel {
             position: absolute;
@@ -46,33 +53,60 @@
             left: 7px;
             color: rgb(150, 152, 154);
         }
+        
+        #confirm {
+            display: none;
+            background-color: #91FF00;
+            border: 1px solid #aaa;
+            position: fixed;
+            width: 250px;
+            left: 50%;
+            margin-left: -100px;
+            padding: 6px 8px 8px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        #confirm .message {
+            text-align: left;
+        }
 	</style>
 </head>
 
 <body style="background-color:rgb(104, 123, 206) " onload= "cargar_nivel(1,true)">
     <h1 class="text-center font-weight-bold">GIPPPY (Game for Introductory Programming Practice in Python)</h1>
-    <table>		
+    <table>
         <tr>
             <td>
-                <h4 id="h4_inicio" style="margin-left: 40px; margin-top: 20px;">Juego sencillo para introducir a la programación con lenguaje Python</h4>
+                <h4 id="h4_inicio" style="margin-left: 20px; margin-top: 20px;">Juego sencillo para introducir a la programación con lenguaje Python</h4>
+            </td>
+			<!--td>
+				<input id="usuario" class="btn btn-light" type="button" style="position:absolute; top:70px; left:700px; width:120px;" value="Identifícate" onclick="cambiarUsuario()">
+			</td>
+            <td>
+				<input id="clasificación" class="btn btn-light" type="button" style="position:absolute; top:70px; left:830px; width:120px;" value="Clasificación" onclick="mostrarClasificacion()">
+			</td-->
+            <td>
+                <input type="image" class="bandera" src="bandera_spn.gif" style="left: 1050px;" onclick="cambiarIdioma('esp')">
             </td>
             <td>
-                <input type="image" class="bandera" src="bandera_spn.gif" style="left: 1000px;" onclick="cambiarIdioma('esp')">
+                <input type="image" class="bandera" src="bandera_vlc.png" style="left: 1100px;" onclick="cambiarIdioma('vlc')">
             </td>
             <td>
-                <input type="image" class="bandera" src="bandera_vlc.png" style="left: 1050px;" onclick="cambiarIdioma('vlc')">
+                <input type="image" class="bandera" src="uk_flag.png" style="left: 1150px;" onclick="cambiarIdioma('eng')">
             </td>
             <td>
-                <input type="image" class="bandera" src="uk_flag.png" style="left: 1100px;" onclick="cambiarIdioma('eng')">
+                <input type="image" class="bandera" src="bandera_alemania.png" style="left: 1200px;" onclick="cambiarIdioma('ger')">
+            </td>
+            <td>
+                <input type="image" class="bandera" src="bandera_japon.png" style="left: 1250px;" onclick="cambiarIdioma('jpn')">
             </td>
         </tr>
 	</table>
 	<table>	
 		<tr>
-			<!--td>
-				<input id="usuario" class="btn btn-dark" type="button" style="margin-left: 40px;" value="Usuario" onclick="cambiarUsuario()">
-			</td-->
-			<td width="585" height="40"></td>
+            <td>
+                <h5 id="txtUsuario" style="position:relative; left:20px; width:550px; text-align:center;"></h5>
+            </td>
 			<td class="img-nivel">
 				<img class="corona" id="corona-nivel1" src="coronaKO.png" alt="1" onclick="cargar_nivel(1,false)">
 				<h3 class="txt-nivel" id='txt-nivel1' onclick="cargar_nivel(1,false,false)">1</h3>
@@ -125,17 +159,24 @@
 				<img class="corona" id="corona-nivel13" src="coronaKO.png" alt="13" onclick="cargar_nivel(13,false)">
 				<h3 class="txt-nivel2" id='txt-nivel13' onclick="cargar_nivel(13,false,false)">13</h3>
 			</td>
+			<!--td class="img-nivel">
+				<img class="corona" id="corona-nivel14" src="coronaKO.png" alt="14" onclick="cargar_nivel(14,false)">
+				<h3 class="txt-nivel2" id='txt-nivel14' onclick="cargar_nivel(14,false,false)">14</h3>
+			</td-->
+			<!--td class="img-nivel">
+				<img class="corona" id="corona-nivel15" src="coronaKO.png" alt="15" onclick="cargar_nivel(15,false)">
+				<h3 class="txt-nivel2" id='txt-nivel15' onclick="cargar_nivel(15,false,false)">15</h3>
+			</td-->
 		</tr>		
     </table>
-
     <table class="table">
         <tbody>
             <tr>
                 <td>
-                    <textarea id="tarea" style="margin-left: 40px; font-size: 10pt;" rows="20" cols="80">Este es el juego para aprender</textarea>
-                </td>
+                    <textarea id="tarea" style="margin-left: 10px; font-size: 10pt;" rows="20" cols="80">Este es el juego para aprender</textarea>
+                </td>                
                 <td style= "width: 100%; height: 100%;">
-                    <div id="escenario" style= "position:relative; width:640px; height: 420px; background-color:rgb(3, 4, 36);">
+                    <div id="escenario" style= "position:relative; width:620px; height: 420px; background-color:rgb(3, 4, 36);">
                         <img id="robot" src = "robot_lateral.gif" style="position:absolute; border: 0; left: 10px; top: 180px; z-index: 3; width: 40px; height: 55px;">
                         
                         <img class="suelo" src = "suelo_inicio.png" style="left: 10px; top: 5px;">
@@ -210,27 +251,41 @@
                         <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 305px;">
                         <img class="suelo" src = "suelo_inicio.png" style="left: 490px; top: 365px;">
 
-                        <img id="brujula" src = "brujula.png" style="position:absolute; left: 545px; top: 15px; z-index: 0; width: 0px; height: 0px;">
-                        <img src = "suelo_final.png" style="position:absolute; left: 550px; top: 185px; z-index: 0; width: 55px; height: 55px;">
-                        <img id="final" src = "circulo.gif" style="position:absolute; left: 550px; top: 185px; z-index: 0; width: 65px; height: 55px;">
+                        <img id="brujula" src = "brujula.png"     style="position:absolute; left: 538px; top: 0px;   z-index: 0; width: 0px;  height: 0px;">
+                        <img              src = "suelo_final.png" style="position:absolute; left: 550px; top: 185px; z-index: 0; width: 55px; height: 55px;">
+                        <img id="final"   src = "circulo.gif"     style="position:absolute; left: 550px; top: 185px; z-index: 0; width: 65px; height: 55px;">
+
+                        <img id="gafas"       class="premio" src="gafasKO.png"       style="left: 640px; top: 5px;"   onclick="seleccionar_premio('gafas')">
+                        <img id="gorrofiesta" class="premio" src="gorrofiestaKO.png" style="left: 640px; top: 65px;"  onclick="seleccionar_premio('gorrofiesta')">
+                        <img id="esposas"     class="premio" src="esposasKO.png"     style="left: 640px; top: 125px;" onclick="seleccionar_premio('esposas')">
+                        <img id="lazo"        class="premio" src="lazoKO.png"        style="left: 640px; top: 185px;" onclick="seleccionar_premio('lazo')">
+                        <img id="medalla"     class="premio" src="medallaKO.png"     style="left: 640px; top: 245px;" onclick="seleccionar_premio('medalla')">
+                        <img id="gorro"       class="premio" src="gorroKO.png"       style="left: 640px; top: 305px;" onclick="seleccionar_premio('gorro')">
+                        <img id="coche"       class="premio" src="cocheKO.png"       style="left: 640px; top: 365px;" onclick="seleccionar_premio('coche')">
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input id="traducirprog" class="btn btn-dark" type="button" style="margin-left: 40px;" value="Traducir a robot" onclick="traducirCodigo()">
-                    <input id="ejecutarprog" class="btn btn-success" type="button" style="margin-left: 20px;" disabled value="Ejecutar programa" onclick="ejecutarCodigo()">
-                    <input id="pararprog" class="btn btn-warning" type="button" style="margin-left: 20px;" disabled value="Parar programa" onclick="pararCodigo()">
+                    <input id="traducirprog" class="btn btn-dark" type="button" style="margin-left: 10px;" value="Traducir a robot" onclick="traducirCodigo()">
+                    <input id="ejecutarprog" class="btn btn-success" type="button" style="margin-left: 10px;" disabled value="Ejecutar programa" onclick="ejecutarCodigo()">
+                    <input id="pararprog" class="btn btn-warning" type="button" style="margin-left: 10px;" disabled value="Parar programa" onclick="pararCodigo()">
                     <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Launch demo modal</button-->
                 </td>
                 <td>
-                    <input class="btn btn-dark btn-sm" id="rnivel" type="button" style="margin-left: 10px;" value="Reducir Nivel" onclick="cambio_nivel(0)">
+                    <input class="btn btn-dark btn-sm" id="rnivel" type="button" style="margin-left: 0px;" value="Reducir Nivel" onclick="cambio_nivel(0)">
                     <input class="btn btn-dark btn-sm" id="anivel" type="button" style="margin-left: 10px;" value="Aumentar Nivel" onclick="cambio_nivel(1)">
                 </td>
             </tr>
         </tbody>
     </table>
     <textarea readonly id="output" style="position:relative; left: 500px;" rows="8" cols="60"></textarea>
+
+    <!--input class="form-control" type="text" placeholder="Información del paso a paso de la ejecución..." readonly-->
+    <!--div id = "confirm">
+        <div class = "message">This is a warning message.</div>
+        <button class = "yes">OK</button>
+     </div-->
     <!--div class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -249,6 +304,6 @@
             </div>
           </div>
         </div>
-      </div-->
+    </div-->
 </body>
 </html>

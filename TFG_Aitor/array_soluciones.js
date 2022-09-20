@@ -10,9 +10,9 @@ const array_sol_n2yn3_2 = ["gira(1)", "avanza(1)", "gira(-1)", "avanza(8)", "gir
 /* NIVEL 6 */
 const array_sol_n6_1 = ["gira(1)", "avanza(3)", "gira(-1)", "avanza(8)", "gira(-1)", "avanza(3)", "gira(1)", "avanza(1)"];
 const array_sol_n6_2 = ["gira(-1)", "avanza(3)", "gira(1)", "avanza(8)", "gira(1)", "avanza(3)", "gira(-1)", "avanza(1)"];
-/* NIVEL 7 */
-const array_sol_n7_1 = ["gira(-1)", "avanza(2)", "gira(1)", "avanza(8)", "gira(1)", "avanza(2)", "gira(-1)", "avanza(1)"];
-const array_sol_n7_2 = ["gira(1)", "avanza(2)", "gira(-1)", "avanza(8)", "gira(-1)", "avanza(2)", "gira(1)", "avanza(1)"];
-/* NIVEL 11 */
-const array_sol_n11 = ["gira(-1)", "avanza(2)", "gira(1)", "avanza(6)", "gira(1)", "avanza(4)", "gira(-1)", "avanza(2)", "gira(-1)", "avanza(2)", "gira(1)", "avanza(1)"];
+/* NIVEL 8 */
+const array_sol_n8 = ["gira(-1)", "avanza(2)", "gira(1)", "avanza(6)", "gira(1)", "avanza(4)", "gira(-1)", "avanza(2)", "gira(-1)", "avanza(2)", "gira(1)", "avanza(1)"];
+/* NIVEL 9 */
+const array_sol_n9_1 = ["gira(-1)", "avanza(2)", "gira(1)", "avanza(8)", "gira(1)", "avanza(2)", "gira(-1)", "avanza(1)"];
+const array_sol_n9_2 = ["gira(1)", "avanza(2)", "gira(-1)", "avanza(8)", "gira(-1)", "avanza(2)", "gira(1)", "avanza(1)"];
 

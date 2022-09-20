@@ -22,7 +22,7 @@ var nivel_actual = 1;
 const num_niveles = 13;
 var eficiente = 0;
 var idioma = "";
-var repeticiones_permitidas = 25;
+var repeticiones_permitidas = 50;
 var array_obstaculos = new Array;
 var array_instrucciones = new Array;
 var array_traducido = new Array;
@@ -37,42 +37,27 @@ let map_idioma = new Map();
 let map_regex = new Map();
 let stop = false;
 let niveles_superados = 0;
+let superados_gafas = 1;
+let superados_gorrofiesta = 3;
+let superados_esposas = 6;
+let superados_lazo = 7;
+let superados_medalla = 9;
+let superados_gorro = 10;
+let superados_coche = 12;
+let con_gafas = false;
+let con_gorro = false;
+let con_pies = false;
 let imagen_robot_espalda = "robot_espalda.gif";
 let imagen_robot_frente = "robot_frente.gif";
 let imagen_robot_derecha = "robot_lateral.gif";
 let imagen_robot_izquierda = "robot_lateral_atras.gif";
-/*
-var reloj;
-var start;
-var stop;
-var reinicia;
-var sec = 0;
-var min = 0;
-var hrs = 0;
-var t;
-
-function tick(){
-    sec++;
-    if (sec >= 60) {
-        sec = 0;
-        min++;
-        if (min >= 60) {
-            min = 0;
-            hrs++;
-        }
-    }
-}
-function add() {
-    tick();
-    reloj.textContent = (hrs > 9 ? hrs : "0" + hrs) 
-        	 + ":" + (min > 9 ? min : "0" + min)
-       		 + ":" + (sec > 9 ? sec : "0" + sec);
-    timer();
-}
-function timer() {
-    t = setTimeout(add, 1000);
-}
-*/
+let obj_cabeza = "";
+let obj_cuerpo = "";
+let obj_pies = "";
+let nombre_imagen_espalda = `robot_espalda${obj_cabeza}${obj_cuerpo}${obj_pies}.gif`;
+let nombre_imagen_frente = `robot_frente${obj_cabeza}${obj_cuerpo}${obj_pies}.gif`;
+let nombre_imagen_derecha = `robot_lateral${obj_cabeza}${obj_cuerpo}${obj_pies}.gif`;
+let nombre_imagen_izquierda = `robot_lateral_atras${obj_cabeza}${obj_cuerpo}${obj_pies}.gif`;
 
 // Función para cambiar el idioma del juego.
 /**
@@ -85,6 +70,8 @@ function cambiarIdioma(lang) {
     var btn_parar = document.getElementById('pararprog');
     var btn_anivel = document.getElementById("anivel");
     var btn_rnivel = document.getElementById("rnivel"); 
+    //var btn_usuario = document.getElementById("usuario"); 
+    //var btn_clasificacion = document.getElementById("clasificación"); 
     var texto_py = document.getElementById('tarea');
 
     switch (lang) {  // preparado para añadir los lenguajes que haya diseñados.
@@ -96,12 +83,22 @@ function cambiarIdioma(lang) {
         case "eng":
 			map_idioma = map_eng;
 			map_regex = map_reg_eng;
-            idioma = "ingles";
+            idioma = "inglés";
             break;
         case "vlc":
 			map_idioma = map_vlc;
 			map_regex = map_reg_esp;
             idioma = "valenciano";
+            break;
+        case "ger":
+            map_idioma = map_ger;
+            map_regex = map_reg_eng;
+            idioma = "alemán";
+            break;
+        case "jpn":
+            map_idioma = map_jpn;
+            map_regex = map_reg_eng;
+            idioma = "japonés";
             break;
         default:
             break;
@@ -114,6 +111,8 @@ function cambiarIdioma(lang) {
     btn_parar.value = map_idioma.get('btnParar');
     btn_rnivel.value = map_idioma.get('btnNivelMenos');
     btn_anivel.value = map_idioma.get('btnNivelMas');
+    //btn_usuario.value = map_idioma.get('btnUsuario');
+    //btn_clasificacion.value = map_idioma.get('btnClasificacion');
     output.value = "";				
     // iniciar el contenido en el idioma apropiado para el panel de código cuando hagamos click.
 	texto_py.value = map_idioma.get('nivel' + nivel_actual);    
@@ -127,19 +126,13 @@ function cambiarIdioma(lang) {
  */
 function cargar_nivel(nivel, prim_ejecucion, esParada) {
     var img_brujula = document.getElementById('brujula');
-	img_brujula.style.height = nivel > 8 ? '85px' : '0px';
-	img_brujula.style.width = nivel > 8 ? '85px' : '0px';
+	img_brujula.style.height = nivel >= 7 ? '85px' : '0px';
+	img_brujula.style.width = nivel >= 7 ? '85px' : '0px';
 	nivel_actual = nivel;
-
-	//reloj = document.getElementById("reloj");
-	//reloj.textContent = "00:00:00";
-	//seconds = 0; minutes = 0; hours = 0;
-	//clearTimeout(t);
-	//t = setTimeout(add, 1000);
 
     iniciar_nivel('nivel'+nivel, prim_ejecucion, esParada);
 	
-    switch(nivel_actual) {
+    switch (nivel_actual) {
         case 1:
             // NIVEL 1			
             for (var i=0; i<9; i++) {
@@ -147,7 +140,6 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 				incluir_obstaculo(4,i,'obs');
 			}
             break;
-
         case 2:
             // NIVEL 2
 			incluir_obstaculo(0,0,'obs');
@@ -158,7 +150,6 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 			incluir_obstaculo(6,3,'obs');
 			incluir_obstaculo(6,6,'obs');
             break;
-
         case 3:
             // NIVEL 3
 			incluir_obstaculo(0,0,'obs');
@@ -168,8 +159,7 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 			incluir_obstaculo(6,0,'obs');
 			incluir_obstaculo(6,3,'obs');
 			incluir_obstaculo(6,6,'obs');
-            break;
-            
+            break;            
         case 4:
             // NIVEL 4 -->  ALEATORIO
             incluir_obstaculo_aleatorio(2,'obs',7,6);
@@ -178,9 +168,7 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 			incluir_obstaculo(4,5,'obs');
 			incluir_obstaculo(6,5,'obs');
 			incluir_obstaculo(3,6,'obs');
-
             break;
-
         case 5:
             // NIVEL 5 --> ALEATORIO
 			incluir_obstaculo(1,3,'pinchos');
@@ -192,7 +180,6 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 			incluir_obstaculo(2,6,'pinchos');
 			incluir_obstaculo(4,6,'pinchos');
 			incluir_obstaculo(6,6,'pinchos');
-
             // El último obstáculo con pinchos del nivel es aleatorio
             var random_pos = Math.floor(Math.random() * 3);
             for (var j=0; j<3; j++) {
@@ -202,7 +189,6 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
                 }
             }
             break;
-
         case 6:
             // NIVEL 6
             for (var i=1; i<8; i++) {
@@ -216,74 +202,32 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 				incluir_obstaculo(i,7,'obs');
             }
             break; 
-
         case 7:
-            // NIVEL 7: INTRODUCIR BUCLES 'REPITE'
-			incluir_obstaculo(0,0,'obs');
-			incluir_obstaculo(0,5,'pinchos');
-			incluir_obstaculo(0,8,'obs');
-			incluir_obstaculo(2,1,'obs');
-			incluir_obstaculo(2,5,'pinchos');
-			incluir_obstaculo(3,4,'pinchos');
-			incluir_obstaculo(4,1,'obs');
-			incluir_obstaculo(4,5,'pinchos');
-			incluir_obstaculo(6,0,'obs');
-			incluir_obstaculo(6,5,'pinchos');
-			incluir_obstaculo(6,8,'obs');			
-
-            break;
-			
-        case 8:
-            // NIVEL 8 -> While
-			incluir_obstaculo(0,0,'obs');
-			incluir_obstaculo(0,5,'obs');
-			incluir_obstaculo(0,8,'obs');
-			incluir_obstaculo(2,1,'obs');
-			incluir_obstaculo(2,5,'obs');
-			incluir_obstaculo(3,4,'obs');
-			incluir_obstaculo(4,1,'obs');
-			incluir_obstaculo(4,5,'obs');
-			incluir_obstaculo(6,0,'obs');
-			incluir_obstaculo(6,5,'obs');
-			incluir_obstaculo(6,8,'obs');	
+                // NIVEL 7 -> INTRODUCIR CONDICIONALES			
+                incluir_obstaculo(0,0,'pinchos');
+                incluir_obstaculo(6,0,'pinchos');
+                incluir_obstaculo(3,7,'pinchos');
+                incluir_obstaculo_aleatorio(2,'obs',7,6);
+                //incluir_obstaculo_aleatorio(4,'pinchos',7,5);
             
-            break;
-
-        case 9:
-            // NIVEL 9 -> ALEATORIO COMPLETAMENTE
-            incluir_obstaculo_aleatorio(2,'obs',7,6);
-            incluir_obstaculo_aleatorio(4,'pinchos',7,6);
-            incluir_obstaculo_aleatorio(7,'obs',7,6);
-            break;
-
-        case 10:
-            // NIVEL 10 -> INTRODUCIR CONDICIONALES			
-			incluir_obstaculo(0,0,'pinchos');
-			incluir_obstaculo(6,0,'pinchos');
-			incluir_obstaculo(3,7,'pinchos');
-            incluir_obstaculo_aleatorio(2,'obs',7,6);
-            //incluir_obstaculo_aleatorio(4,'pinchos',7,5);
-		
-            var i = 0;
-            var j = 0;
-            var y = Math.floor((Math.random() * 7) + 1);
-            var z = Math.floor((Math.random() * 7) + 1);
-            while (z == y) {
-                z = Math.floor((Math.random() * 7) + 1);
-            }
-            while (i<5){
-                // el valor de x decide aleatoriamente donde habrá un hueco
-                if (y!=j && z!=j){
-					incluir_obstaculo(j,4,'pinchos');
-                    i++;					
+                var i = 0;
+                var j = 0;
+                var y = Math.floor((Math.random() * 7) + 1);
+                var z = Math.floor((Math.random() * 7) + 1);
+                while (z == y) {
+                    z = Math.floor((Math.random() * 7) + 1);
                 }
-				j++;
-            }
-
-            break;
-
-        case 11:
-            // NIVEL 11 -> nivel dificil
+                while (i<5){
+                    // el valor de x decide aleatoriamente donde habrá un hueco
+                    if (y!=j && z!=j){
+                        incluir_obstaculo(j,4,'pinchos');
+                        i++;					
+                    }
+                    j++;
+                }    
+                break;
+        case 8:
+            // NIVEL 8 -> nivel dificil
             incluir_obstaculo_aleatorio(4,'pinchos',7,6);
             incluir_obstaculo_aleatorio(6,'pinchos',7,6);
 
@@ -303,11 +247,43 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
             for (var i=0; i<7; i++) {
                 // dejar libre el hueco del final
                 if (i!=3)
-					incluir_obstaculo(i,8,'pinchos');
-            }
-
+                    incluir_obstaculo(i,8,'pinchos');
+            }    
             break;
-
+        case 9:
+            // NIVEL 9: INTRODUCIR BUCLES 'REPITE'
+			incluir_obstaculo(0,0,'obs');
+			incluir_obstaculo(0,5,'pinchos');
+			incluir_obstaculo(0,8,'obs');
+			incluir_obstaculo(2,1,'obs');
+			incluir_obstaculo(2,5,'pinchos');
+			incluir_obstaculo(3,4,'pinchos');
+			incluir_obstaculo(4,1,'obs');
+			incluir_obstaculo(4,5,'pinchos');
+			incluir_obstaculo(6,0,'obs');
+			incluir_obstaculo(6,5,'pinchos');
+			incluir_obstaculo(6,8,'obs');
+            break;			
+        case 10:
+            // NIVEL 10 -> While
+			incluir_obstaculo(0,0,'obs');
+			incluir_obstaculo(0,5,'obs');
+			incluir_obstaculo(0,8,'obs');
+			incluir_obstaculo(2,1,'obs');
+			incluir_obstaculo(2,5,'obs');
+			incluir_obstaculo(3,4,'obs');
+			incluir_obstaculo(4,1,'obs');
+			incluir_obstaculo(4,5,'obs');
+			incluir_obstaculo(6,0,'obs');
+			incluir_obstaculo(6,5,'obs');
+			incluir_obstaculo(6,8,'obs');            
+            break;
+        case 11:
+            // NIVEL 11 -> ALEATORIO COMPLETAMENTE
+            incluir_obstaculo_aleatorio(2,'obs',7,6);
+            incluir_obstaculo_aleatorio(4,'pinchos',7,6);
+            incluir_obstaculo_aleatorio(7,'obs',7,6);
+            break;
         case 12:
             /* NIVEL 12 -> Implementar testing */
             for(var b=0; b<9; b++) {
@@ -323,14 +299,26 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 					incluir_obstaculo(b,7,'pinchos');
             }
             break;
-
+        /*case 13: // NEW: Testing + while
+            for(var b=0; b<9; b++) {
+                if (b!=3 && b!=7) {
+					incluir_obstaculo(0,b,'obs');
+                    incluir_obstaculo(6,b,'obs');
+                }
+            }
+            for(var b=1; b<6; b++) {
+                if (b!=5) 
+					incluir_obstaculo(b,3,'pinchos');
+				if (b!=1) 
+					incluir_obstaculo(b,7,'pinchos');
+            }
+            break;*/
         case 13:
             // NIVEL 13 -> Unit Test + nivel difícil
             for(var b=0; b<9; b++) {
                 incluir_obstaculo(0,b,'pinchos');
                 incluir_obstaculo(6,b,'pinchos');
-            }
-						
+            }						
             var w = Math.floor((Math.random() * 5) + 1);
             var x = Math.floor((Math.random() * 5) + 1);
             var y = Math.floor((Math.random() * 5) + 1);
@@ -345,6 +333,11 @@ function cargar_nivel(nivel, prim_ejecucion, esParada) {
 				if (z!=j)
 					incluir_obstaculo(j,7,'pinchos');
             }
+            break;
+        case 14: // NEW: Solución genérica + aleatorio
+            incluir_obstaculo_aleatorio(1,'obs',7,4);
+            incluir_obstaculo_aleatorio(4,'obs',7,5);
+            incluir_obstaculo_aleatorio(7,'obs',7,6);
             break;
     }
 }
@@ -384,7 +377,7 @@ function cambio_nivel(mas_menos) {
         case 0:
             //cargar nivel anterior
             if (nivel_actual <= 1){
-                mostrarError(map_idioma.get('31'));
+                mostrarError(map_idioma.get('errorBajarNivel'));
             } else {
                 nivel_actual--;
                 cargar_nivel(nivel_actual, false, false);
@@ -393,7 +386,7 @@ function cambio_nivel(mas_menos) {
         case 1:
             //cargar nivel siguiente
             if (nivel_actual >= num_niveles){
-                mostrarError(map_idioma.get('32'));
+                mostrarError(map_idioma.get('errorSubirNivel'));
             } else {
                 nivel_actual++;
                 cargar_nivel(nivel_actual, false, false);
@@ -450,7 +443,7 @@ function traducirCodigo() {
         } else {
             comprobarArray(array).then(correcto => {
                 if (correcto) {
-                    texto_salida.value = map_idioma.get('17');
+                    texto_salida.value = map_idioma.get('traducidoOK');
                     btn.disabled = false;
                 } else {
                     btn.disabled = true;
@@ -555,7 +548,7 @@ function parsearCodigo(codigo) {
             }
         }
         if (es_Comentario_largo) {
-            texto_salida.value = map_idioma.get('18');
+            texto_salida.value = map_idioma.get('errorComentario');
             resolve(null);
         }
         resolve(array_instrucciones);
@@ -571,7 +564,7 @@ function printearTestCases() {
             resolve();
         } else {
             for (var i = 0; i<casos_prueba.length; i++) {
-                if (array_oraculos[i] == map_idioma.get('86')) {
+                if (array_oraculos[i] == map_idioma.get('afirmaNoCae')) {
                     texto_salida.value += '\n' + casos_prueba[i] + ' TRUE';
                 } else {
                     texto_salida.value += '\n' + casos_prueba[i] + ' FALSE';
@@ -706,7 +699,7 @@ function ejecutarCodigo() {
 	let array_sol1;
 	let array_sol2;
 	
-	// comprobar si los niveles NO aleatorios (1,2,3,6,7 y 11) han sido superados de la manera más eficiente.
+	// comprobar si los niveles NO aleatorios (1,2,3,6,8,9) han sido superados de la manera más eficiente.
 	switch (nivel_actual) {
 		case 1:
 			array_sol1 = traducirSolucion(array_sol_n1);
@@ -723,13 +716,13 @@ function ejecutarCodigo() {
 			array_sol1 = traducirSolucion(array_sol_n6_1);
 			array_sol2 = traducirSolucion(array_sol_n6_2);
 			break;
-		case 7:
-			array_sol1 = traducirSolucion(array_sol_n7_1);
-			array_sol2 = traducirSolucion(array_sol_n7_2);
+        case 8:
+            array_sol1 = traducirSolucion(array_sol_n8);
+            break;    
+		case 9:
+			array_sol1 = traducirSolucion(array_sol_n9_1);
+			array_sol2 = traducirSolucion(array_sol_n9_2);
 			break;
-		case 11:
-			array_sol1 = traducirSolucion(array_sol_n11);
-			break;    
 		default:
 			/* do nothing */
 			break; 
@@ -824,8 +817,8 @@ function avanza(npasos) {
                             i+=1;
                             break;   
                         case 1:  // colisión obstáculo simple
-                            if (array_oraculos.includes(map_idioma.get('83'))) {
-                                var indice = array_oraculos.indexOf(map_idioma.get('83'));
+                            if (array_oraculos.includes(map_idioma.get('afirmaNoAvanza'))) {
+                                var indice = array_oraculos.indexOf(map_idioma.get('afirmaNoAvanza'));
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
@@ -834,9 +827,9 @@ function avanza(npasos) {
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
-                            texto_salida.value += '\n' + map_idioma.get('19');
-                            if (array_oraculos.includes(map_idioma.get('84'))) {
-                                var indice = array_oraculos.indexOf(map_idioma.get('84'));
+                            texto_salida.value += '\n' + map_idioma.get('avisoPinchos');
+                            if (array_oraculos.includes(map_idioma.get('afirmaPincha'))) {
+                                var indice = array_oraculos.indexOf(map_idioma.get('afirmaPincha'));
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
@@ -854,10 +847,10 @@ function avanza(npasos) {
             }
             if (x == maxPos_left) {
                 if (img_player.offsetTop != 180) {  // el robot se ha caído al vacío
-                    texto_salida.value += '\n' + map_idioma.get('20');
+                    texto_salida.value += '\n' + map_idioma.get('robotCaido');
                     img_player.src = "suelo_negro.png";
-                    if (array_oraculos.includes(map_idioma.get('86'))) {
-                        var indice = array_oraculos.indexOf(map_idioma.get('86'));
+                    if (array_oraculos.includes(map_idioma.get('afirmaNoCae'))) {
+                        var indice = array_oraculos.indexOf(map_idioma.get('afirmaNoCae'));
                         texto_salida.value += '\n' + casos_prueba[indice] + ' FALSE';
                         array_oraculos.splice(indice, 1);
                         casos_prueba.splice(indice, 1);
@@ -866,32 +859,53 @@ function avanza(npasos) {
                     clearInterval(id);
                 } else {  // NIVEL COMPLETADO
 					if (img_nivel_src != "coronaOK.png") {
-						niveles_superados++;
 						img_nivel.src = "coronaOK.png";
 						txt_nivel.style.color = "green";
-						if (niveles_superados >= 1 && niveles_superados <= 9) {
-							imagen_robot_frente = "robot_frente_gafas.gif";
-							imagen_robot_espalda = "robot_espalda_gafas.gif";
-							imagen_robot_derecha = "robot_lateral_gafas.gif";
-							imagen_robot_izquierda = "robot_lateral_atras_gafas.gif";
-                            img_player.src = imagen_robot_frente;
-						} else if (niveles_superados >= 2){//num_niveles) {
+						niveles_superados = calcular_superados();
+                        // Utilizar otro tipo de mensajería? ver animación o imagen agrandada del robot?
+						if (niveles_superados == superados_gafas && !premio_ya_ganado("gafas")) {
+                            ganar_premio("gafas");
+						} 
+                        if (niveles_superados == superados_gorrofiesta && !premio_ya_ganado("gorrofiesta")) {
+                            ganar_premio("gorrofiesta");
+                        }
+                        if (niveles_superados == superados_esposas && !premio_ya_ganado("esposas")) {
+                            ganar_premio("esposas");
+                        }
+                        if (niveles_superados == superados_lazo && !premio_ya_ganado("lazo")) {
+                            ganar_premio("lazo");
+                        }
+                        if (niveles_superados == superados_medalla && !premio_ya_ganado("medalla")) {
+                            ganar_premio("medalla");
+                        }
+                        if (niveles_superados == superados_gorro && !premio_ya_ganado("gorro")) {
+                            ganar_premio("gorro");
+                        }
+                        if (niveles_superados == superados_coche && !premio_ya_ganado("coche")) {
+                            ganar_premio("coche");
+                        }
+                        /*if (niveles_superados > superados_gorro){
 							imagen_robot_frente = "robot_frente_gafas_gorro.gif";
 							imagen_robot_espalda = "robot_espalda_gafas_gorro.gif";
 							imagen_robot_derecha = "robot_lateral_gafas_gorro.gif";
 							imagen_robot_izquierda = "robot_lateral_atras_gafas_gorro.gif";
                             img_player.src = imagen_robot_frente;
-						} else if (niveles_superados == num_niveles){
+                            if (!con_gorro){
+                                con_gorro = true;
+                                alert(map_idioma.get('alert_gorro'));
+                            }
+						}*/
+                        if (niveles_superados == num_niveles){
                             document.body.style.backgroundImage = "url('confeti.gif')";
-							alert("¡¡FELICIDADES, HAS SUPERADO TODOS LOS NIVELES!!");
+							alert(map_idioma.get('nivelesSuperados'));
 						}
 					}
 					
                     if (eficiente == 0) {  // nivel aleatorio, no se puede comprobar la eficiencia
-                        texto_salida.value = map_idioma.get('21');
+                        texto_salida.value = map_idioma.get('nivelSuperado');
                     } else if (eficiente == 2) {  // solución eficiente
-                        texto_salida.value = map_idioma.get('79');
-                    } else texto_salida.value = map_idioma.get('78');  // solución ineficiente
+                        texto_salida.value = map_idioma.get('nivelSuperadoEficiente');
+                    } else texto_salida.value = map_idioma.get('nivelSuperadoEficiente');  // solución ineficiente
                     resolve(2);
                 }
             }
@@ -912,8 +926,8 @@ function avanza(npasos) {
                             j+=1;
                             break;
                         case 1:  // colisión con obstáculo simple
-                            if (array_oraculos.includes(map_idioma.get('83'))) {  // si hay un caso de prueba no_avanza, mostrar TRUE.
-                                var indice = array_oraculos.indexOf(map_idioma.get('83'));
+                            if (array_oraculos.includes(map_idioma.get('afirmaNoAvanza'))) {  // si hay un caso de prueba no_avanza, mostrar TRUE.
+                                var indice = array_oraculos.indexOf(map_idioma.get('afirmaNoAvanza'));
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
@@ -922,9 +936,9 @@ function avanza(npasos) {
                             clearInterval(id);
                             break;
                         case 2:  // colisión obstáculo pinchos
-                            texto_salida.value += '\n' + map_idioma.get('19');
-                            if (array_oraculos.includes(map_idioma.get('84'))) {
-                                var indice = array_oraculos.indexOf(map_idioma.get('84'));
+                            texto_salida.value += '\n' + map_idioma.get('avisoPinchos');
+                            if (array_oraculos.includes(map_idioma.get('afirmaPincha'))) {
+                                var indice = array_oraculos.indexOf(map_idioma.get('afirmaPincha'));
                                 texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
                                 array_oraculos.splice(indice, 1);
                                 casos_prueba.splice(indice, 1);
@@ -940,8 +954,8 @@ function avanza(npasos) {
                     if (!limite) {
                         limite = true;
                     } else {
-                        if (array_oraculos.includes(map_idioma.get('85'))) {
-                            var indice = array_oraculos.indexOf(map_idioma.get('85'));
+                        if (array_oraculos.includes(map_idioma.get('afirmaChoca'))) {
+                            var indice = array_oraculos.indexOf(map_idioma.get('afirmaChoca'));
                             texto_salida.value += '\n' + casos_prueba[indice] + ' TRUE';
                             array_oraculos.splice(indice, 1);
                             casos_prueba.splice(indice, 1);
@@ -1174,22 +1188,22 @@ function crearArrayCondicional(array, condicion) {
             }
     
             switch (condicion) {
-                case map_idioma.get('49'):
+                case map_idioma.get('robotNorte'):
                     // concidicón robot_norte
                     inst_norte += ',' + inst;
                     break;
 
-                case map_idioma.get('50'):
+                case map_idioma.get('robotSur'):
                     // concidicón robot_sur
                     inst_sur += ',' + inst;
                     break;
 
-                case map_idioma.get('51'):
+                case map_idioma.get('robotEste'):
                     // concidicón robot_este
                     inst_este += ',' + inst;
                     break;
 
-                case map_idioma.get('52'):
+                case map_idioma.get('robotOeste'):
                     // concidicón robot_oeste
                     inst_oeste += ',' + inst;
                     break;
@@ -1224,13 +1238,13 @@ function crearTestCase(array, oraculo) {
             if (error_inst) {
                 /* no printear error */
             } else {
-                texto_salida.value = map_idioma.get('80');
+                texto_salida.value = map_idioma.get('errorTestcase');
             }
             resolve(false);
         }
 
         if (casos_prueba.includes(array[0])) {  // El identificador de los testcases tiene que ser diferente.
-            texto_salida.value = map_idioma.get('81') + array[0].slice(0,-1) + map_idioma.get('82');
+            texto_salida.value = map_idioma.get('errorIdentificador1') + array[0].slice(0,-1) + map_idioma.get('errorIdentificador2');
             resolve(false);
         } else {
             casos_prueba.push(array[0]);
@@ -1288,6 +1302,7 @@ async function comprobarArray(array) {
                     var concuerda_assert_choca = matchExact(map_regex.get('afirma_choca'), instruccion);
                     var concuerda_assert_nocae = matchExact(map_regex.get('afirma_no_cae'), instruccion);
                     var concuerda_mientras_no_choca = matchExact(map_regex.get('mientras_no_choca'), instruccion);
+                    var concuerda_mientras_no_choca_ident = matchExact(map_regex.get('mientras_no_choca_identado'), instruccion);
 
                     if (es_bucle) {
                         // instrucciones dentro de la estructura iterativa repite():
@@ -1295,10 +1310,10 @@ async function comprobarArray(array) {
                         instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
                         array_bucle.push(instruccion);
                         } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
-                            texto_salida.value = map_idioma.get('22');
+                            texto_salida.value = map_idioma.get('errorRepite');
                             resolve(false);
                         } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
-                            texto_salida.value = map_idioma.get('30');
+                            texto_salida.value = map_idioma.get('errorCondicionalRepite');
                             resolve(false);
                         } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del bucle
                             es_bucle = false;
@@ -1343,7 +1358,7 @@ async function comprobarArray(array) {
                             instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
                             array_condicional.push(instruccion);
                         } else if (concuerda_repite_ident) {  // no soporta combinación de estructuras
-                            texto_salida.value = map_idioma.get('28');
+                            texto_salida.value = map_idioma.get('errorBucle');
                         } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, no dependen del condicional
                             es_condicional = false;
                             crearArrayCondicional(array_condicional, condicion).then(() => {
@@ -1364,7 +1379,7 @@ async function comprobarArray(array) {
                                 repeticiones = instruccion.match(/\d+/);
                             })
                         } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) { // no puede haber más condiciones dentro de una condición
-                            texto_salida.value = map_idioma.get('29');
+                            texto_salida.value = map_idioma.get('errorCondicional');
                             resolve(false);
         
                         } else {  // ERROR
@@ -1377,16 +1392,16 @@ async function comprobarArray(array) {
                     } else if (es_tc) {
                         // instrucciones dentro de un testcase
                         if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones no identadas. ERROR
-                            texto_salida.value = map_idioma.get('87');
+                            texto_salida.value = map_idioma.get('errorTestcaseIdentacion');
                             resolve(false);
                         } else if (concuerda_repite || concuerda_repite_ident) {  // bucles no soportados en testcases. ERROR
-                            texto_salida.value = map_idioma.get('88');
+                            texto_salida.value = map_idioma.get('errorTestcaseBucles');
                             resolve(false);
                         } else if (concuerda_si_norte|| concuerda_si_este || concuerda_si_sur || concuerda_si_oeste || concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // condicionales no soportados
-                            texto_salida.value = map_idioma.get('89');
+                            texto_salida.value = map_idioma.get('errorTestcaseCondidiones');
                             resolve(false);
                         } else if (concuerda_testcase || concuerda_testcase_ident) {  // testcase sin cerrar el actual. ERROR.
-                            texto_salida.value = map_idioma.get('90');
+                            texto_salida.value = map_idioma.get('errorTestcaseCombinados');
                             resolve(false);
                         } else if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {  // instruccion identada. OK
                             instruccion = instruccion.substring(2);
@@ -1412,14 +1427,14 @@ async function comprobarArray(array) {
                         if (concuerda_avanza_ident || concuerda_gira1_ident || concuerda_gira2_ident) {
                             instruccion = instruccion.substring(2); // hay que filtrar los espacios (2 espacios antes de la instrucción)
                             array_while.push(instruccion);
-                        } else if (concuerda_mientras_no_choca) { // no soporta whiles dentro de otro while
-                            texto_salida.value = 'ERROR WHILE 1'; // map_idioma.get('22');
+                        } else if (concuerda_mientras_no_choca_ident) { // no soporta whiles dentro de otro while
+                            texto_salida.value = map_idioma.get('errorWhile');
                             resolve(false);
                         } else if (concuerda_repite_ident)  { // no soporta bucles dentro de otro bucle
-                            texto_salida.value = 'ERROR WHILE 2'; // map_idioma.get('22');
+                            texto_salida.value = map_idioma.get('errorWhileBucle');
                             resolve(false);
                         } else if (concuerda_si_norte_ident|| concuerda_si_este_ident || concuerda_si_sur_ident || concuerda_si_oeste_ident) {  // no soporta combinación de estructuras
-                            texto_salida.value = 'ERROR WHILE 3'; //map_idioma.get('30');
+                            texto_salida.value = map_idioma.get('errorWhileCondiciones');
                             resolve(false);
                         } else if (concuerda_avanza || concuerda_gira1 || concuerda_gira2) {  // instrucciones sin espacios, fuera del while
                             es_while = false;
@@ -1447,10 +1462,17 @@ async function comprobarArray(array) {
                                 array_while = [];
                                 es_tc = true;
                                 array_tcases.push(instruccion);
+                            })     
+                        // TODO: no añade las instrucciones bien.                       
+                        } else if (concuerda_mientras_no_choca) { // inicio de un WHILE
+                            crearArrayBucle(array_bucle, repeticiones).then(() => {
+                                array_bucle = [];
+                                es_while = true;
+                                array_while.push(instruccion);
                             })
-                        } else if (concuerda_mientras_no_choca) { // no puede haber más mientras dentro de un mientras
-                            texto_salida.value = 'ERROR WHILE 3'; // map_idioma.get('29');
-                            resolve(false);                            
+                        //} else if (concuerda_mientras_no_choca) { // no puede haber más mientras dentro de un mientras
+                        //    texto_salida.value = 'ERROR WHILE 3'; // map_idioma.get('errorCondicional');
+                        //    resolve(false);                            
                         } else {  // ERROR
                             terminado = depurarError(instruccion);
                             while (!terminado) {
@@ -1558,32 +1580,32 @@ function depurarError(instruccion_actual) {
 
 
     if (error_parentesis1_av != null || error_parentesis2_av != null || error_parentesis1_gi != null || error_parentesis2_gi != null || error_parentesis3_gi != null || error_parentesis4_gi != null) { // error paréntesis
-        texto_salida.value = map_idioma.get('25');
+        texto_salida.value = map_idioma.get('errorParentesis');
         error_inst = true;
     } else if (error_parametro_av != null || error_parametro_gira != null || error_parametro_repite != null || error_parametro_si != null) { // parámetro no encontrado
-        texto_salida.value = map_idioma.get('26');
+        texto_salida.value = map_idioma.get('errorParametro');
         error_inst = true;
     } else if (error_instruccion_nostruct_pos != null || error_instruccion_nostruct_neg != null || error_parametro_general != null || error_instruccion_nostruct_str != null || error_tc_puntos) { // instruccion no existente
         if (error_repite_puntos || error_si_puntos || error_tc_puntos) {  // caracter : no usado en estructuras repite, condicional y testcase
-            texto_salida.value = map_idioma.get('27');
+            texto_salida.value = map_idioma.get('errorEstructura');
         } else {
-            texto_salida.value = map_idioma.get('23') + "" + instruccion_actual + map_idioma.get('24');
+            texto_salida.value = map_idioma.get('errorInstruccion1') + instruccion_actual + map_idioma.get('errorInstruccion2');
         }
         error_inst = true;
     } else if (error_condicion) {  // no existe la condición
-        texto_salida.value = map_idioma.get('71');
+        texto_salida.value = map_idioma.get('errorCondicionNoExiste');
         error_inst = true;
     } else if (error_instruccion_struct_num != null || error_instruccion_struct_str != null) {  // estructura errónea
-        texto_salida.value = map_idioma.get('72');
+        texto_salida.value = map_idioma.get('errorEstructuraNoExiste');
         error_inst = true;
     } else if (error_assert_noident_1 != null || error_assert_noident_2 != null || error_assert_noident_3 != null || error_assert_noident_4 != null)  {  // assert no identada
-        texto_salida.value = map_idioma.get('95');
+        texto_salida.value = map_idioma.get('errorAfirnaIdentado');
         error_inst = true;
     } else if (error_oraculo != null) { // oráculo en el assert no válido
-        texto_salida.value = map_idioma.get('97');
+        texto_salida.value = map_idioma.get('errorOraculoNoExiste');
         error_inst = true;
     } else if (error_av_tipo != null || error_gi_tipo != null || error_re_tipo != null || error_si_tipo != null || error_af_tipo != null) { // tipo del parámetro erróneo
-        texto_salida.value = map_idioma.get('106');
+        texto_salida.value = map_idioma.get('errorParametroNoExiste');
         error_inst = true;
     }
 
@@ -1707,6 +1729,15 @@ function iniciar_nivel(nivel, prim_ejecucion, esParada) {
 	var btn_usuario = document.getElementById('usuario');
     var texto_py = document.getElementById('tarea');
     var texto_salida = document.getElementById("output");
+    for(var i=1; i<=num_niveles; i++) {
+        var txt_nivel = document.getElementById('txt-nivel'+i);
+		var img_nivel = document.getElementById('corona-nivel'+i);
+        var img_nivel_src = img_nivel.getAttribute("src");
+        txt_nivel.style.color = img_nivel_src == "coronaOK.png" ? "green" : "rgb(150, 152, 154)";
+    }
+    var txt_niv = document.getElementById('txt-'+nivel);
+    txt_niv.style.color = "darkred";
+
     var continuar;
 	stop = false;
 	btn_parar.disabled = true;
@@ -1726,6 +1757,67 @@ function iniciar_nivel(nivel, prim_ejecucion, esParada) {
 	    texto_py.value = map_idioma.get(nivel);
 }
 
-function cambiarUsuario() {
+function calcular_superados(){
+    var niveles_superados=0;
+    for(var i=1; i<=num_niveles; i++) {
+		var img_nivel = document.getElementById('corona-nivel'+i);
+        var img_nivel_src = img_nivel.getAttribute("src");
+        if (img_nivel_src == "coronaOK.png") 
+            niveles_superados++;
+    }
+    return niveles_superados;
+}
+
+function seleccionar_premio(nombre) {
+    var obj = document.getElementById(nombre);
+    var obj_src = obj.getAttribute("src");
+    if (obj_src != nombre+"KO.png")
+    {
+        if(nombre=="gorrofiesta" || nombre=="gorro" || nombre=="lazo")
+            obj_cabeza = obj_cabeza=="_"+nombre ? "" : "_"+nombre;
+        else if(nombre=="esposas" || nombre=="coche" || nombre=="medalla")
+            obj_pies = obj_pies=="_"+nombre ? "" : "_"+nombre;
+        else
+            obj_cuerpo = obj_cuerpo=="_"+nombre ? "" : "_"+nombre;
+
+        imagen_robot_frente = "robot_frente"+obj_cabeza+obj_cuerpo+obj_pies+".gif";
+        imagen_robot_espalda = "robot_espalda"+obj_cabeza+obj_cuerpo+obj_pies+".gif";
+        imagen_robot_derecha = "robot_lateral"+obj_cabeza+obj_cuerpo+obj_pies+".gif";
+        imagen_robot_izquierda = "robot_lateral_atras"+obj_cabeza+obj_cuerpo+obj_pies+".gif";
+        var img_player = document.getElementById('robot');
+        img_player.src = imagen_robot_frente;
+    }
+}
+
+function ganar_premio(nombre){
+    var obj = document.getElementById(nombre);
+    obj.src=nombre+"OK.png";
+    seleccionar_premio(nombre);    
+    alert(map_idioma.get('alert_' + nombre));
+}
+
+function premio_ya_ganado(nombre){
+    var obj = document.getElementById(nombre);
+    var obj_src = obj.getAttribute("src");
+    return obj_src == nombre+"OK.png";
+}
+
+function cambiarUsuario(msg, myYes) {
     localStorage.setItem('nombre', prompt('Por favor, indica tu nombre.'));
+    //var confirmBox = document.getElementById("confirm");
+    //confirmBox.find(".message").text(msg);
+    //confirmBox.find(".yes").unbind().click(function() {
+    //    confirmBox.hide();
+    //});
+    //confirmBox.find(".yes").click(myYes);
+    confirmBox.show();
+}
+
+function mostrarClasificacion() {
+    alert(localStorage.getItem('nombre') +' has superado ' + niveles_superados + ' niveles.');
+    //file=fopen(getScriptPath(),0);
+    //var fso = new ActiveXObject("Scripting.FileSystemObject");
+    //var s = fso.OpenTextFile("C:\\example.txt", 1, true);
+    //var fs = require("fs");
+    //console.log(" Writing into an file ");
 }
