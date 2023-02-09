@@ -31,6 +31,12 @@
             width: 40px; 
             height: 30px;
         }
+        .insignia {
+            position:absolute; 
+            top: 60px; 
+            width: 50px; 
+            height: 50px;
+        }
         .corona {
             margin-right: 5px; 
             width: 40px;
@@ -86,13 +92,21 @@
 				<input id="clasificación" class="btn btn-light" type="button" style="position:absolute; top:70px; left:830px; width:120px;" value="Clasificación" onclick="mostrarClasificacion()">
 			</td-->
             <td>
-                <input type="image" class="bandera" src="bandera_spn.gif" style="left: 1050px;" onclick="cambiarIdioma('esp')">
+                <img class="insignia" id="insignia1" src="transparente.png" style="left: 760px;">
+                <img class="insignia" id="insignia2" src="transparente.png" style="left: 800px;">
+                <img class="insignia" id="insignia3" src="transparente.png" style="left: 840px;">
             </td>
             <td>
-                <input type="image" class="bandera" src="bandera_vlc.png" style="left: 1100px;" onclick="cambiarIdioma('vlc')">
+                <input type="image" class="bandera" src="bandera_esp.png" style="left: 1000px;" onclick="cambiarIdioma('esp')">
             </td>
             <td>
-                <input type="image" class="bandera" src="uk_flag.png" style="left: 1150px;" onclick="cambiarIdioma('eng')">
+                <input type="image" class="bandera" src="bandera_vlc.png" style="left: 1050px;" onclick="cambiarIdioma('vlc')">
+            </td>
+            <td>
+                <input type="image" class="bandera" src="uk_flag.png" style="left: 1100px;" onclick="cambiarIdioma('eng')">
+            </td>
+            <td>
+                <input type="image" class="bandera" src="bandera_portugal.png" style="left: 1150px;" onclick="cambiarIdioma('por')">
             </td>
             <td>
                 <input type="image" class="bandera" src="bandera_alemania.png" style="left: 1200px;" onclick="cambiarIdioma('ger')">

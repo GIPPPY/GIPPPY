@@ -1,5 +1,5 @@
 /* Fichero con las soluciones de los niveles NO aleatorios.
-*   Las soluciones están en formato array para ser comparadas en index.js.
+*  Las soluciones están en formato array para ser comparadas en index.js.
 */
 
 /* NIVEL 1 */

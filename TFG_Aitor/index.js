@@ -35,7 +35,7 @@ var array_oraculos = new Array;
 var error_inst = false;
 let map_idioma = new Map();
 let map_regex = new Map();
-let stop = false;
+let pararEjecucion = false;
 let niveles_superados = 0;
 let superados_gafas = 1;
 let superados_gorrofiesta = 3;
@@ -44,6 +44,9 @@ let superados_lazo = 7;
 let superados_medalla = 9;
 let superados_gorro = 10;
 let superados_coche = 12;
+let superados_insignia_1 = 4;
+let superados_insignia_2 = 8;
+let superados_insignia_3 = 12;
 let con_gafas = false;
 let con_gorro = false;
 let con_pies = false;
@@ -90,6 +93,11 @@ function cambiarIdioma(lang) {
 			map_regex = map_reg_esp;
             idioma = "valenciano";
             break;
+        case "por":
+            map_idioma = map_por;
+            map_regex = map_reg_eng;
+            idioma = "portugués";
+            break;
         case "ger":
             map_idioma = map_ger;
             map_regex = map_reg_eng;
@@ -125,13 +133,8 @@ function cambiarIdioma(lang) {
  * @param {Booleano para indicar si el juego se acaba de iniciar o no} prim_ejecucion 
  */
 function cargar_nivel(nivel, prim_ejecucion, esParada) {
-    var img_brujula = document.getElementById('brujula');
-	img_brujula.style.height = nivel >= 7 ? '85px' : '0px';
-	img_brujula.style.width = nivel >= 7 ? '85px' : '0px';
 	nivel_actual = nivel;
-
-    iniciar_nivel('nivel'+nivel, prim_ejecucion, esParada);
-	
+    iniciar_nivel('nivel'+nivel, prim_ejecucion, esParada);	
     switch (nivel_actual) {
         case 1:
             // NIVEL 1			
@@ -346,7 +349,6 @@ function incluir_obstaculo_aleatorio(columna, tipo, num_total, num_obs) {
     var x = Math.floor((Math.random() * num_total) + 1);
     var i = 0;
     var j = 0;
-
     while (i<num_obs){
         // el valor de x decide aleatoriamente donde habrá un hueco
         if (x!=j){
@@ -372,7 +374,7 @@ function incluir_obstaculo(pos_x, pos_y, tipo) {
 }
 
 function cambio_nivel(mas_menos) {
-    stop=true;
+    pararEjecucion=true;
     switch(mas_menos) {
         case 0:
             //cargar nivel anterior
@@ -585,7 +587,7 @@ async function crearSecuencia(instrucciones) {
     var btn_parar = document.getElementById("pararprog");	
     var img_player = document.getElementById('robot');
     var img_src = img_player.getAttribute("src");
-    if (stop) {
+    if (pararEjecucion) {
         cargar_nivel(nivel_actual, false, true);
         return false;
     }
@@ -686,7 +688,7 @@ async function crearSecuencia(instrucciones) {
 }
 
 async function pararCodigo() {
-	stop = true;
+	pararEjecucion = true;
 }
 
 /* Función que se ejecuta al pulsar el botón Ejecutar Código. Compara las instrucciones que ha introducido el usuario con las soluciones más eficientes, y llama
@@ -766,7 +768,7 @@ function validarSolucion(array_sol1, array_sol2) {
  */
 function avanza(npasos) {
     return new Promise(function(resolve, reject) {
-        if (stop) {
+        if (pararEjecucion) {
             cargar_nivel(nivel_actual, false, true);
             clearInterval(id);
             resolve(false);
@@ -862,6 +864,17 @@ function avanza(npasos) {
 						img_nivel.src = "coronaOK.png";
 						txt_nivel.style.color = "green";
 						niveles_superados = calcular_superados();
+
+                        if (niveles_superados == superados_insignia_1) {
+                            ganar_insignia("insignia1");
+                        }
+                        if (niveles_superados == superados_insignia_2) {
+                            ganar_insignia("insignia2");
+                        }
+                        if (niveles_superados == superados_insignia_3) {
+                            ganar_insignia("insignia3");
+                        }
+
                         // Utilizar otro tipo de mensajería? ver animación o imagen agrandada del robot?
 						if (niveles_superados == superados_gafas && !premio_ya_ganado("gafas")) {
                             ganar_premio("gafas");
@@ -983,7 +996,7 @@ function avanza(npasos) {
 function gira(ngiros) {
 
     return new Promise(function(resolve,reject) {
-        if (stop) {
+        if (pararEjecucion) {
             cargar_nivel(nivel_actual, false, true);
             clearInterval(id);
             resolve(false);
@@ -1722,39 +1735,41 @@ function limpiar_nivel(esParada) {
 }
 
 function iniciar_nivel(nivel, prim_ejecucion, esParada) {
-    //$('#exampleModal').modal(options)
+    pararEjecucion = true;//pararCodigo();
     document.body.style.backgroundImage = "";
-	var btn = document.getElementById('ejecutarprog');
-	var btn_parar = document.getElementById('pararprog');
-	var btn_usuario = document.getElementById('usuario');
+    var btn = document.getElementById('ejecutarprog');
+    var btn_parar = document.getElementById('pararprog');
+    var btn_usuario = document.getElementById('usuario');
     var texto_py = document.getElementById('tarea');
     var texto_salida = document.getElementById("output");
     for(var i=1; i<=num_niveles; i++) {
         var txt_nivel = document.getElementById('txt-nivel'+i);
-		var img_nivel = document.getElementById('corona-nivel'+i);
+        var img_nivel = document.getElementById('corona-nivel'+i);
         var img_nivel_src = img_nivel.getAttribute("src");
         txt_nivel.style.color = img_nivel_src == "coronaOK.png" ? "green" : "rgb(150, 152, 154)";
     }
     var txt_niv = document.getElementById('txt-'+nivel);
     txt_niv.style.color = "darkred";
+    var img_brujula = document.getElementById('brujula');
+	img_brujula.style.height = nivel_actual >= 7 ? '85px' : '0px';
+	img_brujula.style.width = nivel_actual >= 7 ? '85px' : '0px';
 
     var continuar;
-	stop = false;
-	btn_parar.disabled = true;
+    pararEjecucion = false;
+    btn_parar.disabled = true;
 	
-	if (!prim_ejecucion) {
-		continuar = limpiar_nivel(false);
-		while (!continuar) {
-			continuar = limpiar_nivel(false);
-		}
-	} else {
+    if (!prim_ejecucion) {
+        continuar = limpiar_nivel(false);
+        while (!continuar) {
+            continuar = limpiar_nivel(false);
+        }
+    } else {
 		cambiarIdioma("esp");
 		btn.disabled = true;
 		texto_salida.value = "";
-		//cambiarUsuario();
 	}
     if (!esParada)
-	    texto_py.value = map_idioma.get(nivel);
+        texto_py.value = map_idioma.get(nivel);        
 }
 
 function calcular_superados(){
@@ -1800,6 +1815,11 @@ function premio_ya_ganado(nombre){
     var obj = document.getElementById(nombre);
     var obj_src = obj.getAttribute("src");
     return obj_src == nombre+"OK.png";
+}
+
+function ganar_insignia(nombre){
+    var obj = document.getElementById(nombre);
+    obj.src=nombre+".png";
 }
 
 function cambiarUsuario(msg, myYes) {

@@ -1,5 +1,6 @@
 /* Fichero para los maps con los string necesarios para el juego en diferentes idiomas.
-   Si se quiere añadir otro idioma al juego, simplemente crear un nuevo map para el idioma. IMPORTANTE respetar los nombres de los índices del map. */
+   Si se quiere añadir otro idioma al juego, simplemente crear un nuevo map para el idioma. 
+   IMPORTANTE respetar los nombres de los índices del map. */
 
 // ESPAÑOL
 let map_esp = new Map();
@@ -71,6 +72,7 @@ map_esp.set('alert_gafas','Por superar ' + superados_gafas + ' nivel tu robot ha
 map_esp.set('alert_gorro','Por superar ' + superados_gorro + ' niveles tu robot ha conseguido ¡¡UN BIRRETE!!');
 map_esp.set('alert_gorrofiesta','Por superar ' + superados_gorrofiesta + ' niveles tu robot ha conseguido ¡¡UN GORRO DE FIESTA!!');
 map_esp.set('alert_esposas','Por superar ' + superados_esposas + ' niveles tu robot ha conseguido ¡¡UNAS ESPOSAS!!');
+map_esp.set('alert_lazo','Por superar ' + superados_lazo + ' niveles tu robot ha conseguido ¡¡UN LAZO!!');
 map_esp.set('alert_medalla','Por superar ' + superados_medalla + ' niveles tu robot ha conseguido ¡¡UNA MEDALLA!!');
 map_esp.set('alert_coche','Por superar ' + superados_coche + ' niveles tu robot ha conseguido ¡¡UN COCHE!!');
 map_esp.set('btnUsuario', "Identifícate");
@@ -147,6 +149,7 @@ map_eng.set('alert_gafas','For passing ' + superados_gafas + ' levels your robot
 map_eng.set('alert_gorro','For passing ' + superados_gorro + ' levels your robot has won a CAP!!');
 map_eng.set('alert_gorrofiesta','For passing ' + superados_gorrofiesta + ' levels your robot has won a PARTY HAT!!');
 map_eng.set('alert_esposas','For passing ' + superados_esposas + ' levels your robot has won a HANDCUFFS!!');
+map_eng.set('alert_lazo','For passing ' + superados_lazo + ' levels your robot has won a HAIR BOW!!');
 map_eng.set('alert_medalla','For passing ' + superados_medalla + ' levels your robot has won a MEDAL!!');
 map_eng.set('alert_coche','For passing ' + superados_coche + ' levels your robot has won a CAR!!');
 map_eng.set('btnUsuario', "Identify");
@@ -223,11 +226,91 @@ map_vlc.set('alert_gafas','Per superar ' + superados_gafas + ' nivells el teu ro
 map_vlc.set('alert_gorro','Per superar ' + superados_gorro + ' nivells el teu robot ha aconseguit ¡¡UN BIRRET!!');
 map_vlc.set('alert_gorrofiesta','Per superar ' + superados_gorrofiesta + ' nivells el teu robot ha aconseguit ¡¡UNA GORRA DE FESTA!!');
 map_vlc.set('alert_esposas','Per superar ' + superados_esposas + ' nivells el teu robot ha aconseguit ¡¡UNAS ESPOSAS!!');
+map_vlc.set('alert_lazo','Per superar ' + superados_lazo + ' nivells el teu robot ha aconseguit ¡¡UN LLAÇ!!');
 map_vlc.set('alert_medalla','Per superar ' + superados_medalla + ' nivells el teu robot ha aconseguit ¡¡UNA MEDALLA!!');
 map_vlc.set('alert_coche','Per superar ' + superados_coche + ' nivells el teu robot ha aconseguit ¡¡UN COTXE!!');
 map_vlc.set('btnUsuario', "Identificat");
 map_vlc.set('btnClasificacion', "Classificació");
 map_vlc.set('nivelesSuperados','FELICITATS, HAS SUPERAT TOTS ELS NIVELLS!!');
+
+
+// PORTUGUES
+let map_por = new Map();
+map_por.set('avanza', "forward");
+map_por.set('gira', "turn");
+map_por.set('titulo', "Jogo simples para introduzirà programação em Python");
+map_por.set('btnTraducir', "Traduzir para robô");
+map_por.set('btnEjecutar', "Executar programa");
+map_por.set('btnParar', "Parar o programa");
+map_por.set('btnNivelMenos', "Reduzir o Nível");
+map_por.set('btnNivelMas', "Aumentar o Nível");
+map_por.set('nivel1', "''' NÍVEL 1\nEste jogo tem um objetivo: levar o robô até ao fim do nível.\n\nPara o conseguir, temos de orientar o personagem a fazer certos movimentos -> Estes movimentos são as instruções do programa, que devem ser escritas neste painel. Estas instruções devem ser escritas em linguagem Python, e serão traduzidas para uma língua que o robô compreenda, a fim de as carregar e executar.\n\nCada nível irá apresentar um desafio diferente para aprender as regras do jogo passo a passo. Veremos diferentes obstáculos que são tratados de forma diferente.\nEste primeiro nível é o mais simples, tente executar a instrução...\n'''\n\nforward(4)");
+map_por.set('nivel2', "''' NÍVEL 2\nJá vimos como funciona o jogo e como funciona a instrução forward(x), onde x é o número de quadrados que o robô avança.\n\nEste segundo nível já é um pouco mais difícil. Agora precisamos de algo mais. Tente executar a sequência mostrada...\n\n- O robô gira no sentido dos ponteiros do relógio com a instrução de turn(-x).\n- O robô gira no sentido contrário ao dos ponteiros do relógio com a instrução de turn(x).\n'''\n\nforward(5)\nturn(-1)");
+map_por.set('nivel3', "''' NÍVEL 3\nIntroduzimos agora um novo obstáculo com picos. É mais pequeno mas mais perigoso! Corre para ver o que acontece se lhe acertas....\n'''\n\nforward(6)");
+map_por.set('nivel4', "''' NÍVEL 4\nEste nível é mais complexo porque a primeira fila de obstáculos é aleatória, pelo que a solução para o nível é diferente de cada vez.\n'''\n\nturn(-1)\nforward(2)\nturn(1)");
+map_por.set('nivel5', "''' NÍVEL 5\nO nível 5 é uma variante do nível 4. Existe um obstáculo aleatório que varia a sua posição. Se tiveres cuidado com isso e passarás de nível!!\n'''\n\nforward(5)");
+map_por.set('nivel6', "''' NÍVEL 6\nTemcuidado com este nível, com apenas um movimento errado pode acabar num beco sem saída!!\n'''\n\nforward(5)");
+map_por.set('nivel7', "''' NÍVEL 7\nO jogo já está a tornar-se bastante complicado. Este nível também é aleatório, mas vamos introduzir uma nova estrutura: CONDICIONAIS.\nOs condicionamentos baseiam-se na certeza de uma condição para executar certas instruções. Se a condição não for cumprida, não serão executados.\nDICA: As condições que o robô compreende dependem da sua orientação no quadro: south_robot, east_robot, north_robot e west_robot. Para  ajudar-te mais, o robô está agora virado para norte. Observa a bússola. Com isto, deverás usar condicionadores!!\n\nIMPORTANTE: Tenha cuidado com os espaços, pois este é o mesmo que no caso de repeat(x):\n'''\n\nif(north_robot):\n  forward(1)\n  turn(-1)\nif(west_robot):\n  turn(1)\n  forward(2)\n  turn(-1)");
+map_por.set('nivel8', "''' NÍVEL 8\nEstamos a avançar no jogo. Os níveis 12 e 13, como podem ver, são concebidos para ensinar o último conceito do jogo.\nO nível 8 não traz nada de novo, mas é um dos níveis mais difíceis de vencer!!\nÉ um nível completamente aleatório, exceto na última fila de todas, que se também tivesse sido aleatória poderia fechar o acesso à plataforma final e o nível seria impossível de passar.\n'''\n\nforward(9)");
+map_por.set('nivel9', "''' NÍVEL 9\nA este nível, são introduzidas repetições de movimentos (ciclos). Para evitar escrever muito texto, podem ser criadas repetições.\n\nTente executar o código fornecido, e anote cuidadosamente os espaços deixados antes das instruções dentro da repetição.\nAVISO: Se não deixar 2 espaços ESTRITAMENTE, o que colocar sob a repeat(x) não será repetido:\n'''\n\nrepeat(4):\n  forward(2)\n  turn(1)");
+map_por.set('nivel10', "''' NÍVEL 10\nIntroduzimos agora o conceito de um ciclo repetitivo com uma condição, que executa as instruções que contém, desde que a condição seja cumprida.\n\nAtenção! Para evitar que o robô entre num ciclo infinito, o robô vai parar depois de repetir " + repeticiones_permitidas + " instruções.\n'''\n\nwhile(no_crash):\n  forward(2)\n  turn(1)");
+map_por.set('nivel11', "''' NÍVEL 11\nEste nível é completamente aleatório, e só há um espaço para passar, por isso tem muito cuidado para passar este nível.\nÉ aconselhável tentar passar este nível mais de uma vez para testar as diferentes soluções possíveis.\n'''\n\nforward(6)\nturn(-1)");
+map_por.set('nivel12', "''' NÍVEL 12\nA este nível, perto do fim do jogo, é introduzido o conceito de teste de código. Os testes são uma ferramenta amplamente utilizada para validar o código através de casos de teste sobre o estado do programa após uma série de eventos que modificam o estado.\n\nOPERAÇÃO: A estrutura a acompanhar pode ser vista abaixo. É necessário dar um identificador aos casos de teste para se poder ver o resultado. O formato do identificador tem de ser testcase e um número sem espaços (como se vê abaixo).\nDepois temos de introduzir uma série de instruções que vão modificar o estado do programa. Finalmente, escrever o oráculo, que é o estado que queremos verificar depois de as instruções terem sido executadas.\nORÁCULO: A instrução de asserção é a que estabelece o oráculo. Os estados possíveis são not_forwards (verificar se o robô colidiu com um obstáculo liso), stabbed (verificar se o robô colidiu com um obstáculo com picos), collides (verificar se o robô atingiu os limites do tabuleiro) e no_falls (verificar se o robô não caiu no vazio).\n'''\n\ntestcase1:  #Este é o identificador\n  forward(4)  #Esta é a sequência de instruções\n  assert(stabbed)  #Este é o Oráculo");
+//map_por.set('nivel13', "''' NÍVEL 13\nContinuando com o conceito de teste de código, utiliza agora as repetições de movimentos ou o ciclo repetitivo com uma condição....\n'''\n\ntestcase1:\n  while(no_crash):\n    forward(2)\n    turn(1)");
+map_por.set('nivel13', "''' NÍVEL 13\nEste é o nível mais difícil de resolver, por isso vencer este nível é a melhor forma de passar no jogo. Tenta fazer alguns casos de teste antes de resolver o nível!\n'''\n\ntestcase1:\n  turn(-1)\n  forward(3)\n  assert(stabbed)");
+map_por.set('nivel14', "''' NÍVEL 14\nEste nível é especial, tenta encontrar uma solução geral para resolver qualquer nível.\n'''\n\while(no_crash):\n  turn(1)\n  forward(1)\n\nwhile(no_crash):\n  turn(1)\n  forward(1)");
+map_por.set('traducidoOK', " ** Programa corretamente traduzido **");
+map_por.set('errorComentario', "Erro, falta '''' para encerrar o comentário!!");
+map_por.set('avisoPinchos', "ATENÇÃO! O robô colidiu com os picos...");
+map_por.set('robotCaido', "O robô caiu no vazio :( , tente novamente!!!");
+map_por.set('nivelSuperado', "Parabéns, passou o nível!!");
+map_por.set('errorRepite', "ERRO. Não se pode fazer um repeat() dentro de um repeat().");
+map_por.set('errorInstruccion1', 'ERRO. A instrução ');
+map_por.set('errorInstruccion2', ' não  existe...');
+map_por.set('errorParentesis', "ERRO com parênteses, a estrutura é: instrução(parâmetro).\nPor exemplo: forward(5)");
+map_por.set('errorParametro', "ERRO. Não foi definido um parâmetro de entrada.");
+map_por.set('errorEstructura', "ERRO. As estruturas devem terminar com o ':' carácter''.\nPor exemplo: repeat(6):");
+map_por.set('errorBucle', "ERRO. Não se pode iniciar um ciclo com repeat(x) dentro de um condicional.");
+map_por.set('errorCondicional', "ERRO. Não se pode iniciar um condicional dentro de outro condicional. Para criar mais condições, faça-o noutra linha.");
+map_por.set('errorCondicionalRepite', "ERRO. Não é possível criar condições dentro de uma repeat(x).");
+map_por.set('errorWhile', "ERRO. Não se pode fazer um ciclo de tempo dentro de um ciclo de tempo.");
+map_por.set('errorWhileBucle', "ERRO. Não é possível criar ciclos dentro de uma condição.");
+map_por.set('errorWhileCondiciones', "ERRO. Não se pode criar condições dentro de uma condição.");
+map_por.set('errorBajarNivel', "O nível não pode ser diminuído!!");
+map_por.set('errorSubirNivel', "O nível não pode ser aumentado!!");
+map_por.set('robotNorte', "north_robot");
+map_por.set('robotSur', "south_robot");
+map_por.set('robotEste', "east_robot");
+map_por.set('robotOeste', "west_robot");
+map_por.set('errorCondicionNoExiste', "Condição NÃO existente...\Condições: north_robot, south_robot, east_robot, west_robot");
+map_por.set('errorEstructuraNoExiste', "ERRO. Estrutura errada.");
+map_por.set('nivelSuperado', "Parabéns, passou o nível!!\nA solução não é a mais eficiente. Tenta passar o nível com menos instruções ou parâmetros menores!!");
+map_por.set('nivelSuperadoEficiente', "Parabéns, passou o nível!!\nEncontrou também a solução mais eficiente. Muito bem!!");
+map_por.set('errorTestcase', "ERRO. Os casos de teste têm de terminar com a instrução assert(state).");
+map_por.set('errorIdentificador1', "ERRO. O identificador ");
+map_por.set('errorIdentificador2', " já existe.");
+map_por.set('afirmaNoAvanza', "  assert(not_forwards)"); 
+map_por.set('afirmaPincha', "  assert(stabbed)");
+map_por.set('afirmaChoca', "  assert(collides)");
+map_por.set('afirmaNoCae', "  assert(not_falls)");
+map_por.set('errorTestcaseIdentacion', "ERRO. As instruções dentro da estrutura testcase devem respeitar a indentação Python.");
+map_por.set('errorTestcaseBucles', "ERRO. Não pode haver ciclos dentro de uma estrutura de testcase!!");
+map_por.set('errorTestcaseCondidiones', "ERRO. Não pode haver condicionadores dentro de uma estrutura de teste!!");
+map_por.set('errorTestcaseCombinados', "ERRO. Não se podem combinar testcases!! Terminar este e depois inicia outro.");
+map_por.set('errorAfirnaIdentado', "ERROR. A instrução assert() tem de respeitar a indentação de Python!!");
+map_por.set('errorOraculoNoExiste', "ERRO. Oráculo não existe. Oráculos disponíveis: not_forwards, stabbed, collides, not_falls");
+map_por.set('errorParametroNoExiste', "ERRO. O tipo do parâmetro está errado. As instruções de forward, turn e repeat recebem um número; as instruções if e assert recebem cordas.");
+map_por.set('alert_gafas','Por passar ' + superados_gafas + ' nível o teu robô tem UM PAR DE ÓCULOS!!');
+map_por.set('alert_gorro','Por passar ' + superados_gorro + ' níveis o teu robô tem UM CHAPÉU DE GRADUAÇÃO!!');
+map_por.set('alert_gorrofiesta','Por passar ' + superados_gorrofiesta + ' níveis o teu robô tem UM CHAPÉU DE FESTA!!');
+map_por.set('alert_esposas','Por passar ' + superados_esposas + ' níveis o teu robô tem UMAS ALGEMAS!!');
+map_por.set('alert_lazo','Por passar ' + superados_lazo + ' níveis o teu robô tem UM LAÇO!!');
+map_por.set('alert_medalla','Por passar ' + superados_medalla + ' níveis o teu robô tem UMA MEDALHA!!');
+map_por.set('alert_coche','Por passar ' + superados_coche + ' níveis o teu robô tem UM CARRO!!');
+map_por.set('btnUsuario', "Identificate");
+map_por.set('btnClasificacion', "Classificação");
+map_por.set('nivelesSuperados','¡¡PARABÉNS, PASSASTE TODOS OS NÍVEIS!!');
+
 
 // ALEMAN
 let map_ger = new Map();
@@ -299,6 +382,7 @@ map_ger.set('alert_gafas','Für das Bestehen von ' + superados_gafas + ' Level h
 map_ger.set('alert_gorro','Für das Bestehen von ' + superados_gorro + ' Levels hat dein Roboter einen KAPPE erreicht!!');
 map_ger.set('alert_gorrofiesta','Für das Bestehen von ' + superados_gorrofiesta + ' Levels hat dein Roboter einen PARTY HAT erreicht!!');
 map_ger.set('alert_esposas','Für das Bestehen von ' + superados_esposas + ' Levels hat dein Roboter einen HANDCUFFS erreicht');
+map_ger.set('alert_lazo','Für das Bestehen von ' + superados_lazo + ' Levels hat dein Roboter einen HAARSCHLEIFE erreicht');
 map_ger.set('alert_medalla','Für das Bestehen von ' + superados_medalla + ' Levels hat dein Roboter einen MEDAL erreicht');
 map_ger.set('alert_coche','Für das Bestehen von ' + superados_coche + ' Levels hat dein Roboter ein CAR erreicht');
 map_ger.set('btnUsuario', "Identifizieren");
@@ -375,6 +459,7 @@ map_jpn.set('alert_gafas', superados_gafas + 'つのレベルをクリアする�
 map_jpn.set('alert_gorro', superados_gorro + 'つのレベルをクリアすると、あなたのロボットはキャップを獲得します!');
 map_jpn.set('alert_gorrofiesta', superados_gorrofiesta + 'つのレベルをクリアすると、あなたのロボットはパーティーハットを手に入れることができます!');
 map_jpn.set('alert_esposas', superados_esposas + 'つのレベルをクリアすると、あなたのロボットは手錠を獲得しました!');
+map_jpn.set('alert_lazo', superados_lazo + 'レベルをクリアすると、ロボットがなげなわを手に入れます!');
 map_jpn.set('alert_medalla', superados_medalla + 'つのレベルをクリアすると、あなたのロボットはメダルを手に入れることができます!');
 map_jpn.set('alert_coche', superados_coche + 'つのレベルをクリアすると、あなたのロボットは車を手に入れることができます!');
 map_jpn.set('btnUsuario', "識別");

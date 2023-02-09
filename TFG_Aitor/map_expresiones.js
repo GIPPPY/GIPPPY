@@ -1,5 +1,5 @@
-/* Fichero para los maps con las expresiones necesarias para el juego en diferentes idiomas.
- */
+/* Fichero para los maps con las expresiones necesarias para el juego en 
+diferentes idiomas. */
 
 // EXPRESIONES EN ESPAÑOL
 let map_reg_esp = new Map();
@@ -27,7 +27,7 @@ map_reg_esp.set('afirma_choca',/  afirma\(choca\)/);
 map_reg_esp.set('afirma_no_cae',/  afirma\(no_cae\)/);
 map_reg_esp.set('mientras_no_choca',/mientras\(no_choca\):/);
 map_reg_esp.set('mientras_no_choca_identado',/  mientras\(no_choca\):/);
-/* REGEX ERRORES*/
+// REGEX ERRORES
 map_reg_esp.set('error_avanza1',/avanza\d+\)/g);
 map_reg_esp.set('error_avanza2',/avanza\(\d+/g);
 map_reg_esp.set('error_avanza3',/avanza\(\)/);
