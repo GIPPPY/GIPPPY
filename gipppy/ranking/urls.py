@@ -10,6 +10,8 @@ urlpatterns = [
     path('gipppy/nuevo', insert_view, name='insert-view'),
     path('gipppy/', gipppy_view, name='gipppy-view'),
     path('gipppy', gipppy_view, name='gipppy-view'),
+    path('/', gipppy_view, name='gipppy-view'),
+    path('', gipppy_view, name='gipppy-view'),
 ]
 
 if settings.DEBUG:
