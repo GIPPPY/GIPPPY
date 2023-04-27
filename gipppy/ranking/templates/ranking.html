@@ -1,0 +1,24 @@
+<button id="closePopup" class="btn btn-secondary"
+        style="position:absolute; top:0px; right:0px; padding:4px; margin:2px"
+        onclick="ocultarClasificacion()">
+    <i class="bi bi-x-square"></i>
+</button>
+<h3><i class="bi bi-trophy"></i> R A N K I N G&nbsp;</h3>
+<table id="tablaRanking">
+    <thead>
+        <tr>
+            <th width="30">#</th>
+            <th>Alias</th>
+            <th>Level</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for result in rankings %}
+        <tr>
+            <td width="30">{{ result.posicion }}</td>
+            <td>{{ result.nombre }}</td>
+            <td align="center">{{ result.nivel_superado }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
